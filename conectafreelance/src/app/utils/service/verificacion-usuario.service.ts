@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { forkJoin, map, Observable } from 'rxjs';
-import { UsuarioContratadorService } from '../componentes/usuario/usuarioContratador/service/usuario-contratador.service';
-import { UsuarioProfesionalService } from '../componentes/usuario/usuarioProfesional/service/usuario-profesional.service';
+import { UsuarioContratadorService } from '../../componentes/usuario/usuarioContratador/service/usuario-contratador.service';
+import { UsuarioProfesionalService } from '../../componentes/usuario/usuarioProfesional/service/usuario-profesional.service';
 
 @Injectable({
   providedIn: 'root'

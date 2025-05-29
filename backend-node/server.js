@@ -17,12 +17,12 @@ app.post('/uploads/single', upload.single('foto'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No se subió ninguna imagen' });
   }
-
-  const urlFoto = `http://localhost:3000/uploads/single/${req.file.filename}`;
   
   console.log(req.file)
   saveImage(req.file)
-  res.json({ urlFoto });
+
+  const urlFoto = `${req.file.originalname}`;
+  res.send({ urlFoto });
   ///res.send("termina");
 });
 

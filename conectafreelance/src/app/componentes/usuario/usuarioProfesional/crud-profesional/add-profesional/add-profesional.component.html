@@ -1,0 +1,67 @@
+<p>add-profesional works!</p>
+
+<section class="form-container">
+  <fieldset>
+    <form [formGroup]="formularioUsuarioProfesional" (ngSubmit)="agregarUsuarioProfesional()">
+
+      <label for="ciudad">Ciudad</label>
+      <input type="text" id="ciudad" class="input" formControlName="ciudad">
+      @if (formularioUsuarioProfesional.controls["ciudad"].touched && formularioUsuarioProfesional.controls["ciudad"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+
+      <label for="provincia">Provincia</label>
+      <input type="text" id="provincia" class="input" formControlName="provincia">
+      @if (formularioUsuarioProfesional.controls["provincia"].touched && formularioUsuarioProfesional.controls["provincia"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+
+      <label for="pais">País</label>
+      <input type="text" id="pais" class="input" formControlName="pais">
+      @if (formularioUsuarioProfesional.controls["pais"].touched && formularioUsuarioProfesional.controls["pais"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+
+      <label for="nombreCompleto">Ingrese su nombre completo</label>
+      <input type="text" id="nombreCompleto" class="input" formControlName="nombreCompleto">
+      @if (formularioUsuarioProfesional.controls['nombreCompleto'].touched && formularioUsuarioProfesional.controls['nombreCompleto'].getError("required")){
+        <div class="error">CAMPO REQUERIDO</div>
+      }
+
+      <label for="profesion">Ingrese su profesión</label>
+      <input type="text" id="profesion" class="input" formControlName="profesion">
+      @if (formularioUsuarioProfesional.controls["profesion"].touched && formularioUsuarioProfesional.controls["profesion"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+
+      <label for="Cor">Correo electrónico</label>
+      <input type="text" id="Cor" class="input" formControlName="email">
+      @if (formularioUsuarioProfesional.controls["email"].touched && formularioUsuarioProfesional.controls["email"].getError("required")){
+        <div class="error">CAMPO REQUERIDO</div>
+      }
+      @if (formularioUsuarioProfesional.controls["email"].touched && formularioUsuarioProfesional.controls["email"].getError("email")){
+        <div class="error">NO POSEE FORMATO DE EMAIL</div>
+      }
+
+      <label for="foto" class="form-label">Seleccionar imagen de perfil</label>
+      <input type="file" class="form-control" id="foto" (change)="onFileChange($event)" accept="image/*" />
+
+      <label for="Cont">Contraseña</label>
+      <input type="password" id="Cont" class="input" formControlName="contrasenia">
+      @if (formularioUsuarioProfesional.controls["contrasenia"].touched && formularioUsuarioProfesional.controls["contrasenia"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+      @if(formularioUsuarioProfesional.controls["contrasenia"].hasError("pattern")){
+        <div class="error">
+          LA CONTRASEÑA DEBE TENER POR LO MENOS UNA MAYÚSCULA, UNA MINÚSCULA, UN NÚMERO, UN CARÁCTER ESPECIAL Y UN TAMAÑO ENTRE 8 Y 16 CARACTERES.
+        </div>
+      }
+
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary">📤 Registrarse</button>
+        <button type="button" class="btn btn-secondary">🛑 Cancelar</button>
+      </div>
+
+    </form>
+  </fieldset>
+</section>

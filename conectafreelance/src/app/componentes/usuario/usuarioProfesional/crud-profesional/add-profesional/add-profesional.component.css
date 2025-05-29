@@ -1,0 +1,248 @@
+/* Estilo base para el contenedor del formulario */
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffffff, #f7fafc); /* Degradado más suave */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra más refinada */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2a44; /* Tono más oscuro y profesional */
+  position: relative;
+  overflow: hidden; /* Para efectos visuales */
+}
+
+/* Efecto decorativo en el contenedor */
+.form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #3b82f6, #60a5fa); /* Barra decorativa superior */
+}
+
+/* Estilo para el fieldset */
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+/* Estilo para etiquetas */
+form label {
+  display: block;
+  margin-top: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2a44;
+  letter-spacing: 0.4px;
+  transition: color 0.3s ease;
+}
+
+/* Estilo para inputs de texto */
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 15px;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Animación al enfocar inputs */
+.input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px); /* Efecto de elevación sutil */
+  outline: none;
+}
+
+/* Estilo personalizado para input de archivo */
+.form-control {
+  display: none; /* Ocultamos el input nativo */
+}
+
+.form-control-label {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 15px;
+  color: #4b5563;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.form-control-label:hover, .form-control-label:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Estilo para mensajes de error */
+.error {
+  color: #dc2626;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards; /* Animación para errores */
+}
+
+/* Animación para errores */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Estilo para el grupo de botones */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+  gap: 16px;
+}
+
+/* Estilo base para botones */
+.btn {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase; /* Para un look más profesional */
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Botón primario */
+.btn-primary {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa); /* Degradado dinámico */
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(59, 130, 246, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Botón secundario */
+.btn-secondary {
+  background: linear-gradient(90deg, #6b7280, #9ca3af);
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(90deg, #4b5563, #6b7280);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(107, 114, 128, 0.4);
+}
+
+/* 🎯 Responsive Design */
+
+/* Tablets (768px y menos) */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 24px;
+  }
+
+  form label {
+    font-size: 14px;
+  }
+
+  .input, .form-control-label {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+  }
+}
+
+/* Móviles (600px y menos) */
+@media (max-width: 600px) {
+  .form-container {
+    margin: 16px;
+    padding: 20px;
+  }
+
+  form label {
+    font-size: 13px;
+    margin-top: 20px;
+  }
+
+  .input, .form-control-label {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .error {
+    font-size: 12px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+/* Pantallas muy pequeñas (400px y menos) */
+@media (max-width: 400px) {
+  .form-container {
+    margin: 12px;
+    padding: 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Pantallas grandes (1200px y más) */
+@media (min-width: 1200px) {
+  .form-container {
+    max-width: 720px; /* Más espacio para pantallas grandes */
+  }
+
+  form label {
+    font-size: 16px;
+  }
+
+  .input, .form-control-label {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 16px 28px;
+  }
+}

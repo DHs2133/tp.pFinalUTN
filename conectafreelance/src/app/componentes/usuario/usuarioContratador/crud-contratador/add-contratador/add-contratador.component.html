@@ -1,0 +1,66 @@
+<p>add-contratador works!</p>
+<p>add-contratador works!</p>
+<section>
+  <fieldset>
+    <form [formGroup]="formularioUsuarioContratador" (ngSubmit)="agregarUsuarioContratador()">
+
+     <label for="nombre">Ingrese su nombre completo</label>
+
+      <input
+      type="text"
+      id="nombreCompleto"
+      class="input"
+      formControlName="nombreCompleto">
+
+      @if (formularioUsuarioContratador.controls["nombreCompleto"].touched && formularioUsuarioContratador.controls["nombreCompleto"].getError("required")){
+        <div>
+          CAMPO OBLIGATORIO
+        </div>
+      }
+
+      <label for="email">email</label>
+
+      <input
+      type="text"
+      id="email"
+      class="input"
+      formControlName="email">
+
+      @if (formularioUsuarioContratador.controls["email"].touched && formularioUsuarioContratador.controls["email"].getError("required")){
+        <div>
+          CAMPO OBLIGATORIO
+        </div>
+      }
+
+      <label for="urlFoto">Foto</label>
+
+      <input
+      type="text"
+      id="urlFoto"
+      class="input"
+      formControlName="urlFoto">
+
+      @if (formularioUsuarioContratador.controls["urlFoto"].touched && formularioUsuarioContratador.controls["urlFoto"].getError("required")){
+        <div>
+          CAMPO OBLIGATORIO
+        </div>
+      }
+
+
+    <label for="empresaRepresentada">En caso de representar a una empresa, escriba cual</label>
+    <input
+    type="text"
+    id="trabajaEmpresa"
+    class="input"
+    formControlName="empresaRepresentada">
+
+
+
+      <button class="btn-registrar">Registrarse</button>
+
+      <button class="btn-cancelar">Cancelar</button>
+
+
+    </form>
+  </fieldset>
+</section>

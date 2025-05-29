@@ -1,0 +1,32 @@
+{
+  "usuariosProfesionales":[
+    {"id": "1",
+      "nombreCompleto": "Lucía Fernández",
+      "email": "lucia.fernandez@example.com",
+      "contrasenia": "Lucia123!",
+      "urlFoto": "http://localhost:3000/uploads/lucia.jpg",
+      "activo": true,
+      "rol": "profesional",
+      "profesion": "Diseñadora Gráfica",
+      "descripcion": "Soy una diseñadora con más de 5 años de experiencia en branding e identidad visual.",
+      "ciudad": "Córdoba",
+      "provincia": "Córdoba",
+      "pais": "Argentina",
+      "promedio": 4.8,
+      "cantComentarios": 12}
+    ],
+    "usuariosContratadores":[
+      {
+      "id": "1",
+      "nombreCompleto": "María Gómez",
+      "email": "maria.gomez@example.com",
+      "contrasenia": "Maria123!",
+      "urlFoto": "http://localhost:3000/uploads/maria.jpg",
+      "activo": true,
+      "rol": "base",
+      "empresaRepresentada": "Tech Solutions S.A."
+      }
+    ]
+
+
+}

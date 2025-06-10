@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { AddProfesionalComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/add-profesional/add-profesional.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, AddProfesionalComponent],
+      imports: [AppComponent],
     }).compileComponents();
   });
 

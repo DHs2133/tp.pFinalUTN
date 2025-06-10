@@ -46,7 +46,7 @@
 
 
       <label for="foto" class="form-control-label">
-        <img [src]="imageSrc" alt="Foto actual" />
+        <img [src]="imgSrc" alt="Foto actual" />
         <div>Subir foto</div>
       </label>
       <input type="file" class="form-control" id="foto" (change)="manejoDeArchivo($event)" accept="image/*">
@@ -64,7 +64,8 @@
       }
 
       <div class="btn-group">
-        <button type="submit" class="btn btn-primary">📤 Registrarse</button>
+        <button type="submit" class="btn-registrar">📤 Registrarse</button>
+        <button type="button" class="btn-cancelar" (click)="cancelar()">❌ Cancelar</button>
       </div>
 
     </form>

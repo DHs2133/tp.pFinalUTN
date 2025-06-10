@@ -1,66 +1,65 @@
 <p>add-contratador works!</p>
-<p>add-contratador works!</p>
-<section>
+<section class="form-container">
   <fieldset>
     <form [formGroup]="formularioUsuarioContratador" (ngSubmit)="agregarUsuarioContratador()">
-
-     <label for="nombre">Ingrese su nombre completo</label>
-
+      <label for="nombreCompleto">Ingrese su nombre completo</label>
       <input
-      type="text"
-      id="nombreCompleto"
-      class="input"
-      formControlName="nombreCompleto">
+        type="text"
+        id="nombreCompleto"
+        class="input"
+        formControlName="nombreCompleto">
+      @if (formularioUsuarioContratador.controls["nombreCompleto"].touched && formularioUsuarioContratador.controls["nombreCompleto"].getError("required")) {
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
 
-      @if (formularioUsuarioContratador.controls["nombreCompleto"].touched && formularioUsuarioContratador.controls["nombreCompleto"].getError("required")){
-        <div>
-          CAMPO OBLIGATORIO
+      <label for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        class="input"
+        formControlName="email">
+      @if (formularioUsuarioContratador.controls["email"].touched && formularioUsuarioContratador.controls["email"].getError("required")) {
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+      @if (formularioUsuarioContratador.controls["email"].touched && formularioUsuarioContratador.controls["email"].getError("email")) {
+        <div class="error">NO POSEE FORMATO DE EMAIL</div>
+      }
+
+      <label for="foto" class="form-control-label">
+        <img [src]="imgSrc" alt="Foto actual" />
+        <div>Subir foto</div>
+      </label>
+      <input
+        type="file"
+        class="form-control"
+        id="foto"
+        (change)="manejoDeArchivo($event)"
+        accept="image/*">
+
+      <label for="empresaRepresentada">En caso de representar a una empresa, escriba cuál</label>
+      <input
+        type="text"
+        id="trabajaEmpresa"
+        class="input"
+        formControlName="empresaRepresentada">
+
+
+      <label for="Cont">Contraseña</label>
+      <input type="password" id="Cont" class="input" formControlName="contrasenia">
+      @if (formularioUsuarioContratador.controls["contrasenia"].touched && formularioUsuarioContratador.controls["contrasenia"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+      @if(formularioUsuarioContratador.controls["contrasenia"].hasError("pattern")){
+        <div class="error">
+          LA CONTRASEÑA DEBE TENER POR LO MENOS UNA MAYÚSCULA, UNA MINÚSCULA, UN NÚMERO, UN CARÁCTER ESPECIAL Y UN TAMAÑO ENTRE 8 Y 16 CARACTERES.
         </div>
       }
 
-      <label for="email">email</label>
 
-      <input
-      type="text"
-      id="email"
-      class="input"
-      formControlName="email">
-
-      @if (formularioUsuarioContratador.controls["email"].touched && formularioUsuarioContratador.controls["email"].getError("required")){
-        <div>
-          CAMPO OBLIGATORIO
-        </div>
-      }
-
-      <label for="urlFoto">Foto</label>
-
-      <input
-      type="text"
-      id="urlFoto"
-      class="input"
-      formControlName="urlFoto">
-
-      @if (formularioUsuarioContratador.controls["urlFoto"].touched && formularioUsuarioContratador.controls["urlFoto"].getError("required")){
-        <div>
-          CAMPO OBLIGATORIO
-        </div>
-      }
-
-
-    <label for="empresaRepresentada">En caso de representar a una empresa, escriba cual</label>
-    <input
-    type="text"
-    id="trabajaEmpresa"
-    class="input"
-    formControlName="empresaRepresentada">
-
-
-
-      <button class="btn-registrar">Registrarse</button>
-
-      <button class="btn-cancelar">Cancelar</button>
-
-
+      <div class="btn-group">
+        <button type="submit" class="btn-registrar">📤 Registrarse</button>
+        <button type="button" class="btn-cancelar" (click)="cancelar()">❌ Cancelar</button>
+      </div>
     </form>
   </fieldset>
 </section>

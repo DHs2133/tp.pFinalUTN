@@ -5,7 +5,7 @@ export interface Usuario{
   contrasenia: string,
   urlFoto: string,
   activo: boolean,
-  rol: "base"|"profesional"|"administrador"
+  rol: "contratador"|"profesional"|"administrador"
 
 }
 

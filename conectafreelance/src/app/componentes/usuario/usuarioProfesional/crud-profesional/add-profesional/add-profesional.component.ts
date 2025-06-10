@@ -1,10 +1,11 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UsuarioProfesional } from '../../../interfaceUsuario/usuario.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioProfesionalService } from '../../service/usuario-profesional.service';
 import { UploadImageService } from '../../../../../service/back-end/upload-image.service';
 import { VerificacionService } from '../../../../../utils/service/verificacion-usuario.service';
 import { FileSelectService } from '../../../../../utils/FileSelectService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-profesional',
@@ -14,6 +15,7 @@ import { FileSelectService } from '../../../../../utils/FileSelectService';
 })
 export class AddProfesionalComponent {
 
+  imgSrc: string = "avatar.jpg";
   // Inject del formbuilder
   fb = inject(FormBuilder);
   // Inject del servicio que verifica el mail en json-server
@@ -26,10 +28,7 @@ export class AddProfesionalComponent {
   manejoArchivo = inject(FileSelectService);
   // Si bien no tiene un API request ni es para manejar un HttpClient, lo hice así porque
   // no tiene sentido manejar un componente con .ts .html y .css por unas funciones reutilizables
-
-  imageSrc: string = "imagendefecto.jpg";
-
-
+  router = inject(Router)
 
   formularioUsuarioProfesional = this.fb.nonNullable.group({
     nombreCompleto: ['',[Validators.required]],
@@ -44,15 +43,15 @@ export class AddProfesionalComponent {
   })
 
 
-    // Método para guardar el archivo al seleccionarlo
-    manejoDeArchivo(event: any) {
+  // Método para guardar el archivo al seleccionarlo
+  manejoDeArchivo(event: any) {
 
     this.manejoArchivo.onFileChange(event);
     const urlPrevisualizacion = this.manejoArchivo.getImagePreviewUrl()
 
     if(urlPrevisualizacion){
 
-      this.imageSrc = urlPrevisualizacion;
+      this.imgSrc = urlPrevisualizacion;
     }
     // Para evitar la repetición código, ya que el manejo de archivo para poder vincular la foto que se va a
     // subir a una entidad va a estar en este componente, en add-contratador y posiblemente en más partes, se
@@ -63,6 +62,11 @@ export class AddProfesionalComponent {
     // suscribirse al servicio y obtener la URL correspondiente.
 
   }
+
+  cancelar() {
+    this.router.navigate(['/']); // Redirige a la página principal
+  }
+
 
 
 
@@ -87,11 +91,6 @@ export class AddProfesionalComponent {
 
           const archivo = this.manejoArchivo.getArchivoSeleccionado();
 
-          if(!archivo){
-            alert("Debe seleccionar una imagen antes de continuar.");
-            return;
-          }
-
           // Subir imagen
           this.uploadImage.subirImagen(archivo).subscribe({
             ///Subo el archivo y se me devuelve la url de la foto
@@ -107,10 +106,12 @@ export class AddProfesionalComponent {
             };
 
             this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
-            /// this.router.navigate(['./inicioSesion']);  ME FALTARIA IMPLEMENTAR ALGO COMO ESTO
-            ///this.formularioUsuarioProfesional.reset();
-            ///this.manejoArchivo.reset()
-            ///this.imageSrc = "imagendefecto.jpg"
+
+            ///this.router.navigate(['./inicioSesion']);  ME FALTARIA IMPLEMENTAR ALGO COMO ESTO
+
+            // Se resetea todo para evitar que no quede información al mandar el formulario
+            this.formularioUsuarioProfesional.reset();
+            this.imgSrc = "imagendefecto.jpg"
 
 
 

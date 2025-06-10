@@ -15,38 +15,6 @@
       "pais": "Argentina",
       "promedio": 4.8,
       "cantComentarios": 12
-    },
-    {
-      "id": "a649",
-      "nombreCompleto": "Mabel Maribel",
-      "email": "mabelmaribel@gmail.com",
-      "contrasenia": "DasaD2$21",
-      "activo": true,
-      "profesion": "Electricista",
-      "ciudad": "Bariloche",
-      "provincia": "Rio Negro",
-      "pais": "Argentina",
-      "urlFoto": "00.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
-      "promedio": 0,
-      "cantComentarios": 0
-    },
-    {
-      "id": "df26",
-      "nombreCompleto": "Dario Dariel",
-      "email": "dariodariel@gmail.com",
-      "contrasenia": "Dert4$1s",
-      "activo": true,
-      "profesion": "Mucamo",
-      "ciudad": "Cordoba",
-      "provincia": "Cordoba",
-      "pais": "Argentina",
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
-      "promedio": 0,
-      "cantComentarios": 0
     }
   ],
   "usuariosContratadores": [

@@ -9,8 +9,8 @@ export class FileSelectService {
   // Aparte utiliza Blob URL (Binary Large Object, representa datos binarios como archivos de imagen sin
   // procesar) para previsualizar, en este caso, fotos.
 
-  private archivoSeleccionado!: File|null;
-  private imagePreviewUrl!: string|null; // string que va a almacenar la URL para previsualización
+  private archivoSeleccionado!: File;
+  private imagePreviewUrl!: string; // string que va a almacenar la URL para previsualización
 
   // Guarda el archivo y genera la URL para previsualización
   onFileChange(event: Event): void {
@@ -29,19 +29,14 @@ export class FileSelectService {
   }
 
   // Se el archivo subido por el usuario
-  getArchivoSeleccionado(): File | null{
+  getArchivoSeleccionado(): File{
     return this.archivoSeleccionado;
   }
 
   // Obtiene la URL de previsualización
-  getImagePreviewUrl(): string | null{
+  getImagePreviewUrl(): string{
     return this.imagePreviewUrl;
   }
 
-  // Método para limpiar el estado
-  reset() {
-    this.archivoSeleccionado = null;
-    this.imagePreviewUrl = null;
-  }
 
 }

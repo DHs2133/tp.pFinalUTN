@@ -11,6 +11,10 @@ export class HomeComponentComponent {
 
   router = inject(Router);
 
+  redirigirLogin(){
+    this.router.navigate(["./login"])
+  }
+
   redirigirRegistroProfesional(){
 
     this.router.navigate(["./registroProfesional"])

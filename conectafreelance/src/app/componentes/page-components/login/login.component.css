@@ -1,0 +1,233 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 1000px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  gap: 40px; /* Espacio entre logo y formulario */
+}
+
+/* Sección del logo */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea a la izquierda */
+  max-width: 300px; /* Limita el ancho del logo y frase */
+}
+
+.logo-section .logo-link {
+  display: block;
+  text-decoration: none;
+}
+
+.logo-section .logo {
+  max-width: 200px;
+  width: 100%;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.logo-section .logo:hover {
+  transform: scale(1.1);
+}
+
+.logo-section .slogan {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: #000000;
+  text-align: left; /* Alinea a la izquierda */
+}
+
+/* Formulario */
+.login-form {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px; /* Formulario más grande */
+}
+
+.login-form h2 {
+  font-size: 1.8rem;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.login-form label {
+  display: block;
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.login-form .input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form .input:focus {
+  outline: none;
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.login-form .btn-registrar {
+  width: 100%;
+  background-color: #1e40af;
+  color: #ffffff;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form .btn-registrar:hover {
+  background-color: #1e3a8a;
+}
+
+.login-form .register-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.login-form .register-link a {
+  color: #1e40af;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-form .register-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .login-content {
+    flex-direction: column; /* Apila logo y formulario */
+    padding: 30px;
+    gap: 30px;
+    max-width: 600px;
+  }
+
+  .logo-section {
+    align-items: center; /* Centra logo y frase en tabletas */
+    max-width: 100%;
+  }
+
+  .logo-section .logo {
+    max-width: 160px;
+  }
+
+  .logo-section .slogan {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .login-form {
+    max-width: 100%; /* Formulario ocupa todo el ancho */
+    padding: 30px;
+  }
+
+  .login-form h2 {
+    font-size: 1.6rem;
+  }
+
+  .login-form .input {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  .login-form .btn-registrar {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-content {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .logo-section {
+    align-items: center;
+  }
+
+  .logo-section .logo {
+    max-width: 140px;
+  }
+
+  .logo-section .slogan {
+    font-size: 1rem;
+  }
+
+  .login-form {
+    padding: 24px;
+  }
+
+  .login-form h2 {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+
+  .login-form label {
+    font-size: 0.9rem;
+  }
+
+  .login-form .input {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .login-form .btn-registrar {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .login-form .register-link {
+    font-size: 0.85rem;
+  }
+}

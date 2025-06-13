@@ -1,1 +1,36 @@
-<p>login works!</p>
+<main class="login-container">
+  <div class="login-content">
+    <div class="logo-section">
+      <a [routerLink]="['/home']" class="logo-link">
+        <img src="logo.png" alt="Logo del sitio" class="logo">
+      </a>
+      <h2 class="slogan">"Uniendo talento excepcional con oportunidades que transforman la vida."</h2>
+    </div>
+    <form [formGroup]="formularioLogin" (ngSubmit)="login()" class="login-form">
+      <h2>Iniciar Sesión</h2>
+      <label for="Cor">Correo electrónico
+        <input
+          type="email"
+          id="Cor"
+          class="input"
+          formControlName="email"
+          placeholder="tu@correo.com"
+        >
+      </label>
+      <label for="Cont">Contraseña
+        <input
+          type="password"
+          id="Cont"
+          class="input"
+          formControlName="password"
+          placeholder="••••••••"
+        >
+      </label>
+      <button type="submit" class="btn-registrar">Iniciar sesión</button>
+      <p class="register-link">¿No tienes cuenta?
+        <a routerLink="/registroContratador">Crear Cuenta Contratadora</a> |
+        <a routerLink="/registroProfesional">Crear Cuenta Profesional</a>
+      </p>
+    </form>
+  </div>
+</main>

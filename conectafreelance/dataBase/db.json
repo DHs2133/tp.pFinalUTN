@@ -1,32 +1,132 @@
 {
   "usuariosProfesionales": [
     {
-      "id": "1",
-      "nombreCompleto": "Lucía Fernández",
-      "email": "lucia.fernandez@example.com",
-      "contrasenia": "Lucia123!",
-      "urlFoto": "http://localhost:3000/uploads/lucia.jpg",
+      "id": "9dd2",
+      "nombreCompleto": "Diego Torres",
+      "email": "diegotorres@gmail.com",
+      "contrasenia": "d#sD1243",
       "activo": true,
-      "rol": "profesional",
-      "profesion": "Diseñadora Gráfica",
-      "descripcion": "Soy una diseñadora con más de 5 años de experiencia en branding e identidad visual.",
-      "ciudad": "Córdoba",
-      "provincia": "Córdoba",
+      "profesion": "Albañil",
+      "ciudad": "Rio negro",
+      "provincia": "Cordoba",
       "pais": "Argentina",
-      "promedio": 4.8,
-      "cantComentarios": 12
+      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "6dd6",
+      "nombreCompleto": "Maruchan Godines",
+      "email": "maruchangodines@gmail.com",
+      "contrasenia": "DDdd2#d3",
+      "activo": true,
+      "profesion": "Camionero",
+      "ciudad": "La rioja",
+      "provincia": "La rioja",
+      "pais": "Argentina",
+      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "a1c2",
+      "nombreCompleto": "Luis Juez",
+      "email": "luisjuez@gmail.com",
+      "contrasenia": "Dd#343ds",
+      "activo": true,
+      "profesion": "abogado",
+      "ciudad": "La rioja",
+      "provincia": "La rioja",
+      "pais": "Argentina",
+      "urlFoto": "00.jpg",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "2811",
+      "nombreCompleto": "Elsa Capuntas",
+      "email": "elsacapuntas@gmail.com",
+      "contrasenia": "DDDDDD323!3s",
+      "activo": true,
+      "profesion": "Contadora",
+      "ciudad": "Balcarce",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "00.jpg",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "d5e1",
+      "nombreCompleto": "Franco Tirador",
+      "email": "francotirador@gmail.com",
+      "contrasenia": "Dd2#$f31",
+      "activo": true,
+      "profesion": "Programador",
+      "ciudad": "La Matanza",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "00.jpg",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
     }
   ],
   "usuariosContratadores": [
     {
+      "id": "c8dc",
+      "nombreCompleto": "Luna Mendez",
+      "email": "lunamendez@gmail.com",
+      "contrasenia": "D3!s2134",
+      "empresaRepresentada": "",
+      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
+      "rol": "contratador",
+      "activo": true
+    },
+    {
+      "id": "acba",
+      "nombreCompleto": "Armanfo Bancos",
+      "email": "armandobancos@gmail.com",
+      "contrasenia": "D4$5dsaS",
+      "empresaRepresentada": "",
+      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
+      "rol": "contratador",
+      "activo": true
+    },
+    {
+      "id": "de78",
+      "nombreCompleto": "Dolores Fuertes",
+      "email": "doloresfuertes@gmail.com",
+      "contrasenia": "DDDddd$4",
+      "empresaRepresentada": "Globant",
+      "urlFoto": "OIP.jpg",
+      "rol": "contratador",
+      "activo": true
+    }
+  ],
+  "usuariosAdministradores": [
+    {
       "id": "1",
-      "nombreCompleto": "María Gómez",
-      "email": "maria.gomez@example.com",
-      "contrasenia": "Maria123!",
-      "urlFoto": "http://localhost:3000/uploads/maria.jpg",
+      "nombreCompleto": "Luis Alvarez",
+      "email": "luis.alvarez@example.com",
+      "contrasenia": "luis123!",
+      "urlFoto": "00.jpg",
       "activo": true,
-      "rol": "base",
-      "empresaRepresentada": "Tech Solutions S.A."
+      "rol": "administrador",
+      "permisos": [
+        "eliminarPublicaciones",
+        "eliminarComentarios",
+        "darDeBajaUsuarios"
+      ]
     }
   ]
 }

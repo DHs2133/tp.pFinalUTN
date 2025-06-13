@@ -67,7 +67,7 @@ export class AddContratadorComponent {
 
     }
 
-    this.verificacionService.verificarUsuarioEnAmbasApis(datos.email).subscribe({
+    this.verificacionService.verificarUsuarioEnApis(datos.email).subscribe({
       next: (existe) => {
         if (existe) {
           alert("Ya existe una cuenta registrada con este email.");
@@ -85,8 +85,12 @@ export class AddContratadorComponent {
               rol: 'contratador',
               activo: true,
             };
+
+            this.formularioUsuarioContratador.reset();
             this.agregarAUsuarioContratadorBDD(usuarioContratadorNuevo);
-          alert("Cuenta profesional creada con éxito.");
+            this.imgSrc = "avatar.jpg"
+            this.router.navigate(['/login']); // Redirige al login
+
         },
         error: (err) => {
           console.error(err);
@@ -108,7 +112,7 @@ export class AddContratadorComponent {
 
       this.usuarioContService.postUsuariosContratadores(usuarioContNuevo).subscribe({
         next: () => {
-          alert('Usuario creado. Serás redirigido a iniciar sesión');
+          alert('Usuario creado. Serás redirigido a inicio de sesion');
 
         },
         error: (e) => {

@@ -83,7 +83,7 @@ export class AddProfesionalComponent {
     }
 
 
-    this.verificacionService.verificarUsuarioEnAmbasApis(datos.email).subscribe({
+    this.verificacionService.verificarUsuarioEnApis(datos.email).subscribe({
       next: (existe) => {
         if (existe) {
           alert("Ya existe una cuenta registrada con este email.");
@@ -107,15 +107,12 @@ export class AddProfesionalComponent {
 
             this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
 
-            ///this.router.navigate(['./inicioSesion']);  ME FALTARIA IMPLEMENTAR ALGO COMO ESTO
-
             // Se resetea todo para evitar que no quede información al mandar el formulario
             this.formularioUsuarioProfesional.reset();
             this.imgSrc = "imagendefecto.jpg"
+            this.router.navigate(['/login']); // Redirige a la página de login
 
 
-
-          alert("Cuenta profesional creada con éxito.");
         },
         error: (err) => {
           console.error(err);
@@ -137,7 +134,7 @@ export class AddProfesionalComponent {
 
     this.serviceUsuProfesiona.postUsuariosProfesionales(usuarioProfNuevo).subscribe({
       next: () => {
-        alert('Usuario creado. Serás redirigido a iniciar sesión');
+        alert('Usuario creado. Serás redirigido a inicio de sesión');
 
       },
       error: (e) => {

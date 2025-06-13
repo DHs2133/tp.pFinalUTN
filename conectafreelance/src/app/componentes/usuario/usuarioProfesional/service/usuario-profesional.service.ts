@@ -17,9 +17,9 @@ export class UsuarioProfesionalService {
     return this.http.get<UsuarioProfesional[]>(this.urlUsuarioProfesional)
   }
 
-  getUsuariosProfesionalPorEmail(email: string): Observable<any>{
+  getUsuariosProfesionalPorEmail(email: string): Observable<UsuarioProfesional[]>{
 
-    return this.http.get<any>(`${this.urlUsuarioProfesional}?email=${email}`)
+    return this.http.get<UsuarioProfesional[]>(`${this.urlUsuarioProfesional}?email=${email}`)
   }
 
 

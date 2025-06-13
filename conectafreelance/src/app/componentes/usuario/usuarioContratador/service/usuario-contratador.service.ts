@@ -17,9 +17,9 @@ export class UsuarioContratadorService {
     return this.http.get<UsuarioContratador[]>(this.urlUsuarioContratador)
   }
 
-  getUsuariosContratadorPorEmail(email: string): Observable<any>{
+  getUsuariosContratadoresPorEmail(correo: string):Observable<UsuarioContratador[]>{
 
-    return this.http.get<any>(`${this.urlUsuarioContratador}?email=${email}`)
+    return this.http.get<UsuarioContratador[]>(`${this.urlUsuarioContratador}?email=${correo}`)
   }
 
 

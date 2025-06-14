@@ -1,1 +1,35 @@
-<p>perfil-profesional works!</p>
+<div class="profile-container">
+  <!-- Encabezado del perfil -->
+  <header class="profile-header">
+    <div class="profile-image">
+      <img [src]="imagenUrl" alt="Foto de perfil de {{ usuarioProf.nombreCompleto }}" />
+    </div>
+    <div class="profile-info">
+      <h1>{{ usuarioProf.nombreCompleto }}</h1>
+      <p class="profession">{{ usuarioProf.profesion }}</p>
+    </div>
+  </header>
+
+  <section class="profile-details">
+    <h2>Sobre mí</h2>
+    <p class="description">{{ usuarioProf.descripcion }}</p>
+    <div class="location">
+      <span class="material-icons">Reside en:</span>
+      <p>{{ usuarioProf.ciudad }}, {{ usuarioProf.provincia }}, {{ usuarioProf.pais }}</p>
+    </div>
+  </section>
+
+  <section class="profile-ratings">
+    <h2>Calificaciones</h2>
+    <div class="ratings-info">
+      <div class="rating">
+        <span class="material-icons">star</span>
+        <p>{{ usuarioProf.promedio.toFixed(1) }} / 5</p>
+      </div>
+      <div class="comments">
+        <span class="material-icons">comment</span>
+        <p>{{ usuarioProf.cantComentarios }} comentario(s)</p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { UsuarioProfesional } from '../../../interfaceUsuario/usuario.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioProfesionalService } from '../../service/usuario-profesional.service';
-import { UploadImageService } from '../../../../../service/back-end/upload-image.service';
+import { ImageService } from '../../../../../service/back-end/image.service';
 import { VerificacionService } from '../../../../../utils/service/verificacion-usuario.service';
 import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ export class AddProfesionalComponent {
   // Inject del servicio que contiene a UsuarioProfesional
   serviceUsuProfesiona = inject(UsuarioProfesionalService);
   // Inject del servicio con el que voy a subir la foto
-  uploadImage = inject(UploadImageService);
+  uploadImage = inject(ImageService);
   // Inject del servicio para manejar el archivo
   manejoArchivo = inject(FileSelectService);
   // Si bien no tiene un API request ni es para manejar un HttpClient, lo hice así porque

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UploadImageService {
+export class ImageService {
 
   private http = inject(HttpClient);
 
@@ -14,5 +14,9 @@ export class UploadImageService {
     formData.append('foto', file);
 
     return this.http.post<{ urlFoto: string }>('http://localhost:3000/uploads/single', formData);
+  }
+
+  getImagen(fileName: string): Observable<Blob> {
+    return this.http.get(`http://localhost:3000/uploads/single/${fileName}`, { responseType: 'blob' });
   }
 }

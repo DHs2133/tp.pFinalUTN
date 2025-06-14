@@ -3,7 +3,7 @@ import { UsuarioContratadorService } from './../../service/usuario-contratador.s
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VerificacionService } from '../../../../../utils/service/verificacion-usuario.service';
-import { UploadImageService } from '../../../../../service/back-end/upload-image.service';
+import { ImageService } from '../../../../../service/back-end/image.service';
 import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { UsuarioContratador } from '../../../interfaceUsuario/usuario.interface';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ export class AddContratadorComponent {
   // Inject del servicio que contiene al usuario contratador
   usuarioContService = inject(UsuarioContratadorService);
   // Inject del servicio con el que voy a subir la foto
-  uploadImage = inject(UploadImageService);
+  uploadImage = inject(ImageService);
   // Inject del servicio para manejar el archivo
   manejoArchivo = inject(FileSelectService);
   router = inject(Router);

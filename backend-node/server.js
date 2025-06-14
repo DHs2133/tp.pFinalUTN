@@ -23,7 +23,6 @@ app.post('/uploads/single', upload.single('foto'), (req, res) => {
 
   const urlFoto = `${req.file.originalname}`;
   res.send({ urlFoto });
-  ///res.send("termina");
 });
 
 function saveImage(file){
@@ -33,6 +32,26 @@ function saveImage(file){
   return newPath
 
 }
+
+
+app.get('/uploads/single/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'uploads', 'single', filename);
+
+  // Verificar si el archivo existe
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      return res.status(404).json({ error: 'Imagen no encontrada' });
+    }
+
+    // Enviar el archivo como respuesta
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        return res.status(500).json({ error: 'Error al enviar la imagen' });
+      }
+    });
+  });
+});
 
 
 // Arrancar el servidor

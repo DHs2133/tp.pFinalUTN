@@ -33,6 +33,7 @@ export class LoginComponent {
 
 
 login() {
+
   if (!this.formularioLogin.valid) {
     alert('Debe ingresar un correo válido y una contraseña');
     return;

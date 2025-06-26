@@ -15,6 +15,12 @@ import { Router } from '@angular/router';
 })
 export class AddProfesionalComponent {
 
+  // todo: Cuando empiece a programar la parte de eliminar las cuentas voy a tener que crear el
+  // todo: método delete en el backend para eliminar la foto. Una vez tenga ese método voy a tener
+  // todo: que ponerlo adentro del metodo de agregar el usuario a la base de datos en el error.
+  // todo: Si el usuario pudo subir la foto pero no se pudo guardar el usuario creado, me va a
+  // todo: quedar la foto en el servidor sin estar vinculada a nada.
+
   imgSrc: string = "avatar.jpg";
   // Inject del formbuilder
   fb = inject(FormBuilder);
@@ -39,7 +45,6 @@ export class AddProfesionalComponent {
     ciudad:["", Validators.required],
     provincia: ["", Validators.required],
     pais: ["", Validators.required],
-
   })
 
 
@@ -91,34 +96,13 @@ export class AddProfesionalComponent {
 
           const archivo = this.manejoArchivo.getArchivoSeleccionado();
 
-          // Subir imagen
-          this.uploadImage.subirImagen(archivo).subscribe({
-            ///Subo el archivo y se me devuelve la url de la foto
-          next: ({ urlFoto }) => {
-            const usuarioProfesionalNuevo: UsuarioProfesional = {
-              ...datos,
-              urlFoto,
-              rol: 'profesional',
-              activo: true,
-              descripcion: " ",
-              promedio: 0,
-              cantComentarios: 0
-            };
+          if(archivo){
+            // Subir imagen
+            this.subirImagen(archivo, datos)
 
-            this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
-
-            // Se resetea todo para evitar que no quede información al mandar el formulario
-            this.formularioUsuarioProfesional.reset();
-            this.imgSrc = "imagendefecto.jpg"
-            this.router.navigate(['/login']); // Redirige a la página de login
-
-
-        },
-        error: (err) => {
-          console.error(err);
-          alert("Debe subir una imágen.");
-        }
-      });
+          }else{
+            alert("Debe subir una foto")
+          }
         }
       },
       error: (err) => {
@@ -127,6 +111,39 @@ export class AddProfesionalComponent {
       }
     });
 
+  }
+
+  subirImagen(archivo: File, datos: any){
+
+    this.uploadImage.subirImagen(archivo).subscribe({
+      ///Subo el archivo y se me devuelve la url de la foto
+      next: ({ urlFoto }) => {
+        const usuarioProfesionalNuevo: UsuarioProfesional = {
+          ...datos,
+          urlFoto,
+          rol: 'profesional',
+          activo: true,
+          descripcion: " ",
+          promedio: 0,
+          cantComentarios: 0
+        };
+
+        this.arr(usuarioProfesionalNuevo);
+
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error al subir una imágen.");
+      }
+    });
+
+  }
+
+
+  arr(usuarioProfesionalNuevo: UsuarioProfesional){
+    this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
+    this.reseteo();
+    this.redirección();
   }
 
   // Método para cargar el usuario profesional en la BDD simulada
@@ -138,10 +155,30 @@ export class AddProfesionalComponent {
 
       },
       error: (e) => {
-        console.error('Error al crear el usuario:', e);
+        console.error('Error al crear el usuario:', e, 'Será redirigido a la página principal');
+        this.router.navigate(['']);
+
       }
     });
 
+  }
+
+  reseteo(){
+    this.formularioUsuarioProfesional.reset();
+    this.imgSrc = "imagendefecto.jpg"
+    this.manejoArchivo.clearSelection();
+    // GUARDA CON ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
+    // todo Si algo falla, revisar esto
+  }
+
+  redirección(){
+    this.router.navigate(['/login']); // Redirige a la página de login
   }
 
 

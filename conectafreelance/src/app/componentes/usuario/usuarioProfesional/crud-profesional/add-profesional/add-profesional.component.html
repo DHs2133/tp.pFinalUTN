@@ -50,6 +50,7 @@
       <input type="file" class="form-control" id="foto" (change)="manejoDeArchivo($event)" accept="image/*">
 
 
+
       <label for="Cont">Contraseña</label>
       <input type="password" id="Cont" class="input" formControlName="contrasenia">
       @if (formularioUsuarioProfesional.controls["contrasenia"].touched && formularioUsuarioProfesional.controls["contrasenia"].getError("required")){

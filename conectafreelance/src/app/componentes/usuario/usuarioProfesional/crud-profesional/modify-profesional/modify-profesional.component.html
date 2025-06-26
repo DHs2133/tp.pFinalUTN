@@ -1,1 +1,79 @@
-<p>modify-profesional works!</p>
+<section class="form-container">
+  <h2>Modificar Perfil Profesional</h2>
+  <fieldset>
+    <form [formGroup]="formulario" (ngSubmit)="update()">
+      <label for="foto" class="form-control-label">
+        <img [src]="imagenUrl" alt="Foto actual" />
+        <div>Subir foto</div>
+      </label>
+      <input type="file" id="foto" class="form-control" (change)="manejoDeArchivo($event)" accept="image/*">
+
+      <label for="nombreCompleto">Nombre Completo</label>
+      <input type="text" id="nombreCompleto" class="input" formControlName="nombreCompleto">
+      @if (formulario.controls['nombreCompleto'].touched && formulario.controls['nombreCompleto'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+
+      <label for="email">Correo Electrónico</label>
+      <input type="email" id="email" class="input" formControlName="email">
+      @if (formulario.controls['email'].touched && formulario.controls['email'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+      @if (formulario.controls['email'].touched && formulario.controls['email'].hasError('email')) {
+        <div class="error">Formato de email inválido</div>
+      }
+
+      <label for="contrasenia">Contraseña</label>
+      <input type="password" id="contrasenia" class="input" formControlName="contrasenia">
+      @if (formulario.controls['contrasenia'].touched && formulario.controls['contrasenia'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+      @if (formulario.controls['contrasenia'].touched && formulario.controls['contrasenia'].hasError('pattern')) {
+        <div class="error">
+          La contraseña debe contener al menos una mayúscula, una minúscula, un número, un carácter especial y tener entre 8 y 16 caracteres.
+        </div>
+      }
+
+      <label for="profesion">Profesión</label>
+      <input type="text" id="profesion" class="input" formControlName="profesion">
+      @if (formulario.controls['profesion'].touched && formulario.controls['profesion'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" class="input textarea" formControlName="descripcion" rows="5"></textarea>
+      @if (formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+      @if (formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('minlength')) {
+        <div class="error">La descripción debe tener al menos 100 caracteres</div>
+      }
+      @if (formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('maxlength')) {
+        <div class="error">La descripción no puede exceder los 1000 caracteres</div>
+      }
+
+      <label for="ciudad">Ciudad</label>
+      <input type="text" id="ciudad" class="input" formControlName="ciudad">
+      @if (formulario.controls['ciudad'].touched && formulario.controls['ciudad'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+
+      <label for="provincia">Provincia</label>
+      <input type="text" id="provincia" class="input" formControlName="provincia">
+      @if (formulario.controls['provincia'].touched && formulario.controls['provincia'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+
+      <label for="pais">País</label>
+      <input type="text" id="pais" class="input" formControlName="pais">
+      @if (formulario.controls['pais'].touched && formulario.controls['pais'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">📤 Actualizar</button>
+        <button type="button" class="btn btn-secondary" (click)="reestablecer()">❌ Restablecer</button>
+      </div>
+    </form>
+  </fieldset>
+</section>

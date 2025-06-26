@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UsuarioProfesionalService } from '../../../usuarioProfesional/service/usuario-profesional.service';
 
 @Component({
   selector: 'app-modify-contratador',
@@ -7,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './modify-contratador.component.css'
 })
 export class ModifyContratadorComponent {
+
+  profService = inject(UsuarioProfesionalService);
 
 }

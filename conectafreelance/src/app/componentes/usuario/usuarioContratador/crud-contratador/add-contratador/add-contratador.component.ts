@@ -17,6 +17,12 @@ import { Router } from '@angular/router';
 export class AddContratadorComponent {
 
 
+  // todo: Cuando empiece a programar la parte de eliminar las cuentas voy a tener que crear el
+  // todo: método "delete" en el backend para eliminar la foto. Una vez tenga ese método voy a tener
+  // todo: que llamarlo adentro del metodo de agregar el usuario a la base de datos, en el "error".
+  // todo: Si el usuario pudo subir la foto pero no se pudo guardar el usuario creado, me va a
+  // todo: quedar la foto en el servidor sin estar vinculada a nada.
+
   imgSrc: string = "avatar.jpg"
   fb = inject(FormBuilder);
   // Inject del servicio que verifica que el mail de registro sea único
@@ -74,29 +80,11 @@ export class AddContratadorComponent {
         } else {
 
           const archivo = this.manejoArchivo.getArchivoSeleccionado();
+          if(archivo){
+            // Subir imagen
+            this.subirImagen(archivo, datos)
 
-          // Subir imagen
-          this.uploadImage.subirImagen(archivo).subscribe({
-            ///Subo el archivo y se me devuelve la url de la foto
-          next: ({ urlFoto }) => {
-            const usuarioContratadorNuevo: UsuarioContratador = {
-              ...datos,
-              urlFoto,
-              rol: 'contratador',
-              activo: true,
-            };
-
-            this.formularioUsuarioContratador.reset();
-            this.agregarAUsuarioContratadorBDD(usuarioContratadorNuevo);
-            this.imgSrc = "avatar.jpg"
-            this.router.navigate(['/login']); // Redirige al login
-
-        },
-        error: (err) => {
-          console.error(err);
-          alert("Error al subir la imagen.");
-        }
-      });
+          }
         }
       },
       error: (err) => {
@@ -104,6 +92,37 @@ export class AddContratadorComponent {
         alert("Ocurrió un error al verificar el email. Intentá nuevamente.");
       }
     });
+
+  }
+
+  subirImagen(archivo: File, datos: any){
+
+    this.uploadImage.subirImagen(archivo).subscribe({
+      ///Subo el archivo y se me devuelve la url de la foto
+      next: ({ urlFoto }) => {
+        const usuarioContratadorNuevo: UsuarioContratador = {
+          ...datos,
+          urlFoto,
+          rol: 'contratador',
+          activo: true,
+        };
+
+        this.arr(usuarioContratadorNuevo);
+
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error al subir la imagen.");
+      }
+    })
+
+
+  }
+
+  arr(usuContrNuevo: UsuarioContratador){
+    this.agregarAUsuarioContratadorBDD(usuContrNuevo);
+    this.reseteo();
+    this.redireccion();
 
   }
 
@@ -116,9 +135,20 @@ export class AddContratadorComponent {
 
         },
         error: (e) => {
-          console.error('Error al crear el usuario:', e);
+          console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
+          this.router.navigate(['']);
         }
       });
+  }
+
+  reseteo(){
+    this.formularioUsuarioContratador.reset();
+    this.manejoArchivo.clearSelection();
+    this.imgSrc = "avatar.jpg";
+  }
+
+  redireccion(){
+    this.router.navigate(['/login']); // Redirige al login
 
   }
 

@@ -6,6 +6,7 @@ import { LoginPageComponent } from './page/login-page/login-page.component';
 import { PerfilAdminPageComponent } from './page/perfil/perfil-admin-page/perfil-admin-page.component';
 import { PerfilContratadorPageComponent } from './page/perfil/perfil-contratador-page/perfil-contratador-page.component';
 import { PerfilProfesionalPageComponent } from './page/perfil/perfil-profesional-page/perfil-profesional-page.component';
+import { ModifyProfesionalComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/modify-profesional/modify-profesional.component';
 
 export const routes: Routes = [{
 
@@ -46,6 +47,12 @@ export const routes: Routes = [{
 
   path: "perfilProfesional",
   component: PerfilProfesionalPageComponent
+
+},
+{
+  path: "modPerProf/:id",
+  component: ModifyProfesionalComponent
+
 
 }
 ];

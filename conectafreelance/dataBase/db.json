@@ -1,132 +1,54 @@
 {
   "usuariosProfesionales": [
     {
-      "id": "9dd2",
-      "nombreCompleto": "Diego Torres",
-      "email": "diegotorres@gmail.com",
-      "contrasenia": "d#sD1243",
+      "id": "c83a",
+      "nombreCompleto": "Damian Piano",
+      "email": "damianpiano@gmail.com",
+      "contrasenia": "DDdd22a#",
       "activo": true,
-      "profesion": "Albañil",
-      "ciudad": "Rio negro",
-      "provincia": "Cordoba",
+      "profesion": "Gasista",
+      "descripcion": " dsajkldknskjdsandkjsasasndnaskjdnsakdnkjdnaskjdjasnkjdasndsandsankdjsdnsakjdnsakndsakjdnsajkdajdnsjdksandnkj",
+      "ciudad": "Alcatola",
+      "provincia": "La Rioja",
       "pais": "Argentina",
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
+      "promedio": 0,
+      "cantComentarios": 0,
+      "urlFoto": "1570029081_071016_1570029510_rrss_normal-1750949041187-89677.jpg",
+      "rol": "profesional"
+    },
+    {
+      "id": "1996",
+      "nombreCompleto": "bbbbbbbbb",
+      "email": "bbbbbbb@gmail.com",
+      "contrasenia": "Dsdasd#dsfDS3",
+      "activo": true,
+      "profesion": "bbbbbbbbb",
+      "ciudad": "Bbbbb",
+      "provincia": "bbbbbbb",
+      "pais": "bbbbbbbbbbb",
+      "urlFoto": "OIP-1750946153923-548734.jpg",
       "rol": "profesional",
       "descripcion": " ",
       "promedio": 0,
       "cantComentarios": 0
     },
     {
-      "id": "6dd6",
-      "nombreCompleto": "Maruchan Godines",
-      "email": "maruchangodines@gmail.com",
-      "contrasenia": "DDdd2#d3",
+      "id": "0af0",
+      "nombreCompleto": "Bianca Marindes",
+      "email": "biancamarindes@gmail.com",
+      "contrasenia": "asDs3#dr",
       "activo": true,
-      "profesion": "Camionero",
-      "ciudad": "La rioja",
-      "provincia": "La rioja",
-      "pais": "Argentina",
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
-      "promedio": 0,
-      "cantComentarios": 0
-    },
-    {
-      "id": "a1c2",
-      "nombreCompleto": "Luis Juez",
-      "email": "luisjuez@gmail.com",
-      "contrasenia": "Dd#343ds",
-      "activo": true,
-      "profesion": "abogado",
-      "ciudad": "La rioja",
-      "provincia": "La rioja",
-      "pais": "Argentina",
-      "urlFoto": "00.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
-      "promedio": 0,
-      "cantComentarios": 0
-    },
-    {
-      "id": "2811",
-      "nombreCompleto": "Elsa Capuntas",
-      "email": "elsacapuntas@gmail.com",
-      "contrasenia": "DDDDDD323!3s",
-      "activo": true,
-      "profesion": "Contadora",
-      "ciudad": "Balcarce",
+      "profesion": "Profesora de inglés",
+      "descripcion": " Dasdamo njisa ndis ndoia ndsaji nijso ijas ndaijao",
+      "ciudad": "25 de mayo",
       "provincia": "Buenos Aires",
       "pais": "Argentina",
-      "urlFoto": "00.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
       "promedio": 0,
-      "cantComentarios": 0
-    },
-    {
-      "id": "d5e1",
-      "nombreCompleto": "Franco Tirador",
-      "email": "francotirador@gmail.com",
-      "contrasenia": "Dd2#$f31",
-      "activo": true,
-      "profesion": "Programador",
-      "ciudad": "La Matanza",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "urlFoto": "00.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
-      "promedio": 0,
-      "cantComentarios": 0
+      "cantComentarios": 0,
+      "urlFoto": "OIP-1750976899804-936800.jpg",
+      "rol": "profesional"
     }
   ],
-  "usuariosContratadores": [
-    {
-      "id": "c8dc",
-      "nombreCompleto": "Luna Mendez",
-      "email": "lunamendez@gmail.com",
-      "contrasenia": "D3!s2134",
-      "empresaRepresentada": "",
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
-      "rol": "contratador",
-      "activo": true
-    },
-    {
-      "id": "acba",
-      "nombreCompleto": "Armanfo Bancos",
-      "email": "armandobancos@gmail.com",
-      "contrasenia": "D4$5dsaS",
-      "empresaRepresentada": "",
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal.jpg",
-      "rol": "contratador",
-      "activo": true
-    },
-    {
-      "id": "de78",
-      "nombreCompleto": "Dolores Fuertes",
-      "email": "doloresfuertes@gmail.com",
-      "contrasenia": "DDDddd$4",
-      "empresaRepresentada": "Globant",
-      "urlFoto": "OIP.jpg",
-      "rol": "contratador",
-      "activo": true
-    }
-  ],
-  "usuariosAdministradores": [
-    {
-      "id": "1",
-      "nombreCompleto": "Luis Alvarez",
-      "email": "luis.alvarez@example.com",
-      "contrasenia": "luis123!",
-      "urlFoto": "00.jpg",
-      "activo": true,
-      "rol": "administrador",
-      "permisos": [
-        "eliminarPublicaciones",
-        "eliminarComentarios",
-        "darDeBajaUsuarios"
-      ]
-    }
-  ]
+  "usuariosContratadores": [],
+  "usuariosAdministradores": []
 }

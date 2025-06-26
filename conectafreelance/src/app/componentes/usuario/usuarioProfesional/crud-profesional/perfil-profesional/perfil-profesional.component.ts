@@ -4,10 +4,11 @@ import { UsuarioProfesionalService } from '../../service/usuario-profesional.ser
 import { ImageService } from '../../../../../service/back-end/image.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UsuarioProfesional } from './../../../interfaceUsuario/usuario.interface';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-profesional',
+  imports:[RouterLink],
   templateUrl: './perfil-profesional.component.html',
   styleUrls: ['./perfil-profesional.component.css']
 })

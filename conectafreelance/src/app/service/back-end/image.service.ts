@@ -16,6 +16,12 @@ export class ImageService {
     return this.http.post<{ urlFoto: string }>('http://localhost:3000/uploads/single', formData);
   }
 
+  actualizarImagen(file: File, oldFilename: string): Observable<{ urlFoto: string }> {
+    const formData = new FormData();
+    formData.append('foto', file);
+    return this.http.put<{ urlFoto: string }>(`http://localhost:3000/uploads/single/${oldFilename}`, formData);
+  }
+
   getImagen(fileName: string): Observable<Blob> {
     return this.http.get(`http://localhost:3000/uploads/single/${fileName}`, { responseType: 'blob' });
   }

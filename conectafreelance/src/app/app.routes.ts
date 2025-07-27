@@ -7,6 +7,8 @@ import { PerfilAdminPageComponent } from './page/perfil/perfil-admin-page/perfil
 import { PerfilContratadorPageComponent } from './page/perfil/perfil-contratador-page/perfil-contratador-page.component';
 import { PerfilProfesionalPageComponent } from './page/perfil/perfil-profesional-page/perfil-profesional-page.component';
 import { ModifyProfesionalComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/modify-profesional/modify-profesional.component';
+import { ModifyPublicacionComponent } from './componentes/publicacion/modify-publicacion/modify-publicacion.component';
+import { ModifyPublicacionPageComponent } from './page/modify-publicacion-page/modify-publicacion-page.component';
 
 export const routes: Routes = [{
 
@@ -53,6 +55,11 @@ export const routes: Routes = [{
   path: "modPerProf/:id",
   component: ModifyProfesionalComponent
 
+
+},
+{
+  path: "modPublicacion/:id",
+  component: ModifyPublicacionPageComponent
 
 }
 ];

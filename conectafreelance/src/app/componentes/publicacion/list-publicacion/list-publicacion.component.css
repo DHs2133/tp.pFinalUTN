@@ -1,0 +1,152 @@
+.publicaciones-container {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+  display: flex; /* Activa flexbox */
+  flex-direction: column-reverse; /* Invierte el orden de los elementos hijos */
+}
+
+.publicaciones-container h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 1rem;
+}
+
+.no-publicaciones {
+  font-size: 1rem;
+  color: #666666;
+  text-align: center;
+  padding: 1rem;
+}
+
+.publicacion-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fafafa;
+}
+
+.publicacion-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.creador-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.creador-foto {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+  background-color: #f0f0f0; /* Fondo mientras la imagen carga */
+}
+
+.creador-details h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333333;
+}
+
+.publicacion-content {
+  padding: 1rem 0;
+}
+
+.publicacion-content p {
+  font-size: 1rem;
+  color: #555555;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.publicacion-imagen {
+  max-width: 100%;
+}
+
+.publicacion-imagen img {
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #f0f0f0; /* Fondo mientras la imagen carga */
+}
+
+.publicacion-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.edit-link {
+  font-size: 0.9rem;
+  color: #1d9bf0; /* Color azul de X */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.edit-link:hover {
+  text-decoration: underline;
+}
+
+.delete-button {
+  padding: 0.4rem 1rem;
+  background-color: #ff4d4f; /* Rojo para eliminar */
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+  background-color: #d9363e; /* Rojo más oscuro para hover */
+}
+
+@media (max-width: 600px) {
+  .publicaciones-container {
+    margin: 1rem;
+    padding: 0.75rem;
+  }
+
+  .publicacion-card {
+    padding: 0.75rem;
+  }
+
+  .creador-foto {
+    width: 36px;
+    height: 36px;
+  }
+
+  .creador-details h3 {
+    font-size: 1rem;
+  }
+
+  .publicacion-content p {
+    font-size: 0.9rem;
+  }
+
+  .publicacion-imagen img {
+    max-height: 200px;
+  }
+
+  .edit-link,
+  .delete-button {
+    font-size: 0.85rem;
+  }
+}

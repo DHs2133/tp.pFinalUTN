@@ -16,6 +16,17 @@ import { Subject, takeUntil } from 'rxjs';
 })
 
 export class ModifyProfesionalComponent implements OnInit, OnDestroy {
+
+
+  // variables--------------------------------------------------------------------------------------
+  imagenUrl?: SafeUrl;
+  id: string | null = null;
+  usuProfDefault!: UsuarioProfesional;
+  destroy$ = new Subject<void>();  // Con esto se va a maneja la desuscripción de los observables cuando se destruya el componente
+  // variables--------------------------------------------------------------------------------------
+
+
+  // servicios--------------------------------------------------------------------------------------
   activatedRoute = inject(ActivatedRoute);
   fb = inject(FormBuilder);
   proService = inject(UsuarioProfesionalService);
@@ -23,20 +34,10 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
   imageService = inject(ImageService);
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
+  // servicios--------------------------------------------------------------------------------------
 
 
-  imagenUrl?: SafeUrl;
-  id: string | null = null;
-  usuProfDefault!: UsuarioProfesional;
-
-
-
-
-  destroy$ = new Subject<void>();  //Con esto se va a maneja la desuscripción de los observables cuando se destruya el
-
-
-
-
+  // formulario------------------------------------------------------------------------------------
   formulario = this.fb.nonNullable.group({
     id: [''],
     nombreCompleto: ['', [Validators.required]],
@@ -53,6 +54,7 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
     urlFoto: ['', [Validators.required]],
     rol: ['profesional' as 'profesional' | 'contratador' | 'administrador'],
   });
+  // formulario------------------------------------------------------------------------------------
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
@@ -68,7 +70,7 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
 
-    this.destroy$.next(); // Esto hace que el subject emita un valor, lo que desencadena la desuscripción de todo.
+    this.destroy$.next(); // Desencadena la desuscripción de todo.
     this.destroy$.complete(); // Si bien no tengo un callback definido para complete, por lo que no se va a desencadenar ninguna lógica, leí que es buena práctica escribirlo igual.
   }
 
@@ -78,10 +80,6 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
 
         this.usuProfDefault = usuProf;
         this.formularioDefecto();
-        // Si bien no hay ninguna variable dentro de la función de la petición HTTP que necesite para hacer
-        // funcionar a  formularioDefecto(), la llamo acá dentro porque las peticiones HTTP son asíncronas
-        // y ejecuta la función de arriba mientras hace el get, y como la variable usuProfDefault está vacía,
-        // no se muestra el contenido
 
 
       },

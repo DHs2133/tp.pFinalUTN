@@ -27,7 +27,7 @@ export class AddProfesionalComponent {
   // Inject del servicio que verifica el mail en json-server
   verificacionService = inject(VerificacionService);
   // Inject del servicio que contiene a UsuarioProfesional
-  serviceUsuProfesiona = inject(UsuarioProfesionalService);
+  serviceUsuProf = inject(UsuarioProfesionalService);
   // Inject del servicio con el que voy a subir la foto
   uploadImage = inject(ImageService);
   // Inject del servicio para manejar el archivo
@@ -149,7 +149,7 @@ export class AddProfesionalComponent {
   // Método para cargar el usuario profesional en la BDD simulada
   agregarAUsuarioProfesionalBDD(usuarioProfNuevo: UsuarioProfesional){
 
-    this.serviceUsuProfesiona.postUsuariosProfesionales(usuarioProfNuevo).subscribe({
+    this.serviceUsuProf.postUsuariosProfesionales(usuarioProfNuevo).subscribe({
       next: () => {
         alert('Usuario creado. Serás redirigido a inicio de sesión');
 
@@ -167,14 +167,6 @@ export class AddProfesionalComponent {
     this.formularioUsuarioProfesional.reset();
     this.imgSrc = "imagendefecto.jpg"
     this.manejoArchivo.clearSelection();
-    // GUARDA CON ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-    // OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-
-    // todo Si algo falla, revisar esto
   }
 
   redirección(){

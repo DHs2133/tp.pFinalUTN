@@ -70,7 +70,7 @@ login() {
       // ocurrir es que se devuelva simplemente un array vacío, no va a romper.
 
       if (usuarioValido) {
-        this.loginService.setEmail(email); // Llamada única
+        this.loginService.setId(usuarioValido.id);
         const ruta = roleRoutes[usuarioValido.rol];
         this.router.navigate([ruta]);
       } else {

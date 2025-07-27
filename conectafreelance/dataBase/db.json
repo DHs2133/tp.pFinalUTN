@@ -1,54 +1,71 @@
 {
   "usuariosProfesionales": [
     {
-      "id": "c83a",
-      "nombreCompleto": "Damian Piano",
-      "email": "damianpiano@gmail.com",
-      "contrasenia": "DDdd22a#",
+      "id": "6b6c",
+      "nombreCompleto": "JUJULIO BARTOLOME PSICARIO",
+      "email": "JUJULIOBARTOLOMEPSICARIO@GMAIL.COM",
+      "contrasenia": "ddDD21#2",
       "activo": true,
-      "profesion": "Gasista",
-      "descripcion": " dsajkldknskjdsandkjsasasndnaskjdnsakdnkjdnaskjdjasnkjdasndsandsankdjsdnsakjdnsakndsakjdnsajkdajdnsjdksandnkj",
-      "ciudad": "Alcatola",
-      "provincia": "La Rioja",
-      "pais": "Argentina",
+      "profesion": "PROFESOR DE INGLES",
+      "descripcion": " CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA CARMBA",
+      "ciudad": "ALMAGRO",
+      "provincia": "ALMAGRO",
+      "pais": "ARGENTINA",
       "promedio": 0,
       "cantComentarios": 0,
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal-1750949041187-89677.jpg",
-      "rol": "profesional"
-    },
-    {
-      "id": "1996",
-      "nombreCompleto": "bbbbbbbbb",
-      "email": "bbbbbbb@gmail.com",
-      "contrasenia": "Dsdasd#dsfDS3",
-      "activo": true,
-      "profesion": "bbbbbbbbb",
-      "ciudad": "Bbbbb",
-      "provincia": "bbbbbbb",
-      "pais": "bbbbbbbbbbb",
-      "urlFoto": "OIP-1750946153923-548734.jpg",
-      "rol": "profesional",
-      "descripcion": " ",
-      "promedio": 0,
-      "cantComentarios": 0
-    },
-    {
-      "id": "0af0",
-      "nombreCompleto": "Bianca Marindes",
-      "email": "biancamarindes@gmail.com",
-      "contrasenia": "asDs3#dr",
-      "activo": true,
-      "profesion": "Profesora de inglés",
-      "descripcion": " Dasdamo njisa ndis ndoia ndsaji nijso ijas ndaijao",
-      "ciudad": "25 de mayo",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "promedio": 0,
-      "cantComentarios": 0,
-      "urlFoto": "OIP-1750976899804-936800.jpg",
+      "urlFoto": "OIP-1753208422336-408648.jpg",
       "rol": "profesional"
     }
   ],
   "usuariosContratadores": [],
-  "usuariosAdministradores": []
+  "usuariosAdministradores": [],
+  "publicaciones": [
+    {
+      "id": "17c1",
+      "idCreador": "6b6c",
+      "nombreCreador": "JUJULIO BARTOLOME PSICARIO",
+      "fotoCreador": "OIP-1753208422336-408648.jpg",
+      "cont": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "estado": "activa",
+      "reportada": false
+    },
+    {
+      "id": "4ae6",
+      "idCreador": "6b6c",
+      "nombreCreador": "JUJULIO BARTOLOME PSICARIO",
+      "fotoCreador": "OIP-1753208422336-408648.jpg",
+      "cont": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "estado": "activa",
+      "reportada": false
+    },
+    {
+      "id": "7aa3",
+      "idCreador": "6b6c",
+      "nombreCreador": "JUJULIO BARTOLOME PSICARIO",
+      "fotoCreador": "OIP-1753208422336-408648.jpg",
+      "cont": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "estado": "activa",
+      "reportada": false
+    },
+    {
+      "idPublicacion": "380a",
+      "idCreador": "6b6c",
+      "nombreCreador": "JUJULIO BARTOLOME PSICARIO",
+      "fotoCreador": "OIP-1753208422336-408648.jpg",
+      "cont": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "reportada": false,
+      "estado": "activa",
+      "id": "380a"
+    },
+    {
+      "idPublicacion": "9376",
+      "idCreador": "6b6c",
+      "nombreCreador": "JUJULIO BARTOLOME PSICARIO",
+      "fotoCreador": "OIP-1753208422336-408648.jpg",
+      "cont": "sssssssssssssssss",
+      "reportada": false,
+      "estado": "activa",
+      "id": "9376"
+    }
+  ]
 }

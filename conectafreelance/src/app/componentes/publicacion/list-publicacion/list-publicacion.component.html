@@ -1,0 +1,48 @@
+<section class="publicaciones-container">
+  <h2>Publicaciones</h2>
+  @if (publicacionesUsuario.length === 0) {
+    <p class="no-publicaciones">No hay publicaciones para mostrar.</p>
+  } @else {
+    @for (publicacion of publicacionesUsuario; track $index) {
+      <article class="publicacion-card">
+        <div class="publicacion-header">
+          <div class="creador-info">
+            <img
+              [src]="imagenPerfilPublicacion[publicacion.fotoCreador]"
+              alt="Foto de perfil del creador"
+              class="creador-foto"
+              loading="lazy"
+            />
+            <div class="creador-details">
+              <h3>{{ publicacion.nombreCreador }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="publicacion-content">
+          <p>{{ publicacion.cont }}</p>
+          @if (publicacion.urlFoto && imagenPublicacion[publicacion.urlFoto]) {
+            <div class="publicacion-imagen">
+              <img
+                [src]="imagenPublicacion[publicacion.urlFoto]"
+                alt="Imagen de la publicación"
+                loading="lazy"
+              />
+            </div>
+          }
+        </div>
+        <div class="publicacion-actions">
+          <a [routerLink]="['/modPublicacion', publicacion.id]" class="edit-link">
+            Modificar
+          </a>
+          <button
+            type="button"
+            class="delete-button"
+            (click)="eliminar(publicacion)"
+          >
+            Eliminar
+          </button>
+        </div>
+      </article>
+    }
+  }
+</section>

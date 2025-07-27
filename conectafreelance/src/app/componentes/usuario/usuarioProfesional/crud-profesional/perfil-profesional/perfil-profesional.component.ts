@@ -4,19 +4,37 @@ import { UsuarioProfesionalService } from '../../service/usuario-profesional.ser
 import { ImageService } from '../../../../../service/back-end/image.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UsuarioProfesional } from './../../../interfaceUsuario/usuario.interface';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AddPublicacionComponent } from "../../../../publicacion/add-publicacion/add-publicacion.component";
 
 @Component({
   selector: 'app-perfil-profesional',
-  imports:[RouterLink],
+  imports: [RouterModule, AddPublicacionComponent],
   templateUrl: './perfil-profesional.component.html',
   styleUrls: ['./perfil-profesional.component.css']
 })
 export class PerfilProfesionalComponent implements OnInit{
-  email: string = '';
+  id: string = '';
   imagenUrl!: SafeUrl;
 
-  usuarioProf!: UsuarioProfesional;
+  usuarioProf: UsuarioProfesional = {
+
+    id: " ",
+    nombreCompleto: " ",
+    email: " ",
+    contrasenia: " ",
+    urlFoto: " ",
+    activo: true,
+    rol: "profesional",
+    profesion: " ",
+    descripcion: " ",
+    ciudad: " ",
+    provincia: " ",
+    pais: " ",
+    promedio: 0,
+    cantComentarios: 0
+
+  }
 
   loginService = inject(LoginService);
   profService = inject(UsuarioProfesionalService);
@@ -25,19 +43,19 @@ export class PerfilProfesionalComponent implements OnInit{
   router = inject(Router);
 
   ngOnInit() {
-    this.email = this.loginService.getEmail();
+    this.id = this.loginService.getId();
     this.traerUsuarioProfesionalDeBDD();
   }
 
   traerUsuarioProfesionalDeBDD() {
-    this.profService.getUsuariosProfesionalPorEmail(this.email).subscribe({
-      next: (usu: UsuarioProfesional[]) => {
-        if (usu.length > 0) {
-          this.usuarioProf = usu[0];
+    this.profService.getUsuariosProfesionalPorID(this.id).subscribe({
+      next: (usu: UsuarioProfesional) => {
+        if (usu) {
+          this.usuarioProf = usu;
           this.cargarImagen(this.usuarioProf.urlFoto);
         } else {
           alert('Ha ocurrido un error. Vuelva a iniciar sesión');
-          this.loginService.clearEmail();
+          this.loginService.clearId();
           this.router.navigate(['/home']);
         }
       },

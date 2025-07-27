@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UsuarioProfesional } from '../../interfaceUsuario/usuario.interface';
 
 @Injectable({
@@ -25,6 +25,14 @@ export class UsuarioProfesionalService {
   getUsuariosProfesionalPorID(id: string | null): Observable<UsuarioProfesional>{
 
     return this.http.get<UsuarioProfesional>(`${this.urlUsuarioProfesional}/${id}`)
+  }
+
+  getNombreUsuarioProfesionalPorID(id: string | null): Observable<string>{
+
+    return this.http.get<UsuarioProfesional>(`${this.urlUsuarioProfesional}/${id}`).pipe(
+
+      map(usuProf => usuProf.nombreCompleto)
+    );
   }
 
 

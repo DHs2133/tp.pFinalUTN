@@ -1,0 +1,49 @@
+<div class="add-publicacion-container">
+  <form [formGroup]="formPubli" (ngSubmit)="agregarPublicacion()">
+    <div class="publicacion-input">
+      <textarea
+        formControlName="cont"
+        placeholder="¿Qué estás pensando?"
+        rows="4"
+        maxlength="500"
+        (input)="autoResize($event)"
+      ></textarea>
+      @if (contentLength() >= 450) {
+        <div class="char-counter warning">
+          {{ contentLength() }}/500
+        </div>
+      } @else {
+        <div class="char-counter">
+          {{ contentLength() }}/500
+        </div>
+      }
+  </div>
+
+
+  @if (imgSrc) {
+  <div class="image-preview">
+    <img [src]="imgSrc" alt="Previsualización de la imagen" />
+    <button type="button" class="remove-image" (click)="removeImage()">✕</button>
+  </div>
+  }
+
+    <div class="publicacion-actions">
+      <div class="action-buttons">
+        <label for="image-upload" class="image-upload-label">
+          <span class="material-icons">image</span>
+        </label>
+        <input
+          id="image-upload"
+          type="file"
+          accept="image/*"
+          (change)="manejoDeArchivo($event)"
+          style="display: none;"
+        />
+      </div>
+      <button type="submit" [disabled]="formPubli.invalid">Publicar</button>
+    </div>
+  </form>
+</div>
+
+
+<app-list-publicacion [publicacionNva]="publicAAgregar"></app-list-publicacion>

@@ -4,15 +4,16 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginService {
-  setEmail(email: string) {
-    localStorage.setItem('email', email);
+  setId(id: string | undefined) {
+    if(id)
+    localStorage.setItem('id', id);
   }
 
-  getEmail(): string {
-    return localStorage.getItem('email')!;
+  getId(): string {
+    return localStorage.getItem('id')!;
   }
 
-  clearEmail() {
-    localStorage.removeItem('email');
+  clearId() {
+    localStorage.removeItem('id');
   }
 }

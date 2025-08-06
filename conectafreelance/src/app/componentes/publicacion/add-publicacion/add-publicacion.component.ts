@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, SecurityContext } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PublicacionService } from '../servicePublicacion/publicacion.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImageService } from '../../../service/back-end/image.service';
@@ -18,16 +18,13 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './add-publicacion.component.css'
 })
 export class AddPublicacionComponent implements OnInit {
-
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   fotoCreador: string = " ";
-
   nombreUsu: string = " ";
   idCreador: string = " ";
   destroy$ = new Subject<void>();
-
-
-  publicAAgregar!: Publicacion; // Con esto se va a hacer el input para la lista de publicaciones
+  publicAAgregar!: Publicacion;
 
   servicioPubli = inject(PublicacionService);
   fb = inject(FormBuilder);
@@ -37,9 +34,6 @@ export class AddPublicacionComponent implements OnInit {
   logServ = inject(LoginService);
   usuProfService = inject(UsuarioProfesionalService);
   sanitizer = inject(DomSanitizer);
-
-
-
 
   imgSrc: string | null = null;
 
@@ -55,20 +49,17 @@ export class AddPublicacionComponent implements OnInit {
         error: (err) => {
           console.error("No se pudo obtener el usuario: " + err);
         }
-    });
+      });
   }
-
 
   formPubli = this.fb.nonNullable.group({
     idCreador: [" "],
     nombreCreador: [" "],
     fotoCreador: [" "],
     cont: ["", [Validators.required, Validators.maxLength(500)]],
-
-  })
+  });
 
   establecerValores() {
-
     this.formPubli.patchValue({
       idCreador: this.idCreador,
       nombreCreador: this.nombreUsu,
@@ -77,12 +68,9 @@ export class AddPublicacionComponent implements OnInit {
   }
 
   manejoDeArchivo(event: any) {
-
     this.manejoArchivo.onFileChange(event);
-    const urlPrevisualizacion = this.manejoArchivo.getImagePreviewUrl()
-
-    if(urlPrevisualizacion){
-
+    const urlPrevisualizacion = this.manejoArchivo.getImagePreviewUrl();
+    if (urlPrevisualizacion) {
       this.imgSrc = urlPrevisualizacion;
     }
   }
@@ -90,6 +78,9 @@ export class AddPublicacionComponent implements OnInit {
   removeImage() {
     this.manejoArchivo.clearSelection();
     this.imgSrc = null;
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
 
   autoResize(event: Event) {
@@ -98,103 +89,74 @@ export class AddPublicacionComponent implements OnInit {
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
-
-  agregarPublicacion(){
-
-    if(this.formPubli.invalid){
-      alert("Formulario inválido")
+  agregarPublicacion() {
+    if (this.formPubli.invalid) {
+      alert("Formulario inválido");
       return;
     }
 
     const datosMinPublic = this.formPubli.getRawValue();
     const archivo = this.manejoArchivo.getArchivoSeleccionado();
 
-    if(archivo){
-
-      this.subirImagen(archivo, datosMinPublic)
-    }else{
-
+    if (archivo) {
+      this.subirImagen(archivo, datosMinPublic);
+    } else {
       const publicacionSinImage: Publicacion = {
         ...datosMinPublic,
         estado: "activa",
         reportada: false
       };
-
       this.addPublicacion(publicacionSinImage);
     }
-
   }
 
-
-  subirImagen(archivo: File, datosMinPublic: any){
-
+  subirImagen(archivo: File, datosMinPublic: any) {
     this.uploadImage.subirImagen(archivo).pipe(takeUntil(this.destroy$)).subscribe({
-      ///Subo el archivo y se me devuelve la url de la foto
       next: ({ urlFoto }) => {
-
         const publicacionConImagen: Publicacion = {
           ...datosMinPublic,
           urlFoto,
           estado: "activa",
           reportada: false
         };
-
         this.addPublicacion(publicacionConImagen);
-
-        },
-        error: (err) => {
-          console.error(err);
-          alert("Error al subir una imágen.");
-        }
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error al subir una imagen.");
+      }
     });
   }
 
-
-  addPublicacion(publicacion: Publicacion){
-
+  addPublicacion(publicacion: Publicacion) {
     this.servicioPubli.postPublicacion(publicacion).pipe(takeUntil(this.destroy$)).subscribe({
-
-      next : (publicacionCreada) =>{
-        alert('Publicacion creada.');
+      next: (publicacionCreada) => {
+        alert('Publicación creada.');
         this.publicAAgregar = publicacionCreada;
-        // se pasa al componente hijo con el id creado.
         this.resetear();
-
       },
-      error : (err) =>{
+      error: (err) => {
         console.log("error: " + err);
-        alert("No se pudo subir la publicación")
+        alert("No se pudo subir la publicación");
       },
-
-    })
-
+    });
   }
 
   contentLength(): number {
     return this.formPubli.get('cont')?.value?.length || 0;
   }
 
-
-  resetear(){
-
+  resetear() {
     this.resetearContFormulario();
     this.removeImage();
-
-
   }
 
-  resetearContFormulario(){
-
-    this.formPubli.get('cont')?.setValue('')
-
+  resetearContFormulario() {
+    this.formPubli.get('cont')?.setValue('');
   }
-
-
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-
 }

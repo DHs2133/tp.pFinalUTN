@@ -100,7 +100,7 @@ form label {
 }
 
 .textarea:focus {
-  border-color: #1d9bf0; /* Color azul de X */
+  border-color: #1d9bf0;
 }
 
 .textarea::placeholder {
@@ -116,7 +116,7 @@ form label {
 }
 
 .char-counter.warning {
-  color: #ffc107; /* Amarillo para advertencia */
+  color: #ffc107;
 }
 
 .error {

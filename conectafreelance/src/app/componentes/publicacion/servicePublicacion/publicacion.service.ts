@@ -37,6 +37,4 @@ export class PublicacionService {
     return this.http.put<Publicacion>(`${this.urlpublicacion}/${idPub}`, publicacionMod);
   }
 
-
-
 }

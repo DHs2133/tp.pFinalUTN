@@ -30,14 +30,14 @@
     <div class="publicacion-actions">
       <div class="action-buttons">
         <label for="image-upload" class="image-upload-label">
-          <span class="material-icons">image</span>
+        <span class="material-icons">image</span>
         </label>
         <input
-          id="image-upload"
-          type="file"
-          accept="image/*"
-          (change)="manejoDeArchivo($event)"
-          style="display: none;"
+        id="image-upload"
+        type="file"
+        #fileInput
+        (change)="manejoDeArchivo($event)"
+        accept="image/*"
         />
       </div>
       <button type="submit" [disabled]="formPubli.invalid">Publicar</button>

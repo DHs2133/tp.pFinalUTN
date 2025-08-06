@@ -4,16 +4,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginService {
-  setId(id: string | undefined) {
+  set(id: string | undefined, rol: string | undefined) {
     if(id)
     localStorage.setItem('id', id);
+    if(rol)
+    localStorage.setItem('rol', rol);
+
   }
 
   getId(): string {
     return localStorage.getItem('id')!;
   }
 
-  clearId() {
+  getRol(): string {
+
+    return localStorage.getItem('rol')!;
+
+  }
+
+  clear() {
     localStorage.removeItem('id');
+    localStorage.removeItem('rol');
   }
 }

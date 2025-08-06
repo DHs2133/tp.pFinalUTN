@@ -6,8 +6,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   font-family: 'Roboto', sans-serif;
-  display: flex; /* Activa flexbox */
-  flex-direction: column-reverse; /* Invierte el orden de los elementos hijos */
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .publicaciones-container h2 {
@@ -52,7 +52,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #e0e0e0;
-  background-color: #f0f0f0; /* Fondo mientras la imagen carga */
+  background-color: #f0f0f0;
 }
 
 .creador-details h3 {
@@ -83,7 +83,7 @@
   object-fit: contain;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
-  background-color: #f0f0f0; /* Fondo mientras la imagen carga */
+  background-color: #f0f0f0;
 }
 
 .publicacion-actions {
@@ -94,7 +94,7 @@
 
 .edit-link {
   font-size: 0.9rem;
-  color: #1d9bf0; /* Color azul de X */
+  color: #1d9bf0;
   text-decoration: none;
   cursor: pointer;
 }
@@ -105,7 +105,7 @@
 
 .delete-button {
   padding: 0.4rem 1rem;
-  background-color: #ff4d4f; /* Rojo para eliminar */
+  background-color: #ff4d4f;
   color: #ffffff;
   border: none;
   border-radius: 20px;
@@ -115,7 +115,7 @@
 }
 
 .delete-button:hover {
-  background-color: #d9363e; /* Rojo más oscuro para hover */
+  background-color: #d9363e;
 }
 
 @media (max-width: 600px) {

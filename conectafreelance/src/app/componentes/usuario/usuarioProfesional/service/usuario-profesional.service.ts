@@ -46,9 +46,9 @@ export class UsuarioProfesionalService {
     return this.http.put<UsuarioProfesional>(`${this.urlUsuarioProfesional}/${id}`, modUsuarioProfesional)
   }
 
-  deleteUsuarioProfesionalByEmail(email: string): Observable<void>{
+  deleteUsuarioProfesionalById(id: string): Observable<void>{
 
-    return this.http.delete<void>(`${this.urlUsuarioProfesional}/${email}`)
+    return this.http.delete<void>(`${this.urlUsuarioProfesional}/${id}`)
 
   }
 

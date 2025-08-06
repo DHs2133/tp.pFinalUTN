@@ -27,7 +27,7 @@ export class ImageService {
     return this.http.get(`http://localhost:3000/uploads/single/${fileName}`, { responseType: 'blob' });
   }
 
-  deleteImage(fileName: String): Observable<{message: string}> {
+  deleteImage(fileName: string): Observable<{message: string}> {
 
     return this.http.delete<{message: string}>(`http://localhost:3000/uploads/single/${fileName}`)
   }

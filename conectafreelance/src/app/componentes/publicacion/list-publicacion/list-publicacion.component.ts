@@ -6,10 +6,11 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../../utils/service/login-service.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-publicacion',
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './list-publicacion.component.html',
   styleUrl: './list-publicacion.component.css'
 })
@@ -22,6 +23,7 @@ export class ListPublicacionComponent implements OnChanges, OnInit, OnDestroy {
   publicacionesUsuario: Publicacion[] = [];
   imagenPublicacion: { [key: string]: SafeUrl } = {};
   imagenPerfilPublicacion: { [key: string]: SafeUrl } = {};
+  private objectUrls: string[] = [];
 
   publicacionService = inject(PublicacionService);
   loginServ = inject(LoginService);
@@ -63,36 +65,35 @@ export class ListPublicacionComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-obtenerImagenesDelServidor(publicacion: Publicacion) {
-  // Cargar imagen de la publicación
-  if (publicacion.urlFoto) {
-    this.imageService.getImagen(publicacion.urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (blob) => {
-        const objectUrl = URL.createObjectURL(blob);
-        this.imagenPublicacion[publicacion.urlFoto!] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-      },
-      error: (err) => {
-        console.error(`Error al cargar la imagen de la publicación ${publicacion.urlFoto}:`, err);
-        // this.imagenPublicacion[publicacion.urlFoto!] = this.sanitizer.bypassSecurityTrustUrl('assets/images/default-publicacion.jpg');
-      }
-    });
-  }
+  obtenerImagenesDelServidor(publicacion: Publicacion) {
+    if (publicacion.urlFoto) {
+      const urlFoto = publicacion.urlFoto;
+      this.imageService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (blob) => {
+          const objectUrl = URL.createObjectURL(blob);
+          this.objectUrls.push(objectUrl);
+          this.imagenPublicacion[urlFoto] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+        },
+        error: (err) => {
+          console.error(`Error al cargar la imagen de la publicación ${urlFoto}:`, err);
+        }
+      });
+    }
 
-  // Cargar imagen de perfil
-  if (publicacion.fotoCreador) {
-    this.imageService.getImagen(publicacion.fotoCreador).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (blob) => {
-        const objectUrl = URL.createObjectURL(blob);
-        this.imagenPerfilPublicacion[publicacion.fotoCreador!] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-      },
-      error: (err) => {
-        console.error(`Error al cargar la imagen de perfil ${publicacion.fotoCreador}:`, err);
-
-        // this.imagenPerfilPublicacion[publicacion.fotoCreador!] = this.sanitizer.bypassSecurityTrustUrl('assets/images/default-perfil.jpg');
-      }
-    });
+    if (publicacion.fotoCreador) {
+      const fotoCreador = publicacion.fotoCreador;
+      this.imageService.getImagen(fotoCreador).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (blob) => {
+          const objectUrl = URL.createObjectURL(blob);
+          this.objectUrls.push(objectUrl);
+          this.imagenPerfilPublicacion[fotoCreador] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+        },
+        error: (err) => {
+          console.error(`Error al cargar la imagen de perfil ${fotoCreador}:`, err);
+        }
+      });
+    }
   }
-}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['publicacionNva'] && changes['publicacionNva'].currentValue) {
@@ -102,21 +103,18 @@ obtenerImagenesDelServidor(publicacion: Publicacion) {
     }
   }
 
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    Object.values(this.imagenPublicacion).forEach((url) => {
-      if (typeof url === 'string') {
-        URL.revokeObjectURL(url);
-      }
-    });
+    this.objectUrls.forEach(url => URL.revokeObjectURL(url));
+    this.objectUrls = [];
+    this.imagenPublicacion = {};
+    this.imagenPerfilPublicacion = {};
   }
 
   eliminar(publicacion: Publicacion) {
     if (publicacion.id) {
       this.eliminarPublicacion(publicacion.id);
-
     }
     if (publicacion.urlFoto) {
       this.eliminarFoto(publicacion.urlFoto);

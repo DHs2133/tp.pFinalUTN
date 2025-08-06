@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-contratador',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './perfil-contratador.component.html',
   styleUrl: './perfil-contratador.component.css'
 })

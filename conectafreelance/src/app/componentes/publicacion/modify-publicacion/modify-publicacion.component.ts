@@ -179,9 +179,9 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
   }
 
   autoResize(event: Event) {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
+    const texpublicacion = event.target as HTMLTextAreaElement;
+    texpublicacion.style.height = 'auto';
+    texpublicacion.style.height = `${texpublicacion.scrollHeight}px`;
   }
 
 

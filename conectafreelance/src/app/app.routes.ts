@@ -7,8 +7,11 @@ import { PerfilAdminPageComponent } from './page/perfil/perfil-admin-page/perfil
 import { PerfilContratadorPageComponent } from './page/perfil/perfil-contratador-page/perfil-contratador-page.component';
 import { PerfilProfesionalPageComponent } from './page/perfil/perfil-profesional-page/perfil-profesional-page.component';
 import { ModifyProfesionalComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/modify-profesional/modify-profesional.component';
-import { ModifyPublicacionComponent } from './componentes/publicacion/modify-publicacion/modify-publicacion.component';
 import { ModifyPublicacionPageComponent } from './page/modify-publicacion-page/modify-publicacion-page.component';
+import { ProfesionalProfesionalPerfilComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/profesional-profesional-perfil/profesional-profesional-perfil.component';
+import { ContratadorProfesionalPerfilComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/contratador-profesional-perfil/contratador-profesional-perfil.component';
+import { AdminProfesionalPerfilComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/admin-profesional-perfil/admin-profesional-perfil.component';
+import { ListProfesionalComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/list-profesional/list-profesional.component';
 
 export const routes: Routes = [{
 
@@ -61,5 +64,21 @@ export const routes: Routes = [{
   path: "modPublicacion/:id",
   component: ModifyPublicacionPageComponent
 
+},
+{
+  path: "listaProfesionales",
+  component: ListProfesionalComponent
+},
+{
+  path: "profprofperfil/:id",
+  component: ProfesionalProfesionalPerfilComponent
+},
+{
+  path: "contprofperfil/:id",
+  component: ContratadorProfesionalPerfilComponent
+},
+{
+  path: "admprofperfil/:id",
+  component: AdminProfesionalPerfilComponent
 }
 ];

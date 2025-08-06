@@ -13,6 +13,10 @@
   margin-bottom: 1rem;
 }
 
+input[type="file"] {
+  display: none;
+}
+
 textarea {
   width: 100%;
   padding: 0.75rem;
@@ -25,7 +29,7 @@ textarea {
 }
 
 textarea:focus {
-  border-color: #1d9bf0; /* Color azul de X */
+  border-color: #1d9bf0;
 }
 
 textarea::placeholder {
@@ -41,7 +45,7 @@ textarea::placeholder {
 }
 
 .char-counter.warning {
-  color: #ffc107; /* Amarillo para advertencia */
+  color: #ffc107;
 }
 
 .image-preview {
@@ -105,17 +109,17 @@ textarea::placeholder {
 }
 
 .image-upload-label:hover {
-  background-color: #e8f5fe; /* Fondo azul claro al pasar el mouse, como en X */
+  background-color: #e8f5fe;
 }
 
 .image-upload-label .material-icons {
-  color: #1d9bf0; /* Color azul de X */
+  color: #1d9bf0;
   font-size: 1.2rem;
 }
 
 button[type="submit"] {
   padding: 0.5rem 1.5rem;
-  background-color: #1d9bf0; /* Color azul de X */
+  background-color: #1d9bf0;
   color: #ffffff;
   border: none;
   border-radius: 20px;
@@ -125,7 +129,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #1a8cd8; /* Azul más oscuro para hover */
+  background-color: #1a8cd8;
 }
 
 button[type="submit"]:disabled {

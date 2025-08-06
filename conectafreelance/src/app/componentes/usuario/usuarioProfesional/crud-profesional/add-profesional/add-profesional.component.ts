@@ -15,12 +15,6 @@ import { Router } from '@angular/router';
 })
 export class AddProfesionalComponent {
 
-  // todo: Cuando empiece a programar la parte de eliminar las cuentas voy a tener que crear el
-  // todo: método delete en el backend para eliminar la foto. Una vez tenga ese método voy a tener
-  // todo: que ponerlo adentro del metodo de agregar el usuario a la base de datos en el error.
-  // todo: Si el usuario pudo subir la foto pero no se pudo guardar el usuario creado, me va a
-  // todo: quedar la foto en el servidor sin estar vinculada a nada.
-
   imgSrc: string = "avatar.jpg";
   // Inject del formbuilder
   fb = inject(FormBuilder);
@@ -170,8 +164,7 @@ export class AddProfesionalComponent {
   }
 
   redirección(){
-    this.router.navigate(['/login']); // Redirige a la página de login
+    this.router.navigate(['/login']);
   }
-
 
 }

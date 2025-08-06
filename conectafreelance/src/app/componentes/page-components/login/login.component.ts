@@ -33,6 +33,7 @@ export class LoginComponent {
 
 
 login() {
+
   if (!this.formularioLogin.valid) {
     alert('Debe ingresar un correo válido y una contraseña');
     return;
@@ -69,7 +70,7 @@ login() {
       // ocurrir es que se devuelva simplemente un array vacío, no va a romper.
 
       if (usuarioValido) {
-        this.loginService.setEmail(email); // Llamada única
+        this.loginService.set(usuarioValido.id, usuarioValido.rol);
         const ruta = roleRoutes[usuarioValido.rol];
         this.router.navigate([ruta]);
       } else {

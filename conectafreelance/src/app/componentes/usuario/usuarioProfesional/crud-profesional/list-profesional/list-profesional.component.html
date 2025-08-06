@@ -1,1 +1,91 @@
-<p>list-profesional works!</p>
+<div class="container">
+  <!-- Formulario de filtros -->
+  <form [formGroup]="filtroForm" class="filter-form">
+    <div class="filter-group">
+      <label for="nombreCompleto" id="nombre-label">Nombre completo:</label>
+      <input
+        id="nombreCompleto"
+        formControlName="nombreCompleto"
+        placeholder="Nombre completo"
+        type="text"
+        aria-labelledby="nombre-label"
+      />
+
+      <label for="profesion" id="profesion-label">Profesión:</label>
+      <input
+        id="profesion"
+        formControlName="profesion"
+        placeholder="Profesión"
+        type="text"
+        aria-labelledby="profesion-label"
+      />
+
+      <label for="pais" id="pais-label">País:</label>
+      <input
+        id="pais"
+        formControlName="pais"
+        placeholder="País"
+        type="text"
+        aria-labelledby="pais-label"
+      />
+
+      <label for="provincia" id="provincia-label">Provincia:</label>
+      <input
+        id="provincia"
+        formControlName="provincia"
+        placeholder="Provincia"
+        type="text"
+        aria-labelledby="provincia-label"
+      />
+
+      <label for="ciudad" id="ciudad-label">Ciudad:</label>
+      <input
+        id="ciudad"
+        formControlName="ciudad"
+        placeholder="Ciudad"
+        type="text"
+        aria-labelledby="ciudad-label"
+      />
+
+      <label for="orden" id="orden-label">Ordenar por:</label>
+      <select
+        id="orden"
+        formControlName="orden"
+        aria-labelledby="orden-label"
+      >
+        <option value="">Ordenar por...</option>
+        <option value="comentariosMayor">Comentarios (Mayor a Menor)</option>
+        <option value="comentariosMenor">Comentarios (Menor a Mayor)</option>
+        <option value="promedioMayor">Promedio (Mayor a Menor)</option>
+        <option value="promedioMenor">Promedio (Menor a Mayor)</option>
+      </select>
+    </div>
+  </form>
+
+  <div class="profesional-list">
+    @for (profesional of listaFiltrada; track profesional.id) {
+      <div class="profesional-card" (click)="redirigir(profesional.id)">
+        <img
+          [src]="imagenPerfil[profesional.urlFoto]"
+          alt="Foto de {{ profesional.nombreCompleto || 'perfil' }}"
+          class="profile-img"
+          loading="lazy"
+        />
+        <div class="profesional-info">
+          <h3>{{ profesional.nombreCompleto }}</h3>
+          <p class="profesion">{{ profesional.profesion }}</p>
+          <p class="descripcion">{{ profesional.descripcion | slice: 0:150 }}...</p>
+          <div class="details">
+            <span><strong>País:</strong> {{ profesional.pais }}</span>
+            <span><strong>Provincia:</strong> {{ profesional.provincia }}</span>
+            <span><strong>Ciudad:</strong> {{ profesional.ciudad }}</span>
+          </div>
+          <div class="stats">
+            <span><strong>Puntaje:</strong> {{ formatearPuntaje(profesional.promedio) }}</span>
+            <span><strong>Comentarios:</strong> {{ profesional.cantComentarios }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

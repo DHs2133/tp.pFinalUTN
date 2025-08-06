@@ -1,0 +1,59 @@
+<section class="form-container">
+  <h2>Modificar Publicación</h2>
+  <fieldset>
+    <form [formGroup]="formulario" (ngSubmit)="update()">
+      <label for="fotoPublicacion" class="form-control-label">
+        @if (imagenPublicacion) {
+          <img [src]="imagenPublicacion" alt="Foto de la publicación" loading="lazy"/>
+        } @else {
+          <div>Sin imagen de publicación</div>
+        }
+        <div>Foto de la publicación</div>
+      </label>
+
+      <label for="fotoCreador" class="form-control-label">
+        @if (imagenPerfil) {
+          <img [src]="imagenPerfil" alt="Foto del creador" loading="lazy"/>
+        } @else {
+          <div>Sin imagen de perfil</div>
+        }
+        <div>Foto del creador</div>
+      </label>
+
+      <label for="nombreCreador">Nombre del Creador</label>
+      <div class="input-static">{{ formulario.get('nombreCreador')?.value || 'Sin nombre' }}</div>
+
+      <div class="publicacion-input">
+        <label for="cont">Contenido</label>
+        <textarea
+          id="cont"
+          class="input textarea"
+          formControlName="cont"
+          placeholder="¿Qué estás pensando?"
+          rows="4"
+          (input)="restrictLength($event); autoResize($event)"
+        ></textarea>
+        @if (formulario.controls['cont'].touched && formulario.controls['cont'].hasError('required')) {
+          <div class="error">El contenido es obligatorio</div>
+        }
+        @if (formulario.controls['cont'].touched && formulario.controls['cont'].hasError('maxlength')) {
+          <div class="error">El contenido no puede exceder los 500 caracteres</div>
+        }
+        @if (contentLength() >= 450) {
+          <div class="char-counter warning">
+            {{ contentLength() }}/500
+          </div>
+        } @else {
+          <div class="char-counter">
+            {{ contentLength() }}/500
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">📤 Actualizar</button>
+        <button type="button" class="btn btn-secondary" (click)="reestablecer()">❌ Restablecer</button>
+      </div>
+    </form>
+  </fieldset>
+</section>

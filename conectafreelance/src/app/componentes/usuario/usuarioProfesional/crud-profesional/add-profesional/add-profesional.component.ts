@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { UsuarioProfesional } from '../../../interfaceUsuario/usuario.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioProfesionalService } from '../../service/usuario-profesional.service';
-import { UploadImageService } from '../../../../../service/back-end/upload-image.service';
+import { ImageService } from '../../../../../service/back-end/image.service';
 import { VerificacionService } from '../../../../../utils/service/verificacion-usuario.service';
 import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { Router } from '@angular/router';
@@ -21,9 +21,9 @@ export class AddProfesionalComponent {
   // Inject del servicio que verifica el mail en json-server
   verificacionService = inject(VerificacionService);
   // Inject del servicio que contiene a UsuarioProfesional
-  serviceUsuProfesiona = inject(UsuarioProfesionalService);
+  serviceUsuProf = inject(UsuarioProfesionalService);
   // Inject del servicio con el que voy a subir la foto
-  uploadImage = inject(UploadImageService);
+  uploadImage = inject(ImageService);
   // Inject del servicio para manejar el archivo
   manejoArchivo = inject(FileSelectService);
   // Si bien no tiene un API request ni es para manejar un HttpClient, lo hice así porque
@@ -39,7 +39,6 @@ export class AddProfesionalComponent {
     ciudad:["", Validators.required],
     provincia: ["", Validators.required],
     pais: ["", Validators.required],
-
   })
 
 
@@ -91,34 +90,13 @@ export class AddProfesionalComponent {
 
           const archivo = this.manejoArchivo.getArchivoSeleccionado();
 
-          // Subir imagen
-          this.uploadImage.subirImagen(archivo).subscribe({
-            ///Subo el archivo y se me devuelve la url de la foto
-          next: ({ urlFoto }) => {
-            const usuarioProfesionalNuevo: UsuarioProfesional = {
-              ...datos,
-              urlFoto,
-              rol: 'profesional',
-              activo: true,
-              descripcion: " ",
-              promedio: 0,
-              cantComentarios: 0
-            };
+          if(archivo){
+            // Subir imagen
+            this.subirImagen(archivo, datos)
 
-            this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
-
-            // Se resetea todo para evitar que no quede información al mandar el formulario
-            this.formularioUsuarioProfesional.reset();
-            this.imgSrc = "imagendefecto.jpg"
-            this.router.navigate(['/login']); // Redirige a la página de login
-
-
-        },
-        error: (err) => {
-          console.error(err);
-          alert("Debe subir una imágen.");
-        }
-      });
+          }else{
+            alert("Debe subir una foto")
+          }
         }
       },
       error: (err) => {
@@ -129,20 +107,64 @@ export class AddProfesionalComponent {
 
   }
 
-  // Método para cargar el usuario profesional en la BDD simulada
-  agregarAUsuarioProfesionalBDD(usuarioProfNuevo: UsuarioProfesional){
+  subirImagen(archivo: File, datos: any){
 
-    this.serviceUsuProfesiona.postUsuariosProfesionales(usuarioProfNuevo).subscribe({
-      next: () => {
-        alert('Usuario creado. Serás redirigido a inicio de sesión');
+    this.uploadImage.subirImagen(archivo).subscribe({
+      ///Subo el archivo y se me devuelve la url de la foto
+      next: ({ urlFoto }) => {
+        const usuarioProfesionalNuevo: UsuarioProfesional = {
+          ...datos,
+          urlFoto,
+          rol: 'profesional',
+          activo: true,
+          descripcion: " ",
+          promedio: 0,
+          cantComentarios: 0
+        };
+
+        this.arr(usuarioProfesionalNuevo);
 
       },
-      error: (e) => {
-        console.error('Error al crear el usuario:', e);
+      error: (err) => {
+        console.error(err);
+        alert("Error al subir una imágen.");
       }
     });
 
   }
 
+
+  arr(usuarioProfesionalNuevo: UsuarioProfesional){
+    this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
+    this.reseteo();
+    this.redirección();
+  }
+
+  // Método para cargar el usuario profesional en la BDD simulada
+  agregarAUsuarioProfesionalBDD(usuarioProfNuevo: UsuarioProfesional){
+
+    this.serviceUsuProf.postUsuariosProfesionales(usuarioProfNuevo).subscribe({
+      next: () => {
+        alert('Usuario creado. Serás redirigido a inicio de sesión');
+
+      },
+      error: (e) => {
+        console.error('Error al crear el usuario:', e, 'Será redirigido a la página principal');
+        this.router.navigate(['']);
+
+      }
+    });
+
+  }
+
+  reseteo(){
+    this.formularioUsuarioProfesional.reset();
+    this.imgSrc = "imagendefecto.jpg"
+    this.manejoArchivo.clearSelection();
+  }
+
+  redirección(){
+    this.router.navigate(['/login']);
+  }
 
 }

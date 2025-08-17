@@ -44,17 +44,6 @@ form label {
   transition: color 0.3s ease;
 }
 
-.input-static {
-  width: 100%;
-  padding: 0.75rem 0.875rem;
-  margin-top: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.625rem;
-  box-sizing: border-box;
-  font-size: 0.9375rem;
-  background-color: #f7fafc;
-  color: #4b5563;
-}
 
 .form-control-label {
   display: flex;
@@ -205,7 +194,7 @@ form label {
     font-size: 0.875rem;
   }
 
-  .input-static, .form-control-label {
+ .form-control-label {
     font-size: 0.875rem;
     padding: 0.625rem 0.75rem;
   }
@@ -240,7 +229,7 @@ form label {
     margin-top: 1.25rem;
   }
 
-  .input-static, .form-control-label {
+ .form-control-label {
     font-size: 0.8125rem;
     padding: 0.5rem 0.625rem;
   }
@@ -295,7 +284,7 @@ form label {
     font-size: 1rem;
   }
 
-  .input-static, .form-control-label {
+ .form-control-label {
     font-size: 1rem;
   }
 

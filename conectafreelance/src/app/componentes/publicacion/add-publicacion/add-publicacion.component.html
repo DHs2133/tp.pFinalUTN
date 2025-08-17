@@ -17,33 +17,34 @@
           {{ contentLength() }}/500
         </div>
       }
-  </div>
+    </div>
 
-
-  @if (imgSrc) {
-  <div class="image-preview">
-    <img [src]="imgSrc" alt="Previsualización de la imagen" />
-    <button type="button" class="remove-image" (click)="removeImage()">✕</button>
-  </div>
-  }
+    @if (imgSrc) {
+      <div class="image-preview">
+        <img [src]="imgSrc" alt="Previsualización de la imagen" />
+        <button type="button" class="remove-image" (click)="removeImage()">✕</button>
+      </div>
+    }
 
     <div class="publicacion-actions">
       <div class="action-buttons">
         <label for="image-upload" class="image-upload-label">
-        <span class="material-icons">image</span>
+          <span class="material-icons">image</span>
         </label>
         <input
-        id="image-upload"
-        type="file"
-        #fileInput
-        (change)="manejoDeArchivo($event)"
-        accept="image/*"
+          id="image-upload"
+          type="file"
+          #fileInput
+          (change)="manejoDeArchivo($event)"
+          accept="image/*"
         />
       </div>
-      <button type="submit" [disabled]="formPubli.invalid">Publicar</button>
+      <div class="form-buttons">
+        <button type="submit" class="submit-button" [disabled]="formPubli.invalid">Publicar</button>
+        <button type="button" class="reset-button" (click)="resetear()">Limpiar</button>
+      </div>
     </div>
   </form>
 </div>
-
 
 <app-list-publicacion [publicacionNva]="publicAAgregar"></app-list-publicacion>

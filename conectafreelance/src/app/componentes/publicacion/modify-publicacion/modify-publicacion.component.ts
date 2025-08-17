@@ -6,6 +6,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicacionService } from '../servicePublicacion/publicacion.service';
 import { Publicacion } from '../interfacePublicacion/publicacion.interface';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
+import { UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
 
 @Component({
   selector: 'app-modify-publicacion',
@@ -19,25 +21,23 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
   idPublicacion: string | null = null;
   destroy$ = new Subject<void>();
   publicacionAModificar!: Publicacion;
-  imagenPerfil: SafeUrl | null = null;
   imagenPublicacion: SafeUrl | null = null;
 
   // Servicios
-  private activatedRoute = inject(ActivatedRoute);
-  private fb = inject(FormBuilder);
-  private publicacionService = inject(PublicacionService);
-  private router = inject(Router);
-  private imageService = inject(ImageService)
-  private sanitizer = inject(DomSanitizer);
+  activatedRoute = inject(ActivatedRoute);
+  fb = inject(FormBuilder);
+  publicacionService = inject(PublicacionService);
+  router = inject(Router);
+  imageService = inject(ImageService)
+  sanitizer = inject(DomSanitizer);
+
 
   // Formulario
   formulario = this.fb.nonNullable.group({
     idPublicacion: ['', [Validators.required]],
     idCreador: ['', [Validators.required]],
-    nombreCreador: ['', [Validators.required]],
-    fotoCreador: ['', [Validators.required]],
-    ///urlFoto: ['', [Validators.required]],
-    cont: ['', [Validators.required, Validators.maxLength(500)]],
+
+    cont: ['', [Validators.required, Validators.maxLength(500), noWhitespaceValidator()]],
     reportada: [false, [Validators.required]],
   });
 
@@ -60,7 +60,6 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
     this.publicacionService.getPublicacionPorIDPublicacion(idPublicacion).pipe(takeUntil(this.destroy$)).subscribe({
       next: (publi) => {
         this.publicacionAModificar = publi;
-        this.imagenPerfil = this.sanitizer.bypassSecurityTrustUrl(publi.fotoCreador);
         this.imagenPublicacion = publi.urlFoto ? this.sanitizer.bypassSecurityTrustUrl(publi.urlFoto) : null;
         this.formularioDefecto();
         this.cargarImagenes();
@@ -74,24 +73,7 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
     });
   }
 
-   cargarImagenes() {
-    // Cargar fotoCreador
-    if (this.publicacionAModificar.fotoCreador) {
-      this.imageService.getImagen(this.publicacionAModificar.fotoCreador).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (blob: Blob) => {
-          const objectUrl = URL.createObjectURL(blob);
-          this.imagenPerfil = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-          console.log('Imagen perfil cargada:', this.imagenPublicacion);
-
-        },
-        error: (err) => {
-          console.error('Error al cargar fotoCreador:', err);
-          this.imagenPerfil = null;
-        },
-      });
-    } else {
-      this.imagenPerfil = null;
-    }
+  cargarImagenes() {
 
     if (this.publicacionAModificar.urlFoto) {
       this.imageService.getImagen(this.publicacionAModificar.urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
@@ -115,9 +97,6 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
       this.formulario.patchValue({
         idPublicacion: this.publicacionAModificar.id,
         idCreador: this.publicacionAModificar.idCreador,
-        nombreCreador: this.publicacionAModificar.nombreCreador,
-        fotoCreador: this.publicacionAModificar.fotoCreador,
-        ///urlFoto: this.publicacionAModificar.urlFoto,
         cont: this.publicacionAModificar.cont,
         reportada: this.publicacionAModificar.reportada,
       });

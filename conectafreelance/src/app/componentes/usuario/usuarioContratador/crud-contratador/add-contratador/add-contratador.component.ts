@@ -1,12 +1,16 @@
 import { routes } from './../../../../../app.routes';
 import { UsuarioContratadorService } from './../../service/usuario-contratador.service';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VerificacionService } from '../../../../../utils/service/verificacion-usuario.service';
 import { ImageService } from '../../../../../service/back-end/image.service';
 import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { UsuarioContratador } from '../../../interfaceUsuario/usuario.interface';
 import { Router } from '@angular/router';
+import { noWhitespaceValidator } from '../../../../../utils/ValidadoresPersonalizados';
+import { Favorito } from '../../../../favoritos/interfaceFavoritos/favorito.interface';
+import { FavoritoService } from '../../../../favoritos/serviceFavorito/favorito.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-contratador',
@@ -14,14 +18,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-contratador.component.html',
   styleUrl: './add-contratador.component.css'
 })
-export class AddContratadorComponent {
-
-
-  // todo: Cuando empiece a programar la parte de eliminar las cuentas voy a tener que crear el
-  // todo: método "delete" en el backend para eliminar la foto. Una vez tenga ese método voy a tener
-  // todo: que llamarlo adentro del metodo de agregar el usuario a la base de datos, en el "error".
-  // todo: Si el usuario pudo subir la foto pero no se pudo guardar el usuario creado, me va a
-  // todo: quedar la foto en el servidor sin estar vinculada a nada.
+export class AddContratadorComponent implements OnDestroy{
 
   imgSrc: string = "avatar.jpg"
   fb = inject(FormBuilder);
@@ -34,14 +31,17 @@ export class AddContratadorComponent {
   // Inject del servicio para manejar el archivo
   manejoArchivo = inject(FileSelectService);
   router = inject(Router);
+  favService = inject(FavoritoService);
+  destroy$ = new Subject<void>();
 
 
   formularioUsuarioContratador = this.fb.nonNullable.group({
-    nombreCompleto: ['',[Validators.required]],
+    nombreCompleto: ['',[Validators.required, noWhitespaceValidator()]],
     email: ['',[Validators.required, Validators.email]],
     contrasenia: ['',[Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
-    empresaRepresentada:[""]
+    empresaRepresentada:["", noWhitespaceValidator()]
   })
+
 
 
 
@@ -73,7 +73,7 @@ export class AddContratadorComponent {
 
     }
 
-    this.verificacionService.verificarUsuarioEnApis(datos.email).subscribe({
+    this.verificacionService.verificarUsuarioEnApis(datos.email).pipe(takeUntil(this.destroy$)).subscribe({
       next: (existe) => {
         if (existe) {
           alert("Ya existe una cuenta registrada con este email.");
@@ -97,7 +97,7 @@ export class AddContratadorComponent {
 
   subirImagen(archivo: File, datos: any){
 
-    this.uploadImage.subirImagen(archivo).subscribe({
+    this.uploadImage.subirImagen(archivo).pipe(takeUntil(this.destroy$)).subscribe({
       ///Subo el archivo y se me devuelve la url de la foto
       next: ({ urlFoto }) => {
         const usuarioContratadorNuevo: UsuarioContratador = {
@@ -122,7 +122,7 @@ export class AddContratadorComponent {
   arr(usuContrNuevo: UsuarioContratador){
     this.agregarAUsuarioContratadorBDD(usuContrNuevo);
     this.reseteo();
-    this.redireccion();
+    this.redireccionLogin();
 
   }
 
@@ -130,15 +130,45 @@ export class AddContratadorComponent {
   agregarAUsuarioContratadorBDD(usuarioContNuevo: UsuarioContratador){
 
       this.usuarioContService.postUsuariosContratadores(usuarioContNuevo).subscribe({
-        next: () => {
+        next: (value) => {
           alert('Usuario creado. Serás redirigido a inicio de sesion');
+
+          this.agregarListaFavoritos(value);
+
 
         },
         error: (e) => {
           console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
-          this.router.navigate(['']);
+          this.eliminarImagen(usuarioContNuevo.urlFoto);
+          this.redireccionHome();
         }
       });
+  }
+
+
+  agregarListaFavoritos(usuNvo: UsuarioContratador){
+
+    const favorito: Favorito = {
+      idDuenio: usuNvo.id as string,
+      idUsuariosFavoritos: []
+    }
+
+    this.favService.postFavorito(favorito).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        alert('Usuario creado. Serás redirigido a inicio de sesion');
+
+      },
+      error: (e) => {
+
+        this.eliminarImagen(usuNvo.urlFoto);
+        this.eliminarUsuarioContratador(usuNvo.id as string)
+
+        console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
+        this.redireccionHome();
+      }
+
+    })
+
   }
 
   reseteo(){
@@ -147,9 +177,44 @@ export class AddContratadorComponent {
     this.imgSrc = "avatar.jpg";
   }
 
-  redireccion(){
-    this.router.navigate(['/login']); // Redirige al login
+  redireccionLogin(){
+    this.router.navigate(['/login']);
+  }
 
+  redireccionHome(){
+    this.router.navigate(['/']);
+
+  }
+
+  eliminarImagen(stringUrl: string){
+    this.uploadImage.deleteImage(stringUrl).pipe(takeUntil(this.destroy$)).subscribe({
+
+      next(value) {
+        console.log("Foto borrada")
+      },
+      error(err) {
+        console.log("No se ha podido borrar la foto")
+      },
+    })
+
+  }
+
+  eliminarUsuarioContratador(id: string){
+
+    this.usuarioContService.deleteUsuarioContratadorByID(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (value) => {
+        console.log("Usuario contratador eliminado")
+      },
+      error : (err) => {
+        console.log("No se ha podido borrar la foto")
+      }
+
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

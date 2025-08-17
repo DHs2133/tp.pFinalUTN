@@ -53,7 +53,7 @@ export class PerfilProfesionalComponent implements OnInit, OnDestroy{
   }
 
   traerUsuarioProfesionalDeBDD() {
-    this.profService.getUsuariosProfesionalPorID(this.id).subscribe({
+    this.profService.getUsuariosProfesionalPorID(this.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (usu: UsuarioProfesional) => {
         if (usu) {
           this.usuarioProf = usu;
@@ -72,7 +72,7 @@ export class PerfilProfesionalComponent implements OnInit, OnDestroy{
   }
 
   cargarImagen(fileName: string) {
-    this.imageService.getImagen(fileName).subscribe({
+    this.imageService.getImagen(fileName).pipe(takeUntil(this.destroy$)).subscribe({
       next: (blob: Blob) => {
         const objectUrl = URL.createObjectURL(blob);
         this.imagenUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
@@ -102,6 +102,7 @@ export class PerfilProfesionalComponent implements OnInit, OnDestroy{
         next: () =>{
           alert("Cuenta eliminada exitosamente.");
           this.loginService.clear();
+          this.eliminarFoto()
         },
         error: (err) => {
           alert("No se pudo eliminar la cuenta profesional");

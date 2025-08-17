@@ -1,0 +1,52 @@
+<section class="publicaciones-container">
+  <h2>Publicaciones</h2>
+  @if (publicacionesUsuario.length === 0) {
+    <p class="no-publicaciones">No hay publicaciones para mostrar.</p>
+  } @else {
+    @for (publicacion of publicacionesUsuario; track $index) {
+      <article class="publicacion-card" [class.reported]="publicacion.reportada">
+        <div class="publicacion-header">
+          <div class="creador-info">
+            <img
+              [src]="imagenPerfil"
+              alt="Foto de {{ usuarioProfesional.nombreCompleto }}"
+              class="avatar"
+              loading="lazy"
+            />
+
+            <div class="creador-info">
+              <span class="nombre-creador">{{ usuarioProfesional.nombreCompleto }}</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="publicacion-content">
+          <p>{{ publicacion.cont }}</p>
+          @if (publicacion.urlFoto && imagenPublicacion[publicacion.urlFoto]) {
+            <div class="publicacion-imagen">
+              <img
+                [src]="imagenPublicacion[publicacion.urlFoto]"
+                alt="Imagen de la publicación"
+                loading="lazy"
+              />
+            </div>
+          }
+        </div>
+        <div class="publicacion-actions">
+          @if (!publicacion.reportada) {
+            <button
+              (click)="reportarPublicacion(publicacion.id)"
+              class="report-button"
+            >
+              Reportar
+            </button>
+          } @else {
+            <span class="reported-label">Publicación Reportada</span>
+          }
+        </div>
+      </article>
+    }
+  }
+</section>

@@ -22,20 +22,25 @@ export class UsuarioContratadorService {
     return this.http.get<UsuarioContratador[]>(`${this.urlUsuarioContratador}?email=${correo}`)
   }
 
+  getUsuariosContratadoresPorId(id: string):Observable<UsuarioContratador>{
+
+    return this.http.get<UsuarioContratador>(`${this.urlUsuarioContratador}/${id}`)
+  }
+
 
   postUsuariosContratadores(nvoUsuarioContratador: UsuarioContratador): Observable<UsuarioContratador>{
 
     return this.http.post<UsuarioContratador>(this.urlUsuarioContratador, nvoUsuarioContratador)
   }
 
-  putUsuariosContratadores(modUsuarioContratador: UsuarioContratador, mail: string): Observable<UsuarioContratador>{
+  putUsuariosContratadores(modUsuarioContratador: UsuarioContratador, id: string | null): Observable<UsuarioContratador>{
 
-    return this.http.put<UsuarioContratador>(`${this.urlUsuarioContratador}/${mail}`, modUsuarioContratador)
+    return this.http.put<UsuarioContratador>(`${this.urlUsuarioContratador}/${id}`, modUsuarioContratador)
   }
 
-  deleteUsuarioContratadorByEmail(email: string): Observable<void>{
+  deleteUsuarioContratadorByID(id: string): Observable<void>{
 
-    return this.http.delete<void>(`${this.urlUsuarioContratador}/${email}`)
+    return this.http.delete<void>(`${this.urlUsuarioContratador}/${id}`)
 
   }
 

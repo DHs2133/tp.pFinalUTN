@@ -23,6 +23,11 @@ export class UsuarioAdministradorService {
     return this.http.get<UsuarioAdministrador[]>(`${this.urlUsuarioAdministrador}?email=${email}`)
   }
 
+  getUsuariosAdministradoresPorID(id: string): Observable<UsuarioAdministrador>{
+
+    return this.http.get<UsuarioAdministrador>(`${this.urlUsuarioAdministrador}/${id}`)
+  }
+
 
   postUsuariosAdministradores(nvoUsuarioAdministrador: UsuarioAdministrador): Observable<UsuarioAdministrador>{
 

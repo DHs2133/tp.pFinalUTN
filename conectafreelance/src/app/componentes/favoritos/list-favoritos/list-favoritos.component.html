@@ -1,0 +1,42 @@
+<div class="favoritos-container">
+  <h2>Mis Profesionales Favoritos</h2>
+  <div class="favorito-list">
+    @if (usuProfLista.length === 0) {
+      <p class="no-favoritos">No hay favoritos para mostrar.</p>
+    } @else {
+      @for (profesional of usuProfLista; track profesional.id) {
+        <div class="favorito-card">
+          <div class="favorito-header">
+            <img
+              [src]="imgPerfCreadores[profesional.urlFoto] || 'public/avatar.png'"
+              alt="Foto de {{ profesional.nombreCompleto }}"
+              class="avatar"
+              loading="lazy"
+            />
+            <div class="profesional-info">
+              <span class="nombre-profesional">{{ profesional.nombreCompleto }}</span>
+              <span class="profesion">{{ profesional.profesion }}</span>
+              <span class="ubicacion">
+                {{ profesional.ciudad }}, {{ profesional.provincia }}, {{ profesional.pais }}
+              </span>
+            </div>
+          </div>
+          <div class="favorito-actions">
+            <button
+              (click)="eliminarFavorito(profesional.id)"
+              class="delete-button"
+            >
+              Eliminar de Favoritos
+            </button>
+            <button
+              (click)="redirigir(profesional.id)"
+              class="view-button"
+            >
+              Ver Perfil
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

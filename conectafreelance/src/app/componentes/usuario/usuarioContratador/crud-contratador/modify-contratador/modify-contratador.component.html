@@ -1,1 +1,74 @@
-<p>modify-contratador works!</p>
+<section class="form-container">
+  <h2>Modificar Perfil Contratador</h2>
+
+  <fieldset>
+    <form [formGroup]="formulario" (ngSubmit)="update()">
+
+      <label for="foto" class="form-control-label">
+        <img [src]="imagenUrl" alt="Foto actual" />
+        <div>Subir foto</div>
+      </label>
+      <input
+        type="file"
+        class="form-control"
+        id="foto"
+        (change)="manejoDeArchivo($event)"
+        accept="image/*">
+
+
+      <label for="nombreCompleto">Ingrese su nombre completo</label>
+      <input
+        type="text"
+        id="nombreCompleto"
+        class="input"
+        formControlName="nombreCompleto">
+      @if (formulario.controls["nombreCompleto"].touched && formulario.controls["nombreCompleto"].getError("required")) {
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+      @if(formulario.controls['nombreCompleto'].touched && formulario.controls['nombreCompleto'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
+      }
+
+      <label for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        class="input"
+        formControlName="email">
+      @if (formulario.controls["email"].touched && formulario.controls["email"].getError("required")) {
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+      @if (formulario.controls["email"].touched && formulario.controls["email"].getError("email")) {
+        <div class="error">NO POSEE FORMATO DE EMAIL</div>
+      }
+
+      <label for="empresaRepresentada">En caso de representar a una empresa, escriba cuál</label>
+      <input
+        type="text"
+        id="trabajaEmpresa"
+        class="input"
+        formControlName="empresaRepresentada">
+      @if(formulario.controls['empresaRepresentada'].touched && formulario.controls['empresaRepresentada'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
+      }
+
+
+      <label for="Cont">Contraseña</label>
+      <input type="password" id="Cont" class="input" formControlName="contrasenia">
+      @if (formulario.controls["contrasenia"].touched && formulario.controls["contrasenia"].getError("required")){
+        <div class="error">CAMPO OBLIGATORIO</div>
+      }
+      @if(formulario.controls["contrasenia"].hasError("pattern")){
+        <div class="error">
+          LA CONTRASEÑA DEBE TENER POR LO MENOS UNA MAYÚSCULA, UNA MINÚSCULA, UN NÚMERO, UN CARÁCTER ESPECIAL Y UN TAMAÑO ENTRE 8 Y 16 CARACTERES.
+        </div>
+      }
+
+
+      <div class="btn-group">
+        <button type="submit" class="btn-actualizar">📤 Actualizar</button>
+        <button type="button" class="btn-cancelar" (click)="reestablecer()">❌ Restablecer</button>
+      </div>
+    </form>
+  </fieldset>
+</section>

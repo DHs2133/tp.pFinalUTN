@@ -1,1 +1,74 @@
-<p>contratador-profesional-perfil works!</p>
+<div class="profile-container">
+  <!-- Encabezado del perfil -->
+  <header class="profile-header">
+    <div class="profile-image">
+      <img
+        [src]="imagenUrl"
+        alt="Foto de perfil de {{ usuarioProf.nombreCompleto || 'Usuario' }}"
+        loading="lazy"
+      />
+    </div>
+    <div class="profile-info">
+      <h1>{{ usuarioProf.nombreCompleto || 'Nombre no disponible' }}</h1>
+      <p class="profession">{{ usuarioProf.profesion || 'Profesión no especificada' }}</p>
+      <!-- Botón para agregar a favoritos -->
+      <button (click)="addUsuarioALista()" class="add-favorite-btn">Agregar a Favoritos</button>
+    </div>
+  </header>
+
+  <!-- Resto del HTML sin cambios -->
+  <section class="profile-details">
+    <h2>Sobre mí</h2>
+    <p class="description">{{ usuarioProf.descripcion || 'Sin descripción disponible' }}</p>
+    <div class="location">
+      <span class="material-icons">location_on</span>
+      <p>{{ usuarioProf.ciudad || 'Ciudad' }}, {{ usuarioProf.provincia || 'Provincia' }}, {{ usuarioProf.pais || 'País' }}</p>
+    </div>
+  </section>
+
+  <section class="profile-ratings">
+    <h2>Calificaciones</h2>
+    <div class="ratings-info">
+      <div class="rating">
+        <span class="material-icons">star</span>
+        <p>{{ usuarioProf.promedio ? usuarioProf.promedio.toFixed(1) : '0.0' }} / 5</p>
+      </div>
+      <div class="comments">
+        <span class="material-icons">comment</span>
+        <p>{{ usuarioProf.cantComentarios || 0 }} comentario(s)</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="profile-content-switcher">
+    <div class="tab-buttons">
+      <button
+        (click)="setActiveTab('publicaciones')"
+        [class.active]="activeTab === 'publicaciones'"
+        aria-label="Mostrar publicaciones"
+        class="tab-button"
+      >
+        Publicaciones
+      </button>
+      <button
+        (click)="setActiveTab('comentarios')"
+        [class.active]="activeTab === 'comentarios'"
+        aria-label="Mostrar comentarios"
+        class="tab-button"
+      >
+        Comentarios
+      </button>
+    </div>
+    @if (activeTab === 'publicaciones') {
+      <div class="tab-content">
+        <app-list-publicacion-contprofperf></app-list-publicacion-contprofperf>
+      </div>
+    }
+
+    @if (activeTab === 'comentarios') {
+      <div class="tab-content">
+        <app-add-comentario (puntajeAEliminar)="quitarPuntajeAPromedio($event)" (puntajeAEmitir)="actualizarPromedio($event)"></app-add-comentario>
+      </div>
+    }
+  </section>
+</div>

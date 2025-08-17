@@ -7,6 +7,7 @@ import { ImageService } from '../../../../../service/back-end/image.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UsuarioProfesional } from './../../../interfaceUsuario/usuario.interface';
 import { Subject, takeUntil } from 'rxjs';
+import { noWhitespaceValidator } from '../../../../../utils/ValidadoresPersonalizados';
 
 @Component({
   selector: 'app-modify-profesional',
@@ -40,15 +41,15 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
   // formulario------------------------------------------------------------------------------------
   formulario = this.fb.nonNullable.group({
     id: [''],
-    nombreCompleto: ['', [Validators.required]],
+    nombreCompleto: ['', [Validators.required, noWhitespaceValidator()]],
     email: ['', [Validators.required, Validators.email]],
     contrasenia: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
     activo: [true],
     profesion: ['', [Validators.required]],
-    descripcion: ['', [Validators.required, Validators.maxLength(1000)]],
-    ciudad: ['', Validators.required],
-    provincia: ['', Validators.required],
-    pais: ['', Validators.required],
+    descripcion: ['', [Validators.required, Validators.maxLength(1000), noWhitespaceValidator()]],
+    ciudad: ['', [Validators.required, noWhitespaceValidator()]],
+    provincia: ['', [Validators.required, noWhitespaceValidator()]],
+    pais: ['', [Validators.required, noWhitespaceValidator()]],
     promedio: [0, [Validators.required]],
     cantComentarios: [0, [Validators.required]],
     urlFoto: ['', [Validators.required]],

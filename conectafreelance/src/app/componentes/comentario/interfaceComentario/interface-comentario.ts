@@ -2,10 +2,8 @@ export interface Comentario {
   id?: string,
   idCreador: string,
   idDestinatario: string,
-  nombreCreador: string,
-  fotoCreador: string,
   contenido: string,
-  activo: boolean,
-  reportado: boolean,
+  estado: 'activa' | 'inactiva',
+  reportada: boolean,
   puntaje: number
 }

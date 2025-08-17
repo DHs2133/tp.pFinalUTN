@@ -6,6 +6,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { ComentarioService } from '../serviceComentario/comentario.service';
 import { ImageService } from '../../../service/back-end/image.service';
 import { CommonModule } from '@angular/common';
+import { UsuarioContratadorService } from '../../usuario/usuarioContratador/service/usuario-contratador.service';
+import { UsuarioContratador } from '../../usuario/interfaceUsuario/usuario.interface';
 
 @Component({
   selector: 'app-list-comentario',
@@ -20,10 +22,13 @@ export class ListComentarioComponent implements OnInit {
   imgPerfCreadores: { [key: string]: SafeUrl } = {};
   objectUrls: string[] = [];
 
+  usuContratadores: UsuarioContratador[] = [];
+
   loginService = inject(LoginService);
   comentarioService = inject(ComentarioService);
   imagenService = inject(ImageService);
   sanitizer = inject(DomSanitizer);
+  contratadorService = inject(UsuarioContratadorService);
 
   ngOnInit(): void {
     this.inicializarListaComentarios();
@@ -56,46 +61,85 @@ export class ListComentarioComponent implements OnInit {
 
   obtenerImagenes() {
     this.comentarios.forEach((comentario) => {
-      this.obtenerImagenesDelServidor(comentario);
+      this.obtenerUsuariosCreadores(comentario);
     });
   }
 
-  obtenerImagenesDelServidor(comentario: Comentario) {
-    if (comentario.fotoCreador) {
-      this.imagenService.getImagen(comentario.fotoCreador).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (blob) => {
-          const objectUrl = URL.createObjectURL(blob);
-          this.objectUrls.push(objectUrl);
-          this.imgPerfCreadores[comentario.fotoCreador] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+  obtenerUsuariosCreadores(comentario: Comentario){
+
+    if(comentario.id){
+      this.contratadorService.getUsuariosContratadoresPorId(comentario.idCreador).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (value) => {
+
+          this.usuContratadores.push(value);
+          this.obtenerImagenesPerfilDelServidor(value.urlFoto);
 
         },
-        error: (err) => {
-          console.error(`Error al cargar la imagen de la publicación ${comentario.fotoCreador}:`, err);
-        }
-      });
+        error(err) {
+          alert("Ha ocurrido un error.");
+          console.log("err: " + err);
+        },
+
+      })
     }
   }
 
-  reportarComentario(idComentario: string | undefined) {
+  obtenerImagenesPerfilDelServidor(urlFoto: string) {
 
-    if(idComentario){
+    this.imagenService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (blob) => {
+        const objectUrl = URL.createObjectURL(blob);
+        this.objectUrls.push(objectUrl);
+        this.imgPerfCreadores[urlFoto] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
 
-      const comentario = this.comentarios.find(c => c.id === idComentario);
-      if (comentario) {
-        const updatedComentario = { ...comentario, reportado: true };
-        this.comentarioService.putComentario(updatedComentario, idComentario).pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: () => {
-              alert("Comentario reportado");
-              comentario.reportado = true;
-            },
-            error: (err) => {
-              alert("No se pudo reportar el comentario");
-              console.error("Error: ", err);
-            }
-        });
+      },
+      error: (err) => {
+        console.error(`Error al cargar la imagen de perfil: ${urlFoto}:`, err);
       }
+      });
+
+  }
+
+
+  getUsuarioById(idcreador: string): UsuarioContratador | undefined{
+    return this.usuContratadores.find(usuario => usuario.id === idcreador);
+  }
+
+
+
+  reportarComentario(idComentario: string | undefined) {
+    if (!idComentario) {
+      console.error('ID de comentario no proporcionado');
+      alert('Error. No se ha podido reportar el comentario');
+      return;
     }
+
+    const comentario = this.comentarios.find(c => c.id === idComentario);
+    if (!comentario) {
+      console.log(`No se encontró el comentario con ID: ${idComentario}`);
+      alert('Comentario no encontrado');
+      return;
+    }
+
+    const confirmacion = confirm('¿Estás seguro de que deseas reportar este comentario?');
+    if (!confirmacion) {
+      console.log('Reporte cancelado por el usuario');
+      return;
+    }
+
+    const updatedComentario = { ...comentario, reportada: true };
+    console.log('Enviando actualización:', updatedComentario);
+
+    this.comentarioService.putComentario(updatedComentario, idComentario).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (response) => {
+        comentario.reportada = true;
+        alert('Comentario reportado');
+      },
+      error: (err) => {
+        console.error('Error al reportar el comentario:', err);
+        alert('No se pudo reportar el comentario: ' + err.message);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -105,4 +149,5 @@ export class ListComentarioComponent implements OnInit {
     this.objectUrls = [];
     this.imgPerfCreadores = {};
   }
+
 }

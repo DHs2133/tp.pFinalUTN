@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --watch server.js"
   },
   "keywords": [],
@@ -12,8 +11,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "multer": "^2.0.0"
+    "multer": "^2.0.2"
   },
-  "devDependencies": {},
   "description": ""
 }

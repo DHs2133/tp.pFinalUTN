@@ -32,9 +32,9 @@ export class PublicacionService {
     return this.http.delete<void>(`${this.urlpublicacion}/${id}`);
   }
 
-  putPublicacion(publicacionMod: Publicacion, idPub: string | null): Observable<Publicacion>{
+  putPublicacion(publicacionMod: Publicacion, id: string | null): Observable<Publicacion>{
 
-    return this.http.put<Publicacion>(`${this.urlpublicacion}/${idPub}`, publicacionMod);
+    return this.http.put<Publicacion>(`${this.urlpublicacion}/${id}`, publicacionMod);
   }
 
 }

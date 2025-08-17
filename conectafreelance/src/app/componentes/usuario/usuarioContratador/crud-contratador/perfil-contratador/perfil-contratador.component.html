@@ -1,2 +1,68 @@
-<p>card-contratador works!</p>
-<a [routerLink]="['/listaProfesionales']">Ir a la lista de profesionales</a>
+<div class="profile-container">
+  <!-- Encabezado del perfil -->
+  <header class="profile-header">
+    <div class="profile-image">
+      <img
+        [src]="imagenUrl"
+        alt="Foto de perfil de {{ usuarioCont.nombreCompleto || 'Usuario' }}"
+        loading="lazy"
+      />
+    </div>
+    <div class="profile-info">
+      <h1>{{ usuarioCont.nombreCompleto || 'Nombre no disponible' }}</h1>
+      <p class="role">{{ usuarioCont.rol || 'Rol no especificado' }}</p>
+      @if (usuarioCont.empresaRepresentada) {
+        <p class="company">Representa a: {{ usuarioCont.empresaRepresentada }}</p>
+      }
+    </div>
+  </header>
+
+  <div class="profile-actions">
+    <a [routerLink]="['/modPerCont', usuarioCont.id]" class="action-link">Modificar perfil</a>
+    <button (click)="eliminar()" class="action-button">Eliminar la cuenta</button>
+    <a [routerLink]="['/listaProfesionales']" class="action-link">Ir a la lista de profesionales</a>
+  </div>
+
+  <section class="profile-details">
+    <h2>Información de contacto</h2>
+    <div class="contact-info">
+      <div class="email">
+        <span class="material-icons">email</span>
+        <p>{{ usuarioCont.email || 'Email no disponible' }}</p>
+      </div>
+    </div>
+
+    <section class="profile-content-switcher">
+      <div class="tab-buttons">
+        <button
+          (click)="setActiveTab('listaFav')"
+          [class.active]="activeTab === 'listaFav'"
+          aria-label="Mostrar favoritos"
+          class="tab-button"
+        >
+          Favoritos
+        </button>
+        <button
+          (click)="setActiveTab('comentarios')"
+          [class.active]="activeTab === 'comentarios'"
+          aria-label="Mostrar comentarios"
+          class="tab-button"
+        >
+          Comentarios
+        </button>
+      </div>
+
+      <!-- Contenido condicional -->
+      @if (activeTab === 'listaFav') {
+        <div class="tab-content">
+          <app-list-favoritos></app-list-favoritos>
+        </div>
+      }
+      @if (activeTab === 'comentarios') {
+        <div class="tab-content">
+          <app-list-comentario-cont-perf></app-list-comentario-cont-perf>
+        </div>
+      }
+    </section>
+  </section>
+</div>

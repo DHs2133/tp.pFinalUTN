@@ -18,14 +18,26 @@ export class ComentarioService {
     return this.http.post<Comentario>(this.urlComentario, nvoComentario);
   }
 
+
+  getComentarioPorIDcomentario(id: string): Observable<Comentario> {
+
+    return this.http.get<Comentario>(`${this.urlComentario}/${id}`);
+  }
+
+
   getComentarioPorIDcreador(idCreador: string): Observable<Comentario[]> {
 
     return this.http.get<Comentario[]>(`${this.urlComentario}?idCreador=${idCreador}`);
   }
 
-  getComentarioPorIDdestinatario(idDestinatario: string): Observable<Comentario[]> {
+  getComentarioPorIDdestinatario(idDestinatario: string | null): Observable<Comentario[]> {
 
     return this.http.get<Comentario[]>(`${this.urlComentario}?idDestinatario=${idDestinatario}`);
+  }
+
+  getComentarioPorIDcreadorYDestinatario(idCreador: string, idDestinatario: string | null): Observable<Comentario[]> {
+
+    return this.http.get<Comentario[]>(`${this.urlComentario}?idCreador=${idCreador}&idDestinatario=${idDestinatario}`);
   }
 
   eliminarComentario(id: string): Observable<void>{

@@ -1,0 +1,168 @@
+.add-comentario-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-family: 'Roboto', sans-serif;
+}
+
+.comentario-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: none;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+  min-height: 100px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group textarea:focus {
+  border-color: #1d9bf0;
+}
+
+.form-group textarea::placeholder {
+  color: #888888;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: #1d9bf0;
+}
+
+.char-counter {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.85rem;
+  color: #666666;
+}
+
+.char-counter.warning {
+  color: #ffc107;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.submit-button {
+  background-color: #1d9bf0;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-family: 'Roboto', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover:enabled {
+  background-color: #0c7abf;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  background-color: #7f8c8d;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-family: 'Roboto', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #6c757d;
+}
+
+@media (max-width: 600px) {
+  .add-comentario-container {
+    margin: 1rem;
+    padding: 0.75rem;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  .form-group label {
+    font-size: 1em;
+  }
+
+  .form-group textarea,
+  .form-group select {
+    font-size: 0.9rem;
+  }
+
+  .char-counter {
+    font-size: 0.8rem;
+  }
+
+  .error-message {
+    font-size: 0.85em;
+  }
+
+  .submit-button,
+  .reset-button {
+    font-size: 0.85em;
+    padding: 6px 12px;
+  }
+}

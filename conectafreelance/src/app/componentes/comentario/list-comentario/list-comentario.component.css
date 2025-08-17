@@ -27,8 +27,8 @@ h2 {
 }
 
 .comentario-card.reported {
-  background-color: #fffde7; /* Amarillo claro */
-  border-color: #f1c40f; /* Borde amarillo */
+  background-color: #fffde7;
+  border-color: #f1c40f;
 }
 
 .comentario-header {

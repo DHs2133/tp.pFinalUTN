@@ -11,18 +11,6 @@
         <div>Foto de la publicación</div>
       </label>
 
-      <label for="fotoCreador" class="form-control-label">
-        @if (imagenPerfil) {
-          <img [src]="imagenPerfil" alt="Foto del creador" loading="lazy"/>
-        } @else {
-          <div>Sin imagen de perfil</div>
-        }
-        <div>Foto del creador</div>
-      </label>
-
-      <label for="nombreCreador">Nombre del Creador</label>
-      <div class="input-static">{{ formulario.get('nombreCreador')?.value || 'Sin nombre' }}</div>
-
       <div class="publicacion-input">
         <label for="cont">Contenido</label>
         <textarea
@@ -48,6 +36,11 @@
             {{ contentLength() }}/500
           </div>
         }
+
+        @if(formulario.controls['cont'].touched && formulario.controls['cont'].hasError('whitespace')){
+          <div class="error">No se aceptan cadenas vacias</div>
+        }
+
       </div>
 
       <div class="form-actions">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { UsuarioProfesional } from '../../../interfaceUsuario/usuario.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioProfesionalService } from '../../service/usuario-profesional.service';
@@ -6,6 +6,7 @@ import { ImageService } from '../../../../../service/back-end/image.service';
 import { VerificacionService } from '../../../../../utils/service/verificacion-usuario.service';
 import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-profesional',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-profesional.component.html',
   styleUrl: './add-profesional.component.css'
 })
-export class AddProfesionalComponent {
+export class AddProfesionalComponent implements OnDestroy{
 
   imgSrc: string = "avatar.jpg";
   // Inject del formbuilder
@@ -29,6 +30,9 @@ export class AddProfesionalComponent {
   // Si bien no tiene un API request ni es para manejar un HttpClient, lo hice así porque
   // no tiene sentido manejar un componente con .ts .html y .css por unas funciones reutilizables
   router = inject(Router)
+
+  destroy$ = new Subject<void>();
+
 
   formularioUsuarioProfesional = this.fb.nonNullable.group({
     nombreCompleto: ['',[Validators.required]],
@@ -82,7 +86,7 @@ export class AddProfesionalComponent {
     }
 
 
-    this.verificacionService.verificarUsuarioEnApis(datos.email).subscribe({
+    this.verificacionService.verificarUsuarioEnApis(datos.email).pipe(takeUntil(this.destroy$)).subscribe({
       next: (existe) => {
         if (existe) {
           alert("Ya existe una cuenta registrada con este email.");
@@ -109,7 +113,7 @@ export class AddProfesionalComponent {
 
   subirImagen(archivo: File, datos: any){
 
-    this.uploadImage.subirImagen(archivo).subscribe({
+    this.uploadImage.subirImagen(archivo).pipe(takeUntil(this.destroy$)).subscribe({
       ///Subo el archivo y se me devuelve la url de la foto
       next: ({ urlFoto }) => {
         const usuarioProfesionalNuevo: UsuarioProfesional = {
@@ -137,20 +141,21 @@ export class AddProfesionalComponent {
   arr(usuarioProfesionalNuevo: UsuarioProfesional){
     this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
     this.reseteo();
-    this.redirección();
+    this.redirecciónLogin();
   }
 
   // Método para cargar el usuario profesional en la BDD simulada
   agregarAUsuarioProfesionalBDD(usuarioProfNuevo: UsuarioProfesional){
 
-    this.serviceUsuProf.postUsuariosProfesionales(usuarioProfNuevo).subscribe({
+    this.serviceUsuProf.postUsuariosProfesionales(usuarioProfNuevo).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         alert('Usuario creado. Serás redirigido a inicio de sesión');
 
       },
       error: (e) => {
         console.error('Error al crear el usuario:', e, 'Será redirigido a la página principal');
-        this.router.navigate(['']);
+        this.eliminarFoto(usuarioProfNuevo.urlFoto);
+        this.redirecciónHome();
 
       }
     });
@@ -163,8 +168,32 @@ export class AddProfesionalComponent {
     this.manejoArchivo.clearSelection();
   }
 
-  redirección(){
+  redirecciónLogin(){
     this.router.navigate(['/login']);
+  }
+
+  redirecciónHome(){
+    this.router.navigate(['/']);
+  }
+
+  eliminarFoto(urlFoto: string){
+    this.uploadImage.deleteImage(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        console.log("Imágen borrada")
+      },
+      error: (err) => {
+        console.log("No se pudo borrar la imágen")
+
+      },
+
+    })
+
+  }
+
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

@@ -63,7 +63,7 @@
   </form>
 
   <div class="profesional-list">
-    @for (profesional of listaFiltrada; track profesional.id) {
+    @for (profesional of listaFiltrada; track $index) {
       <div class="profesional-card" (click)="redirigir(profesional.id)">
         <img
           [src]="imagenPerfil[profesional.urlFoto]"

@@ -10,6 +10,7 @@ import { ListPublicacionComponent } from "../list-publicacion/list-publicacion.c
 import { LoginService } from '../../../utils/service/login-service.service';
 import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
 import { Subject, takeUntil } from 'rxjs';
+import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
 
 @Component({
   selector: 'app-add-publicacion',
@@ -49,21 +50,18 @@ export class AddPublicacionComponent implements OnInit {
         error: (err) => {
           console.error("No se pudo obtener el usuario: " + err);
         }
-      });
+    });
   }
 
   formPubli = this.fb.nonNullable.group({
     idCreador: [" "],
-    nombreCreador: [" "],
-    fotoCreador: [" "],
-    cont: ["", [Validators.required, Validators.maxLength(500)]],
+
+    cont: ["", [Validators.required, Validators.maxLength(500), noWhitespaceValidator()]],
   });
 
   establecerValores() {
     this.formPubli.patchValue({
-      idCreador: this.idCreador,
-      nombreCreador: this.nombreUsu,
-      fotoCreador: this.fotoCreador
+      idCreador: this.idCreador
     });
   }
 

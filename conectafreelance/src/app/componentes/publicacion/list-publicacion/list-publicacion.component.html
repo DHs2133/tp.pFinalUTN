@@ -7,13 +7,13 @@
         <div class="publicacion-header">
           <div class="creador-info">
             <img
-              [src]="imagenPerfilPublicacion[publicacion.fotoCreador]"
+              [src]="imagenPerfil"
               alt="Foto de perfil del creador"
               class="creador-foto"
               loading="lazy"
             />
             <div class="creador-details">
-              <h3>{{ publicacion.nombreCreador }}</h3>
+              <h3>{{ usuProf.nombreCompleto }}</h3>
             </div>
           </div>
         </div>
@@ -34,11 +34,12 @@
             Modificar
           </a>
           <button
-            type="button"
-            class="delete-button"
-            (click)="eliminar(publicacion)"
+          type="button"
+          id="delete-btn-{{publicacion.id}}"
+          class="delete-button"
+          (click)="eliminar(publicacion)"
           >
-            Eliminar
+          Eliminar
           </button>
         </div>
       </article>

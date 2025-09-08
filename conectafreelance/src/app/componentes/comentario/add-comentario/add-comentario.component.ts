@@ -124,6 +124,7 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
       ...datosMinComentario,
       puntaje: Number(datosMinComentario.puntaje),
       estado: "activa" as "activa",
+      controlado: false,
       reportada: false
     };
 
@@ -131,7 +132,7 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
 
   }
 
-  addComentario(nvoComentario: Comentario){
+  addComentarioABDD(nvoComentario: Comentario){
 
     this.resetear();
     this.comentarioService.postComentario(nvoComentario).pipe(takeUntil(this.destroy$)).subscribe({
@@ -163,7 +164,7 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
         }
 
         if(!this.bandera){
-          this.addComentario(nvoComentario);
+          this.addComentarioABDD(nvoComentario);
           this.puntaje = nvoComentario.puntaje;
           this.puntajeAEmitir.emit(this.puntaje);
         }else{

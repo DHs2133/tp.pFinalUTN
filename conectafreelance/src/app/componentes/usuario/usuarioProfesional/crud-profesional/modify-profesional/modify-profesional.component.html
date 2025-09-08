@@ -55,11 +55,8 @@
       @if (formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('required')) {
         <div class="error">Campo obligatorio</div>
       }
-      @if (formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('minlength')) {
-        <div class="error">La descripción debe tener al menos 100 caracteres</div>
-      }
       @if (formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('maxlength')) {
-        <div class="error">La descripción no puede exceder los 1000 caracteres</div>
+        <div class="error">La descripción no puede exceder los 220 caracteres</div>
       }
       @if(formulario.controls['descripcion'].touched && formulario.controls['descripcion'].hasError('whitespace')){
 

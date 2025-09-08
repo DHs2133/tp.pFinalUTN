@@ -40,6 +40,12 @@ export class ComentarioService {
     return this.http.get<Comentario[]>(`${this.urlComentario}?idCreador=${idCreador}&idDestinatario=${idDestinatario}`);
   }
 
+  getComentariosReportados(): Observable<Comentario[]> {
+
+    return this.http.get<Comentario[]>(`${this.urlComentario}?reportada=${true}`);
+  }
+
+
   eliminarComentario(id: string): Observable<void>{
 
     return this.http.delete<void>(`${this.urlComentario}/${id}`);

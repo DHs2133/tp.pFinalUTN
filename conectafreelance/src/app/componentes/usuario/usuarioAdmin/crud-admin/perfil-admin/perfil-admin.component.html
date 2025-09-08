@@ -1,1 +1,68 @@
-<p>perfil-admin works!</p>
+<div class="profile-container">
+  <!-- Encabezado del perfil -->
+  <header class="profile-header">
+    <div class="profile-image">
+      <img
+        [src]="imagenUrl"
+        alt="Foto de perfil de {{ usuarioAdm.nombreCompleto || 'Usuario' }}"
+        loading="lazy"
+      />
+    </div>
+    <div class="profile-info">
+      <h1>{{ usuarioAdm.nombreCompleto || 'Nombre no disponible' }}</h1>
+      <p class="role">{{ usuarioAdm.rol }}</p>
+      <p class="permission">Nivel de permiso: {{ usuarioAdm.permisos || 'No especificado' }}</p>
+    </div>
+  </header>
+
+  <!-- Acciones del perfil -->
+  <div class="profile-actions">
+    <a [routerLink]="['/modPerAdm', usuarioAdm.id]" class="action-link">Modificar perfil</a>
+  </div>
+
+  <!-- Detalles del perfil -->
+  <section class="profile-details">
+    <h2>Información de contacto</h2>
+    <div class="contact-info">
+      <div class="email">
+        <span class="material-icons">email</span>
+        <p>{{ usuarioAdm.email || 'Email no disponible' }}</p>
+      </div>
+    </div>
+
+    <!-- Selector de pestañas -->
+    <section class="profile-content-switcher">
+      <div class="tab-buttons">
+        <button
+          (click)="setActiveTab('publicReportadas')"
+          [class.active]="activeTab === 'publicReportadas'"
+          aria-label="Mostrar publicaciones reportadas"
+          class="tab-button"
+        >
+          Publicaciones Reportadas
+        </button>
+        <button
+          (click)="setActiveTab('comReportados')"
+          [class.active]="activeTab === 'comReportados'"
+          aria-label="Mostrar comentarios reportados"
+          class="tab-button"
+        >
+          Comentarios Reportados
+        </button>
+      </div>
+
+
+      @if (activeTab === 'publicReportadas') {
+        <div class="tab-content">
+          <app-list-publicacion-reportado></app-list-publicacion-reportado>
+        </div>
+      }
+      @if (activeTab === 'comReportados') {
+        <div class="tab-content">
+          <app-list-comentario-reportado></app-list-comentario-reportado>
+        </div>
+      }
+
+    </section>
+  </section>
+</div>

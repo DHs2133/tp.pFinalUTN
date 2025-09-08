@@ -1,0 +1,20 @@
+<section class="add-comentario-container">
+  <h2>Agregar Comentario</h2>
+  <form [formGroup]="formMensaje" (ngSubmit)="mandarMensaje()" class="comentario-form">
+    <div class="form-group">
+      <label for="contenido">Comentario</label>
+      <textarea
+        id="contenido"
+        formControlName="contenido"
+        placeholder="Escribe tu comentario aquí..."
+        (input)="autoResize($event)"
+        rows="4"
+      ></textarea>
+
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-button" [disabled]="formMensaje.invalid">Enviar Mensaje</button>
+    </div>
+  </form>
+</section>

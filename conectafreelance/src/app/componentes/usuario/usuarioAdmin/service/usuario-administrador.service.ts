@@ -34,9 +34,9 @@ export class UsuarioAdministradorService {
     return this.http.post<UsuarioAdministrador>(this.urlUsuarioAdministrador, nvoUsuarioAdministrador)
   }
 
-  putUsuariosAdministradores(modUsuarioAdministrador: UsuarioAdministrador, mail: string): Observable<UsuarioAdministrador>{
+  putUsuariosAdministradores(modUsuarioAdministrador: UsuarioAdministrador, id: string | null): Observable<UsuarioAdministrador>{
 
-    return this.http.put<UsuarioAdministrador>(`${this.urlUsuarioAdministrador}/${mail}`, modUsuarioAdministrador)
+    return this.http.put<UsuarioAdministrador>(`${this.urlUsuarioAdministrador}/${id}`, modUsuarioAdministrador)
   }
 
   deleteUsuarioAdministradorByEmail(email: string): Observable<void>{

@@ -14,6 +14,8 @@ import { AdminProfesionalPerfilComponent } from './componentes/usuario/usuarioPr
 import { ListProfesionalComponent } from './componentes/usuario/usuarioProfesional/crud-profesional/list-profesional/list-profesional.component';
 import { ModifyContratadorComponent } from './componentes/usuario/usuarioContratador/crud-contratador/modify-contratador/modify-contratador.component';
 import { ModifyComentarioComponent } from './componentes/comentario/modify-comentario/modify-comentario.component';
+import { ModifyComentarioContPerfilComponent } from './componentes/comentario/modify-comentario-cont-perfil/modify-comentario-cont-perfil.component';
+import { ModifyAdminComponent } from './componentes/usuario/usuarioAdmin/crud-admin/modify-admin/modify-admin.component';
 
 export const routes: Routes = [{
 
@@ -61,16 +63,27 @@ export const routes: Routes = [{
   component: ModifyProfesionalComponent
 
 
-},{
+},
+{
   path: "modPerCont/:id",
   component: ModifyContratadorComponent
 
 
 },
 {
+
+  path: "modPerAdm/:id",
+  component: ModifyAdminComponent
+
+},
+{
   path: "modPublicacion/:id",
   component: ModifyPublicacionPageComponent
 
+},
+{
+  path: "modComentPerfilCont/:id",
+  component: ModifyComentarioContPerfilComponent
 },
 {
   path: "listaProfesionales",

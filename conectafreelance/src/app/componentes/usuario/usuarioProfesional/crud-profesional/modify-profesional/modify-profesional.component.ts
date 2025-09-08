@@ -46,7 +46,7 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
     contrasenia: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
     activo: [true],
     profesion: ['', [Validators.required]],
-    descripcion: ['', [Validators.required, Validators.maxLength(1000), noWhitespaceValidator()]],
+    descripcion: ['', [Validators.required, Validators.maxLength(220), noWhitespaceValidator()]],
     ciudad: ['', [Validators.required, noWhitespaceValidator()]],
     provincia: ['', [Validators.required, noWhitespaceValidator()]],
     pais: ['', [Validators.required, noWhitespaceValidator()]],

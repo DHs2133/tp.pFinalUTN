@@ -1,5 +1,4 @@
 <div class="profile-container">
-  <!-- Encabezado del perfil -->
   <header class="profile-header">
     <div class="profile-image">
       <img
@@ -11,12 +10,10 @@
     <div class="profile-info">
       <h1>{{ usuarioProf.nombreCompleto || 'Nombre no disponible' }}</h1>
       <p class="profession">{{ usuarioProf.profesion || 'Profesión no especificada' }}</p>
-      <!-- Botón para agregar a favoritos -->
       <button (click)="addUsuarioALista()" class="add-favorite-btn">Agregar a Favoritos</button>
     </div>
   </header>
 
-  <!-- Resto del HTML sin cambios -->
   <section class="profile-details">
     <h2>Sobre mí</h2>
     <p class="description">{{ usuarioProf.descripcion || 'Sin descripción disponible' }}</p>

@@ -3,7 +3,7 @@ export interface Publicacion {
   idCreador: string,
   urlFoto?: string,
   cont: string,
-  estado: 'activa' | 'inactiva',
-  reportada: true|false
+  controlado: boolean
+  reportada: boolean
 }
 

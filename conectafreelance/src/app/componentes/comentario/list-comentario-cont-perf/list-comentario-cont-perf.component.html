@@ -8,35 +8,59 @@
         <div
           class="comentario-card"
           [class.reported]="comentario.reportada"
+          (click)="irAPerfilProfesional(comentario.idDestinatario)"
         >
           <div class="comentario-header">
             <img
               [src]="imagenUrl"
               alt="Foto de {{usuContratador.nombreCompleto}}"
-              class="avatar"
+              class="avatar avatar-contratador"
               loading="lazy"
             />
             <div class="creador-info">
-            <span class="nombre-creador">{{ usuContratador.nombreCompleto }}</span>
-              <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
+              <span class="nombre-creador">{{ usuContratador.nombreCompleto }}</span>
+              <span class="puntaje">★ {{ comentario.puntaje }}/5</span>
+            </div>
+            <div class="profesional-info">
+              @if (getUsuarioProfesional(comentario.idDestinatario)) {
+                <div class="profesional-details">
+                  @if (imagenesProf[comentario.idDestinatario]) {
+                    <img
+                      [src]="imagenesProf[comentario.idDestinatario]"
+                      alt="Foto de {{ getUsuarioProfesional(comentario.idDestinatario)!.nombreCompleto }}"
+                      class="avatar avatar-profesional"
+                      loading="lazy"
+                    />
+                  }
+                  <span class="nombre-profesional">{{ getUsuarioProfesional(comentario.idDestinatario)!.nombreCompleto }}</span>
+                </div>
+              } @else {
+                <span>Cargando datos del profesional...</span>
+              }
             </div>
           </div>
           <div class="comentario-content">
             <p>{{ comentario.contenido }}</p>
           </div>
-          <div class="comentario-actions">
+          <div class="comentario-actions" (click)="$event.stopPropagation()">
             @if (!comentario.reportada) {
               <button
                 (click)="eliminar(comentario.id)"
                 class="delete-button"
+                title="Eliminar comentario"
               >
-                Eliminar
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-4 5v6m-4 0v-6m8 6v-6" />
+                </svg>
               </button>
               <a
-                [routerLink]="['/modifyComentario', comentario.id]"
+                [routerLink]="['/modComentPerfilCont', comentario.id]"
                 class="edit-link"
+                title="Modificar comentario"
               >
-                Modificar
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7m-2.5-9.5l3 3L12 16l-3 1 1-3 6.5-6.5z" />
+                </svg>
               </a>
             } @else if (comentario.reportada && comentario.idCreador === idContratador) {
               <span class="reported-label">Comentario Reportado</span>

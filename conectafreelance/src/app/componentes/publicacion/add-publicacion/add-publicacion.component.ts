@@ -101,7 +101,7 @@ export class AddPublicacionComponent implements OnInit {
     } else {
       const publicacionSinImage: Publicacion = {
         ...datosMinPublic,
-        estado: "activa",
+        controlado: false,
         reportada: false
       };
       this.addPublicacion(publicacionSinImage);
@@ -115,6 +115,7 @@ export class AddPublicacionComponent implements OnInit {
           ...datosMinPublic,
           urlFoto,
           estado: "activa",
+          controlado: false,
           reportada: false
         };
         this.addPublicacion(publicacionConImagen);

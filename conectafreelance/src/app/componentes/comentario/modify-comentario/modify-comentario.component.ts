@@ -98,8 +98,14 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
     }
 
     const datos = this.formulario.getRawValue();
+    const comentario: Comentario = {
+      ...datos,
+      controlado: false,  // Por más que se haya controlado el comentario, si el usuario la modifica
+      // entonces puede que este comentario modificado ahora sí tenga contenido inadecuado.
 
-    this.updateComentario(datos);
+    }
+
+    this.updateComentario(comentario);
   }
 
   updateComentario(comModificada: Comentario) {

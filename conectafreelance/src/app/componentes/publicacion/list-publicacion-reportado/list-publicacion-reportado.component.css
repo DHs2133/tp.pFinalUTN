@@ -1,0 +1,192 @@
+.publicaciones-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 5vw, 2.2rem);
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.no-publicaciones {
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: #6b7280;
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+}
+
+.publicacion-card {
+  background-color: #fafafa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.publicacion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.publicacion-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.creador-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.creador-foto {
+  width: clamp(36px, 8vw, 44px);
+  height: clamp(36px, 8vw, 44px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  background-color: #f0f0f0;
+  transition: border-color 0.2s ease;
+}
+
+.creador-foto:hover {
+  border-color: #3b82f6;
+}
+
+.creador-details h3 {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.publicacion-content {
+  padding: 1rem 0;
+}
+
+.publicacion-content p {
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
+  color: #374151;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.publicacion-imagen {
+  max-width: 100%;
+}
+
+.publicacion-imagen img {
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: #f0f0f0;
+}
+
+.publicacion-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.approve-button,
+.delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.approve-button {
+  color: #22c55e;
+}
+
+.approve-button:hover {
+  background-color: #dcfce7;
+}
+
+.delete-button {
+  color: #ef4444;
+}
+
+.delete-button:hover {
+  background-color: #fee2e2;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 600px) {
+  .publicaciones-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .publicacion-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .creador-foto {
+    width: clamp(32px, 7vw, 38px);
+    height: clamp(32px, 7vw, 38px);
+  }
+
+  .creador-details h3 {
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  }
+
+  .publicacion-content p {
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  }
+
+  .publicacion-imagen img {
+    max-height: 200px;
+  }
+
+  .approve-button,
+  .delete-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .publicaciones-container {
+    margin: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 1.8rem);
+  }
+}

@@ -1,0 +1,41 @@
+<section class="form-container">
+  <h2>Modificar Comentario</h2>
+  <fieldset>
+    <form [formGroup]="formulario" (ngSubmit)="update()">
+      <div class="comentario-input">
+        <label for="contenido">Contenido del Comentario</label>
+        <textarea
+          id="contenido"
+          class="input textarea"
+          formControlName="contenido"
+          placeholder="Escribe tu comentario..."
+          rows="4"
+          (input)="restrictLength($event); autoResize($event)"
+        ></textarea>
+        @if (formulario.controls['contenido'].touched && formulario.controls['contenido'].hasError('required')) {
+          <div class="error">El contenido es obligatorio</div>
+        }
+        @if (formulario.controls['contenido'].touched && formulario.controls['contenido'].hasError('maxlength')) {
+          <div class="error">El contenido no puede exceder los 500 caracteres</div>
+        }
+        @if (formulario.controls['contenido'].touched && formulario.controls['contenido'].hasError('whitespace')) {
+          <div class="error">No se aceptan cadenas vacías</div>
+        }
+        @if (contentLength() >= 450) {
+          <div class="char-counter warning">
+            {{ contentLength() }}/500
+          </div>
+        } @else {
+          <div class="char-counter">
+            {{ contentLength() }}/500
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">📤 Actualizar</button>
+        <button type="button" class="btn btn-secondary" (click)="reestablecer()">❌ Restablecer</button>
+      </div>
+    </form>
+  </fieldset>
+</section>

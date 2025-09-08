@@ -32,6 +32,21 @@
         <div class="error">CAMPO OBLIGATORIO</div>
       }
 
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" class="input textarea" formControlName="descripcion" rows="5"></textarea>
+      @if (formularioUsuarioProfesional.controls['descripcion'].touched && formularioUsuarioProfesional.controls['descripcion'].hasError('required')) {
+        <div class="error">Campo obligatorio</div>
+      }
+      @if (formularioUsuarioProfesional.controls['descripcion'].touched && formularioUsuarioProfesional.controls['descripcion'].hasError('maxlength')) {
+        <div class="error">La descripción no puede exceder los 220 caracteres</div>
+      }
+      @if(formularioUsuarioProfesional.controls['descripcion'].touched && formularioUsuarioProfesional.controls['descripcion'].hasError('whitespace')){
+
+        <div class="error">No se aceptan cadenas vacias</div>
+
+      }
+
+
       <label for="Cor">Correo electrónico</label>
       <input type="text" id="Cor" class="input" formControlName="email">
       @if (formularioUsuarioProfesional.controls["email"].touched && formularioUsuarioProfesional.controls["email"].getError("required")){

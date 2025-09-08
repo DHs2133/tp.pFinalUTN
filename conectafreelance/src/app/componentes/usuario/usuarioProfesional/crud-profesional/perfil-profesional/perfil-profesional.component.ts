@@ -88,47 +88,6 @@ export class PerfilProfesionalComponent implements OnInit, OnDestroy{
     this.activeTab = tab;
   }
 
-  // Esto posiblemente lo pase al componente del navbar
-  eliminar(){
-    this.eliminarCuenta();
-
-  }
-
-  eliminarCuenta(){
-    const confirmado = window.confirm("¿Estás seguro de que querés eliminar tu cuenta?");
-    if (confirmado) {
-
-      this.profService.deleteUsuarioProfesionalById(this.id).pipe(takeUntil(this.destroy$)).subscribe({
-        next: () =>{
-          alert("Cuenta eliminada exitosamente.");
-          this.loginService.clear();
-          this.eliminarFoto()
-        },
-        error: (err) => {
-          alert("No se pudo eliminar la cuenta profesional");
-          console.log("Error: " + err);
-        },
-      });
-    }
-  }
-
-  eliminarFoto(){
-    this.imageService.deleteImage(this.usuarioProf.urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-
-      next : (value) => {
-        console.log("Foto eliminada correctamente");
-        this.router.navigate(['/home']);
-
-      },
-      error : (err) => {
-        console.log("No se pudo eliminar la foto: " + err);
-
-      },
-    });
-
-  }
-  // Esto posiblemente lo pase al componente del navbar
-
   ngOnDestroy(): void {
 
     this.destroy$.next();

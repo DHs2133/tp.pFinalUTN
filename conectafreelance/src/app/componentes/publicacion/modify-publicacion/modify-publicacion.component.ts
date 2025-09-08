@@ -118,8 +118,9 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
     const datos = this.formulario.getRawValue();
     const pubModificada: Publicacion = {
       ...datos,
-      estado: this.publicacionAModificar.estado,
       reportada: this.publicacionAModificar.reportada,
+      controlado: false,  // Por más que se haya controlado la publicación, si el usuario la modifica
+      // entonces puede que esta publicación modificada ahora sí tenga contenido inadecuado.
       urlFoto: this.publicacionAModificar.urlFoto
     };
 

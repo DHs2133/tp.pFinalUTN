@@ -7,7 +7,7 @@
       "contrasenia": "Ddsdasads3#",
       "activo": true,
       "profesion": "Historiador",
-      "descripcion": " ihjdbsahdsaldsahdsakldsdkbsahkdbshdbsahsbsdbfbmdnfbdnmdbsnmfdbsnmfdbsfdbnm",
+      "descripcion": "sDsdsadsadsjakjnskjdanaskdnskjdankjdakdasnkdjaskdnasjkdnaskdnaskdjakdnsjkdnaskdsandskjdnsakjdnsakjjs",
       "ciudad": "Cordoba",
       "provincia": "Cordoba",
       "pais": "Argentina",
@@ -29,8 +29,56 @@
       "urlFoto": "forest-7469400_1280-1755318454897-656732.jpg",
       "rol": "profesional",
       "descripcion": " ",
-      "promedio": 5,
-      "cantComentarios": 1
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "eead",
+      "nombreCompleto": "Ariel Manich",
+      "email": "ArielManich@gmail.com",
+      "contrasenia": "Dsdh72#3",
+      "activo": true,
+      "profesion": "Orfebrero",
+      "ciudad": "Mar del Plata",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "JerryMouse-1755628322899-775051.webp",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "0a32",
+      "nombreCompleto": "Ximena Toloza",
+      "email": "XimenaToloza@gmail.com",
+      "contrasenia": "Dd$dbsah%73",
+      "activo": true,
+      "profesion": "Costurera",
+      "ciudad": "25 de mayo",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "600155-1755628360463-825272.jpg",
+      "rol": "profesional",
+      "descripcion": " ",
+      "promedio": 0,
+      "cantComentarios": 0
+    },
+    {
+      "id": "916a",
+      "nombreCompleto": "Augusto Fernandez",
+      "email": "AugustoFernandez@gmail.com",
+      "contrasenia": "Dd#3##sda",
+      "activo": true,
+      "profesion": "Diseñador Gráfico",
+      "descripcion": "ddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjsddnsjjssddddnsjjsddnsjjsd",
+      "ciudad": "Bariloche",
+      "provincia": "Rio Negro",
+      "pais": "Argentina",
+      "urlFoto": "OIP-1756748491629-591332.jpg",
+      "rol": "profesional",
+      "promedio": 0,
+      "cantComentarios": 0
     }
   ],
   "usuariosContratadores": [
@@ -45,76 +93,120 @@
       "activo": true
     }
   ],
-  "usuariosAdministradores": [],
+  "usuariosAdministradores": [
+    {
+      "id": "aaa1",
+      "nombreCompleto": "Maximo Sotelo",
+      "email": "maximoSotelo@gmail.com",
+      "contrasenia": "Abc#343sSsd#",
+      "activo": true,
+      "urlFoto": "spike-1755628221481-625571.webp",
+      "rol": "administrador",
+      "permisos": 3
+    }
+  ],
   "publicaciones": [
     {
-      "id": "7fd6",
+      "id": "d325",
       "idCreador": "6224",
-      "cont": "Publicación 1",
-      "urlFoto": "R-1755019250023-705497.jpg",
-      "estado": "activa",
+      "cont": "Roma comenzó como una pequeña ciudad en la península itálica y con el tiempo se convirtió en un vasto imperio. Su sistema de leyes, arquitectura y acueductos influyó en la civilización occidental. La expansión romana trajo conquistas, comercio y un intercambio cultural que marcó profundamente la historia europea y mediterránea.",
+      "controlado": false,
       "reportada": false
     },
     {
-      "id": "fd2c",
+      "id": "d3bf",
       "idCreador": "6224",
-      "cont": "dsadsadsadasdsdass",
-      "urlFoto": "napoleon-1755100586687-257249.webp",
-      "estado": "activa",
+      "cont": "Durante la Edad Media, Europa estuvo marcada por el feudalismo, donde los señores controlaban tierras y los campesinos trabajaban a cambio de protección. La Iglesia tenía gran influencia política y cultural. Este período también vio la aparición de castillos, ciudades medievales y movimientos como las Cruzadas, que conectaron distintos territorios y culturas.",
+      "controlado": false,
       "reportada": false
     },
     {
-      "id": "a4a5",
+      "id": "61ec",
       "idCreador": "6224",
-      "cont": "vcmklvdfmvlfñmvlfñdmvflkñvmf dlvñfmd klvm ñvdfmvfdlñvmdlv lñ",
-      "urlFoto": "forest-7469400_1280-1755100598308-490029.jpg",
-      "estado": "activa",
+      "cont": "La Revolución Industrial transformó la economía y la sociedad entre los siglos XVIII y XIX. La mecanización, las fábricas y el uso de nuevas fuentes de energía como el carbón cambiaron la producción y la vida cotidiana. Surgieron ciudades industriales, nuevas clases sociales y movimientos laborales que buscaron derechos y mejores condiciones de trabajo.",
+      "controlado": false,
       "reportada": false
     },
     {
-      "id": "b90f",
+      "id": "1dfd",
       "idCreador": "6224",
-      "cont": "mopmtyopbmytoibmtobmopbpymobymbiotymbytiomtyoimtyomtoytmkoty,opbtymbotp",
+      "cont": "La civilización griega destacó por su filosofía, teatro y democracia. Ciudades como Atenas y Esparta tenían sistemas políticos distintos, y sus pensadores, como Sócrates y Platón, sentaron las bases del pensamiento occidental. Las guerras, como las Médicas y del Peloponeso, marcaron su historia y expansión cultural.",
+      "urlFoto": "15-Grecia_Fotolia_218021187_Subscription_XL-1756747018609-558819.jpg",
       "estado": "activa",
+      "controlado": false,
       "reportada": false
     },
     {
-      "idPublicacion": "31c8",
+      "id": "fe06",
       "idCreador": "6224",
-      "cont": "kbrpktriojtrioptjripobjmtriopbtrmiobtmotrjibmpobtmbotipbmtyopbymoiptiutbmiyp",
-      "reportada": false,
-      "estado": "activa",
-      "id": "31c8"
+      "cont": "El Imperio Bizantino surgió tras la caída del Imperio Romano de Occidente. Con Constantinopla como capital, preservó el legado romano y adoptó el cristianismo ortodoxo. Destacó por su arte, arquitectura y leyes, como el Código de Justiniano, que influyó en sistemas legales posteriores en Europa.",
+      "controlado": false,
+      "reportada": false
     },
     {
-      "id": "2d3e",
+      "id": "191e",
       "idCreador": "6224",
-      "cont": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
-      "urlFoto": "R-1755100620787-27634.jpg",
+      "cont": "La Europa medieval estaba organizada bajo el feudalismo, con reyes, nobles y campesinos. La Iglesia ejercía gran influencia social y política. Surgieron universidades, castillos y ciudades amuralladas, y eventos como las Cruzadas conectaron Europa con Oriente, generando comercio y un intercambio cultural que transformó el continente.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d016",
+      "idCreador": "6224",
+      "cont": "El Renacimiento, entre los siglos XIV y XVI, significó un renacer cultural y artístico en Europa. Se promovió el humanismo, la ciencia y el estudio de la antigüedad clásica. Artistas como Leonardo da Vinci y Miguel Ángel innovaron en pintura y escultura, mientras inventores y científicos sentaron las bases del pensamiento moderno.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "da8e",
+      "idCreador": "6224",
+      "cont": "La Revolución Francesa de 1789 fue un cambio radical que derribó la monarquía y propuso derechos universales. Ideas de libertad, igualdad y fraternidad inspiraron movimientos en Europa y América. La revolución trajo conflictos internos, guillotinas y el surgimiento de Napoleón, que expandió temporalmente sus ideales por el continente.",
+      "urlFoto": "R_francesa-1756747113411-159203.jpg",
       "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "032f",
+      "idCreador": "6224",
+      "cont": "Entre 1810 y 1825, las colonias españolas en América lucharon por su independencia. Líderes como Simón Bolívar y José de San Martín condujeron campañas militares que liberaron grandes territorios. Este proceso transformó la organización política, sentó las bases de nuevos estados y promovió la identidad nacional en el continente.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "b11d",
+      "idCreador": "6224",
+      "cont": "La Revolución Industrial transformó la producción, la economía y la vida urbana. Fábricas, maquinaria y el uso de carbón y vapor aumentaron la productividad. Surgieron clases trabajadoras, nuevas ciudades industriales y movimientos sociales que reclamaban derechos y condiciones laborales justas. Cambió radicalmente la sociedad del siglo XIX.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "b0d9",
+      "idCreador": "6224",
+      "cont": "La Primera Guerra Mundial (1914-1918) enfrentó a potencias europeas con millones de muertos y heridos. Introdujo nuevas tecnologías bélicas como ametralladoras y artillería pesada. El conflicto provocó cambios políticos y sociales, la caída de imperios y sentó las bases de tensiones que derivarían en la Segunda Guerra Mundial.",
+      "urlFoto": "IGM-1756747179276-970318.webp",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "eee2",
+      "idCreador": "6224",
+      "cont": "La Segunda Guerra Mundial (1939-1945) fue el conflicto más devastador del siglo XX. Nazismo, fascismo y militarismo se enfrentaron con los Aliados. La guerra incluyó atrocidades como el Holocausto y cambios geopolíticos profundos. Tras su final, se fundaron la ONU y nuevas estructuras de cooperación internacional para evitar futuros conflictos.",
+      "urlFoto": "WWII-1756747264919-147986.jpg",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "b3ef",
+      "idCreador": "6224",
+      "cont": "La Guerra Fría (1947-1991) fue un enfrentamiento ideológico y político entre Estados Unidos y la URSS, sin guerra directa entre ellos. Se caracterizó por carreras armamentistas, tensiones nucleares y conflictos indirectos como Corea y Vietnam. Terminó con la caída del bloque soviético y la expansión del capitalismo y la democracia liberal en el mundo.",
+      "controlado": false,
       "reportada": false
     }
   ],
-  "comentarios": [
-    {
-      "id": "39e4",
-      "idCreador": "a19e",
-      "idDestinatario": "6224",
-      "contenido": "BNDijasnjdsan dsnaod sanjds anjd jas sha skjd akd sakdlsa sjkslad sakd sakd askl",
-      "estado": "activa",
-      "reportada": false,
-      "puntaje": 1
-    },
-    {
-      "id": "efe7",
-      "idCreador": "a19e",
-      "idDestinatario": "bdd1",
-      "contenido": "Muy bueno",
-      "estado": "activa",
-      "reportada": false,
-      "puntaje": 5
-    }
-  ],
+  "comentarios": [],
   "favoritos": [
     {
       "id": "cc65",
@@ -124,5 +216,6 @@
         "bdd1"
       ]
     }
-  ]
+  ],
+  "chats": []
 }

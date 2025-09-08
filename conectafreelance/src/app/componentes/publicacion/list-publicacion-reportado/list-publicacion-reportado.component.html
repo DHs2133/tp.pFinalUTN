@@ -1,0 +1,65 @@
+<section class="publicaciones-container">
+  <h2>Publicaciones Reportadas</h2>
+  @if (publicacionesUsuario.length === 0) {
+    <p class="no-publicaciones">No hay publicaciones reportadas para mostrar.</p>
+  } @else {
+    @for (publicacion of publicacionesUsuario; track publicacion.id) {
+      <article
+        class="publicacion-card"
+        (click)="irAPerfilProfesional(publicacion.idCreador)"
+      >
+        <div class="publicacion-header">
+          <div class="creador-info">
+            @if (getUsuarioProfesionalById(publicacion.idCreador)) {
+              <img
+                [src]="imagenesPerfil[publicacion.idCreador]"
+                [alt]="'Foto de ' + getUsuarioProfesionalById(publicacion.idCreador)!.nombreCompleto"
+                class="creador-foto"
+                loading="lazy"
+              />
+              <div class="creador-details">
+                <h3>{{ getUsuarioProfesionalById(publicacion.idCreador)!.nombreCompleto }}</h3>
+              </div>
+            } @else {
+              <span>Cargando datos del profesional...</span>
+            }
+          </div>
+        </div>
+        <div class="publicacion-content">
+          <p>{{ publicacion.cont }}</p>
+          @if (publicacion.urlFoto && imagenPublicacion[publicacion.urlFoto]) {
+            <div class="publicacion-imagen">
+              <img
+                [src]="imagenPublicacion[publicacion.urlFoto]"
+                alt="Imagen de la publicación"
+                loading="lazy"
+              />
+            </div>
+          }
+        </div>
+        <div class="publicacion-actions" (click)="$event.stopPropagation()">
+          <button
+            type="button"
+            class="approve-button"
+            (click)="controlar(publicacion, 'aprobar')"
+            title="Aprobar publicación"
+          >
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="delete-button"
+            (click)="controlar(publicacion, 'eliminar')"
+            title="Eliminar publicación"
+          >
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-4 5v6m-4 0v-6m8 6v-6" />
+            </svg>
+          </button>
+        </div>
+      </article>
+    }
+  }
+</section>

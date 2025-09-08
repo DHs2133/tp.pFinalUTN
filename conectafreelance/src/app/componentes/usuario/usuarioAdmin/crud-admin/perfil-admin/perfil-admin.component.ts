@@ -5,11 +5,13 @@ import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from '../../../../../utils/service/login-service.service';
 import { UsuarioAdministradorService } from '../../service/usuario-administrador.service';
 import { ImageService } from '../../../../../service/back-end/image.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ListPublicacionReportadoComponent } from "../../../../publicacion/list-publicacion-reportado/list-publicacion-reportado.component";
+import { ListComentarioReportadoComponent } from "../../../../comentario/list-comentario-reportado/list-comentario-reportado.component";
 
 @Component({
   selector: 'app-perfil-admin',
-  imports: [],
+  imports: [RouterModule, ListPublicacionReportadoComponent, ListComentarioReportadoComponent],
   templateUrl: './perfil-admin.component.html',
   styleUrl: './perfil-admin.component.css'
 })
@@ -17,7 +19,7 @@ export class PerfilAdminComponent {
 
   id: string = '';
   imagenUrl!: SafeUrl;
-  activeTab: 'publicReportadas' | 'comentReport' = 'publicReportadas';
+  activeTab: 'publicReportadas' | 'comReportados' = 'publicReportadas';
   usuarioAdm: UsuarioAdministrador = {
 
     id: " ",
@@ -27,7 +29,7 @@ export class PerfilAdminComponent {
     urlFoto: " ",
     activo: true,
     rol: "contratador",
-    permisos: []
+    permisos: 1
 
   }
   destroy$ = new Subject<void>();
@@ -43,7 +45,7 @@ export class PerfilAdminComponent {
     this.traerUsuarioAdministradorDeBDD();
   }
 
-  setActiveTab(tab: 'publicReportadas' | 'comentReport'): void {
+  setActiveTab(tab: 'publicReportadas' | 'comReportados'): void {
     this.activeTab = tab;
   }
 

@@ -3,7 +3,7 @@ export interface Comentario {
   idCreador: string,
   idDestinatario: string,
   contenido: string,
-  estado: 'activa' | 'inactiva',
   reportada: boolean,
+  controlado: boolean,
   puntaje: number
 }

@@ -7,6 +7,7 @@ import { VerificacionService } from '../../../../../utils/service/verificacion-u
 import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { noWhitespaceValidator } from '../../../../../utils/ValidadoresPersonalizados';
 
 @Component({
   selector: 'app-add-profesional',
@@ -40,6 +41,7 @@ export class AddProfesionalComponent implements OnDestroy{
     contrasenia: ['',[Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
     activo:[true],
     profesion:['', [Validators.required]],
+    descripcion: ['', [Validators.required, Validators.maxLength(220), noWhitespaceValidator()]],
     ciudad:["", Validators.required],
     provincia: ["", Validators.required],
     pais: ["", Validators.required],
@@ -121,7 +123,6 @@ export class AddProfesionalComponent implements OnDestroy{
           urlFoto,
           rol: 'profesional',
           activo: true,
-          descripcion: " ",
           promedio: 0,
           cantComentarios: 0
         };

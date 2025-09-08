@@ -27,6 +27,12 @@ export class PublicacionService {
     return this.http.get<Publicacion>(`${this.urlpublicacion}/${idCreador}`);
   }
 
+  getPublicacionesReportadas(): Observable<Publicacion[]> {
+
+    return this.http.get<Publicacion[]>(`${this.urlpublicacion}?reportada=${true}`);
+  }
+
+
   eliminarPublicacion(id: string): Observable<void>{
 
     return this.http.delete<void>(`${this.urlpublicacion}/${id}`);

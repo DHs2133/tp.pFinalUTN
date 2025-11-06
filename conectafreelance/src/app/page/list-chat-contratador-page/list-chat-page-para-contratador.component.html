@@ -1,0 +1,9 @@
+@if (loading) {
+  <p>Cargando...</p>
+}@else if((!idUsuProf) || (chats.length > 0 && idUsuProf && flagIdProf)){
+
+  <app-lista-chats></app-lista-chats>
+
+}@else{
+  <app-list-chats-nvochat></app-list-chats-nvochat>
+}

@@ -32,35 +32,33 @@ export class LoginComponent {
   })
 
 
-login() {
+  login() {
 
-  if (!this.formularioLogin.valid) {
-    alert('Debe ingresar un correo válido y una contraseña');
-    return;
-  }
+    if (!this.formularioLogin.valid) {
+      alert('Debe ingresar un correo válido y una contraseña');
+      return;
+    }
 
-  const email = this.formularioLogin.get('email')?.value ?? '';
-  const password = this.formularioLogin.get('password')?.value ?? '';
+    const email = this.formularioLogin.get('email')?.value ?? '';
+    const password = this.formularioLogin.get('password')?.value ?? '';
 
-  // Mapeo de roles a rutas
-  const roleRoutes: { [key: string]: string } = {
-    profesional: '/perfilProfesional',
-    contratador: '/perfilContratador',
-    administrador: '/perfilAdmin'
-  };
+    const roleRoutes: { [key: string]: string } = {
+      profesional: '/profesional/perfil',
+      contratador: '/contratador/perfil',
+      admin: '/admin/perfil'
+    };
 
-  // Ejecuta las tres peticiones en paralelo
-  forkJoin([
-    this.serviceUsuProf.getUsuariosProfesionalPorEmail(email),
-    this.serviceUsuCont.getUsuariosContratadoresPorEmail(email),
-    this.serviceUsuAdm.getUsuariosAdministradoresPorEmail(email)
-  ]).subscribe({
-    // Se va a tener tres respuestas: respuestaProf, respuestaCont, respuestaAdm
-    // Si bien en este contexto no es estrictamente necesario especificar que respuestaProf es
-    // un array de UsuarioProfesional, respuestaCont es un array de UsuarioContratador, etc, porque ya esto se indica
-    // en el servicio, prefiero que esté aclarado por seguridad.
+    forkJoin([
+      this.serviceUsuProf.getUsuariosProfesionalPorEmail(email),
+      this.serviceUsuCont.getUsuariosContratadoresPorEmail(email),
+      this.serviceUsuAdm.getUsuariosAdministradoresPorEmail(email)
+    ]).subscribe({
+      // Se va a tener tres respuestas: respuestaProf, respuestaCont, respuestaAdm
+      // Si bien en este contexto no es estrictamente necesario especificar que respuestaProf es
+      // un array de UsuarioProfesional, respuestaCont es un array de UsuarioContratador, etc, porque ya esto se indica
+      // en el servicio, prefiero que esté aclarado por seguridad.
     next: ([respuestaProf, respuestaCont, respuestaAdm]: [UsuarioProfesional[], UsuarioContratador[], UsuarioAdministrador[]]) => {
-      // Una vez obtenidas las respuestas, se combinan todas en un array de tipo UsuarioProfesional|UsuarioContratador|UsuarioAdministrador
+        // Una vez obtenidas las respuestas, se combinan todas en un array de tipo UsuarioProfesional|UsuarioContratador|UsuarioAdministrador
       const usuarioValido = [
         ...respuestaProf,
         ...respuestaCont,
@@ -70,6 +68,7 @@ login() {
       // ocurrir es que se devuelva simplemente un array vacío, no va a romper.
 
       if (usuarioValido) {
+
         this.loginService.set(usuarioValido.id, usuarioValido.rol);
         const ruta = roleRoutes[usuarioValido.rol];
         this.router.navigate([ruta]);
@@ -81,8 +80,8 @@ login() {
       console.error('Error en el servidor:', err);
       alert('Ha ocurrido un error en el servidor');
     }
-  });
-}
+    });
+  }
 
 
 }

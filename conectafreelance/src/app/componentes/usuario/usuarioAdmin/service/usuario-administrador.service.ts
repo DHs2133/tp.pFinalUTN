@@ -45,4 +45,10 @@ export class UsuarioAdministradorService {
 
   }
 
+  deleteUsuarioAdministradorById(id: string): Observable<void>{
+
+    return this.http.delete<void>(`${this.urlUsuarioAdministrador}/${id}`)
+
+  }
+
 }

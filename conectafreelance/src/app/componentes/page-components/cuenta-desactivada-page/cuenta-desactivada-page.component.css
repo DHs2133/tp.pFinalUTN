@@ -1,0 +1,75 @@
+.account-disabled-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+}
+
+.content {
+  max-width: 600px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+
+.icon {
+  margin: 2rem 0;
+  color: #dc3545;
+}
+
+.btn-home {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-home:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-contact {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-contact:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+}

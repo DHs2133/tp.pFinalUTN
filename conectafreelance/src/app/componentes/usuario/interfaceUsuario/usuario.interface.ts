@@ -5,7 +5,7 @@ export interface Usuario{
   contrasenia: string,
   urlFoto: string,
   activo: boolean,
-  rol: "contratador"|"profesional"|"administrador"
+  rol: "contratador"|"profesional"|"admin"
 
 }
 
@@ -17,21 +17,22 @@ export interface UsuarioProfesional extends Usuario{
   provincia: string,
   pais: string,
   promedio: number,
-  cantComentarios: number
+  cantComentarios: number,
+  cantPubRep: number
 
 }
 
 export interface UsuarioContratador extends Usuario{
 
-  empresaRepresentada?: string
+  empresaRepresentada?: string,
+  cantComRep: number
+
 
 }
 
 export interface UsuarioAdministrador extends Usuario{
 
-  permisos: 1 | 2 | 3
-  // Lo voy a hacer con números porque es más fácil de manejar y van a ir del 1 al 3. 1 es la menor
-  // responsabilidad (solo comentarios), 2 es una responsabilidad mayor (publicación y comentarios) y
-  // 3 es la mayor responsabilidad (publicación, comentarios y cuentas).
+  permisos: 'c' | 'p' |  'cp'
+
 
 }

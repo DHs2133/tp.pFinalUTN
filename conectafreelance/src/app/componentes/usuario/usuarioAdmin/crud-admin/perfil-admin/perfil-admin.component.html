@@ -1,5 +1,5 @@
+
 <div class="profile-container">
-  <!-- Encabezado del perfil -->
   <header class="profile-header">
     <div class="profile-image">
       <img
@@ -10,19 +10,13 @@
     </div>
     <div class="profile-info">
       <h1>{{ usuarioAdm.nombreCompleto || 'Nombre no disponible' }}</h1>
-      <p class="role">{{ usuarioAdm.rol }}</p>
+      <p class="role">{{ usuarioAdm.rol || 'Rol no especificado' }}</p>
       <p class="permission">Nivel de permiso: {{ usuarioAdm.permisos || 'No especificado' }}</p>
     </div>
   </header>
 
-  <!-- Acciones del perfil -->
-  <div class="profile-actions">
-    <a [routerLink]="['/modPerAdm', usuarioAdm.id]" class="action-link">Modificar perfil</a>
-  </div>
-
-  <!-- Detalles del perfil -->
   <section class="profile-details">
-    <h2>Información de contacto</h2>
+    <h2>Email de usuario administrador</h2>
     <div class="contact-info">
       <div class="email">
         <span class="material-icons">email</span>
@@ -30,39 +24,40 @@
       </div>
     </div>
 
-    <!-- Selector de pestañas -->
     <section class="profile-content-switcher">
       <div class="tab-buttons">
-        <button
-          (click)="setActiveTab('publicReportadas')"
-          [class.active]="activeTab === 'publicReportadas'"
-          aria-label="Mostrar publicaciones reportadas"
-          class="tab-button"
-        >
-          Publicaciones Reportadas
-        </button>
-        <button
-          (click)="setActiveTab('comReportados')"
-          [class.active]="activeTab === 'comReportados'"
-          aria-label="Mostrar comentarios reportados"
-          class="tab-button"
-        >
-          Comentarios Reportados
-        </button>
+        @if (usuarioAdm.permisos === 'p' || usuarioAdm.permisos === 'cp') {
+          <button
+            (click)="setActiveTab('publicReportadas')"
+            [class.active]="activeTab === 'publicReportadas'"
+            aria-label="Mostrar publicaciones reportadas"
+            class="tab-button"
+          >
+            Publicaciones Reportadas
+          </button>
+        }
+        @if (usuarioAdm.permisos === 'c' || usuarioAdm.permisos === 'cp') {
+          <button
+            (click)="setActiveTab('comReportados')"
+            [class.active]="activeTab === 'comReportados'"
+            aria-label="Mostrar comentarios reportados"
+            class="tab-button"
+          >
+            Comentarios Reportados
+          </button>
+        }
       </div>
 
-
-      @if (activeTab === 'publicReportadas') {
+      @if (activeTab === 'publicReportadas' && (usuarioAdm.permisos === 'p' || usuarioAdm.permisos === 'cp')) {
         <div class="tab-content">
           <app-list-publicacion-reportado></app-list-publicacion-reportado>
         </div>
       }
-      @if (activeTab === 'comReportados') {
+      @if (activeTab === 'comReportados' && (usuarioAdm.permisos === 'c' || usuarioAdm.permisos === 'cp')) {
         <div class="tab-content">
           <app-list-comentario-reportado></app-list-comentario-reportado>
         </div>
       }
-
     </section>
   </section>
 </div>

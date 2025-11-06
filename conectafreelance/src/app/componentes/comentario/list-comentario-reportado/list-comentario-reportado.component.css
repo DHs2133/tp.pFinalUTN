@@ -5,7 +5,7 @@
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Roboto';
   display: flex;
   flex-direction: column;
 }
@@ -125,51 +125,4 @@ h2 {
 .icon {
   width: 20px;
   height: 20px;
-}
-
-@media (max-width: 600px) {
-  .comentarios-container {
-    margin: 1rem;
-    padding: 1rem;
-  }
-
-  .comentario-card {
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .creador-foto {
-    width: clamp(32px, 7vw, 38px);
-    height: clamp(32px, 7vw, 38px);
-  }
-
-  .creador-details h3 {
-    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
-  }
-
-  .comentario-content p {
-    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
-  }
-
-  .approve-button,
-  .delete-button {
-    width: 32px;
-    height: 32px;
-  }
-
-  .icon {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-@media (max-width: 400px) {
-  .comentarios-container {
-    margin: 0.75rem;
-    padding: 0.75rem;
-  }
-
-  h2 {
-    font-size: clamp(1.5rem, 4vw, 1.8rem);
-  }
 }

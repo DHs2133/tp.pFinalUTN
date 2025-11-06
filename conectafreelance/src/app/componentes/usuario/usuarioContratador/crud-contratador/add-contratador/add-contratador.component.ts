@@ -11,6 +11,8 @@ import { noWhitespaceValidator } from '../../../../../utils/ValidadoresPersonali
 import { Favorito } from '../../../../favoritos/interfaceFavoritos/favorito.interface';
 import { FavoritoService } from '../../../../favoritos/serviceFavorito/favorito.service';
 import { Subject, takeUntil } from 'rxjs';
+import { ListaNotificaciones } from '../../../../notificacion/interfaceNotificacion/notificacion.interface';
+import { NotificacionService } from '../../../../notificacion/notificacionService/notificacion.service';
 
 @Component({
   selector: 'app-add-contratador',
@@ -18,6 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './add-contratador.component.html',
   styleUrl: './add-contratador.component.css'
 })
+
 export class AddContratadorComponent implements OnDestroy{
 
   imgSrc: string = "avatar.jpg"
@@ -32,6 +35,7 @@ export class AddContratadorComponent implements OnDestroy{
   manejoArchivo = inject(FileSelectService);
   router = inject(Router);
   favService = inject(FavoritoService);
+  listaNotServ = inject(NotificacionService);
   destroy$ = new Subject<void>();
 
 
@@ -58,7 +62,7 @@ export class AddContratadorComponent implements OnDestroy{
   }
 
   cancelar() {
-    this.router.navigate(['/']); // Redirige a la página principal
+    this.router.navigate(['/']);
   }
 
   agregarUsuarioContratador(){
@@ -81,7 +85,6 @@ export class AddContratadorComponent implements OnDestroy{
 
           const archivo = this.manejoArchivo.getArchivoSeleccionado();
           if(archivo){
-            // Subir imagen
             this.subirImagen(archivo, datos)
 
           }
@@ -105,6 +108,7 @@ export class AddContratadorComponent implements OnDestroy{
           urlFoto,
           rol: 'contratador',
           activo: true,
+          cantComRep: 0
         };
 
         this.arr(usuarioContratadorNuevo);
@@ -129,20 +133,21 @@ export class AddContratadorComponent implements OnDestroy{
 
   agregarAUsuarioContratadorBDD(usuarioContNuevo: UsuarioContratador){
 
-      this.usuarioContService.postUsuariosContratadores(usuarioContNuevo).subscribe({
-        next: (value) => {
-          alert('Usuario creado. Serás redirigido a inicio de sesion');
+    this.usuarioContService.postUsuariosContratadores(usuarioContNuevo).subscribe({
+      next: (value) => {
+        alert('Usuario creado. Serás redirigido a inicio de sesion');
 
-          this.agregarListaFavoritos(value);
+        this.agregarListaFavoritos(value);
+        this.generarListaNotificaciones(value);
 
 
-        },
-        error: (e) => {
-          console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
-          this.eliminarImagen(usuarioContNuevo.urlFoto);
-          this.redireccionHome();
-        }
-      });
+      },
+      error: (e) => {
+        console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
+        this.eliminarImagen(usuarioContNuevo.urlFoto);
+        this.redireccionHome();
+      }
+    });
   }
 
 
@@ -155,13 +160,13 @@ export class AddContratadorComponent implements OnDestroy{
 
     this.favService.postFavorito(favorito).pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
-        alert('Usuario creado. Serás redirigido a inicio de sesion');
-
+        console.log("Lista de favoritos creada.");
       },
       error: (e) => {
 
         this.eliminarImagen(usuNvo.urlFoto);
-        this.eliminarUsuarioContratador(usuNvo.id as string)
+        this.eliminarUsuarioContratador(usuNvo.id as string);
+        this.eliminarListaNotificaciones(usuNvo.id as string)
 
         console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
         this.redireccionHome();
@@ -169,6 +174,35 @@ export class AddContratadorComponent implements OnDestroy{
 
     })
 
+  }
+
+  generarListaNotificaciones(usuNvo: UsuarioContratador){
+
+    const listaNot: ListaNotificaciones = {
+
+      idDuenio: usuNvo.id as string,
+
+      notificaciones: [{
+        descripcion: `Cuenta creada. Bienvenido, ${usuNvo.nombreCompleto}`,
+        leido: false
+      }]
+    }
+
+    this.listaNotServ.postListaNotificaciones(listaNot).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        console.log("Lista de notificaciones creada.");
+
+      },
+      error: (e) => {
+
+        this.eliminarImagen(usuNvo.urlFoto);
+        this.eliminarUsuarioContratador(usuNvo.id as string);
+        this.eliminarListaFavoritos(usuNvo.id as string);
+
+        console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
+        this.redireccionHome();
+      }
+    })
   }
 
   reseteo(){
@@ -210,6 +244,33 @@ export class AddContratadorComponent implements OnDestroy{
       }
 
     })
+  }
+
+  eliminarListaFavoritos(id: string){
+
+    this.favService.deleteFavoritolById(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next(value) {
+        console.log("lista de favoritos eliminda");
+      },
+      error(err) {
+        console.log("No se ha podido eliminar la lista de favoritos o la lista no existe.");
+      },
+
+    })
+  }
+
+  eliminarListaNotificaciones(id: string){
+
+    this.listaNotServ.deleteListaNotificacioneslById(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next(value) {
+        console.log("lista de notificaciones eliminda");
+      },
+      error(err) {
+        console.log("No se ha podido eliminar la lista de notificaciones o la lista no existe.");
+      },
+
+    })
+
   }
 
   ngOnDestroy(): void {

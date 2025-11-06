@@ -1,53 +1,92 @@
 .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 1.5rem;
+  font-family: 'Roboto';
+}
+
+.filter-aside {
+  width: 20%;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  height: calc(100vh - 72px);
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.filter-aside h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .filter-form {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .filter-group {
   display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333333;
+  letter-spacing: 0.2px;
 }
 
 .filter-group input,
 .filter-group select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  flex: 1;
-  min-width: 150px;
-}
-
-.filter-group select {
-  background-color: #fff;
-  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filter-group input:focus,
 .filter-group select:focus {
   outline: none;
   border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.filter-group input::placeholder {
+  color: #888888;
 }
 
 .profesional-list {
+  margin-left: calc(20% + 1.5rem);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
 }
 
 .profesional-card {
-  background-color: #fff;
+  position: relative;
+  background-color: #fafafa;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -58,63 +97,95 @@
 }
 
 .profile-img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 0.75rem;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .profesional-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .profesional-info h3 {
   margin: 0;
-  font-size: 18px;
-  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333333;
 }
 
 .profesion {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #007bff;
   font-weight: 500;
 }
 
 .descripcion {
-  font-size: 14px;
-  color: #666;
+  font-size: 0.85rem;
+  color: #555555;
   line-height: 1.4;
-  max-height: 60px;
+  max-height: 4.2rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .details {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  font-size: 13px;
-  color: #555;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #555555;
 }
 
 .stats {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: #333;
-  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #333333;
+  margin-top: 0.5rem;
 }
 
-@media (max-width: 600px) {
-  .profesional-list {
-    grid-template-columns: 1fr;
-  }
 
-  .filter-group input,
-  .filter-group select {
-    min-width: 100%;
-  }
+
+.profesional-card.inactive {
+  background-color: #f8d7da;
+  border: 2px solid #dc3545;
+  opacity: 0.85;
+}
+
+.profesional-card.inactive:hover {
+  transform: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.profesional-card.inactive .profesional-info h3,
+.profesional-card.inactive .profesional-info p,
+.profesional-card.inactive .profesional-info span {
+  color: #721c24;
+}
+
+.profesional-card.inactive::after {
+  content: "DESACTIVADO";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1;
 }

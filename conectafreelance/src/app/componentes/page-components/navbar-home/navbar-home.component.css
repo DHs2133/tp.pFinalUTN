@@ -1,44 +1,43 @@
-body{
+
+body {
   background-color: rgb(139, 154, 192);
   margin: 0;
-  font-size: 0;
-  left: 0;
-  right: 0;
+}
+
+.navhome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  position: fixed;
   top: 0;
   width: 100%;
-  height: 10%;
-  position: fixed;
+  background-color: inherit;
   z-index: 10;
-
 }
 
-nav{
-
+.contenedorlogo {
   display: flex;
-  padding: 1rem 0;
-
-}
-.contenendorlogo{
+  justify-content: center;
   flex: 1;
-
-
 }
+
 .logo {
-  height: 30px;
-
+  height: 3rem;
+  width: auto;
 }
 
-ul{
-  gap: 1rem;
-  display: flex;  /*Se pone en el padre*/
+.lista {
+  display: flex;
   list-style: none;
+  gap: 1rem;
   justify-content: flex-end;
   flex: 1;
+  margin: 0;
   padding-right: 1rem;
-
 }
 
-li{
+li {
   font-size: medium;
 }
 

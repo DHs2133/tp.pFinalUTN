@@ -4,7 +4,6 @@
   padding: 2rem;
 }
 
-
 h2 {
   text-align: center;
   color: #333;
@@ -12,13 +11,11 @@ h2 {
   font-size: clamp(1.5rem, 5vw, 1.8rem);
 }
 
-
 .favorito-list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
-
 
 .favorito-card {
   background-color: #fff;
@@ -42,7 +39,6 @@ h2 {
   margin-bottom: 0.75rem;
 }
 
-
 .avatar {
   width: clamp(40px, 10vw, 50px);
   height: clamp(40px, 10vw, 50px);
@@ -51,12 +47,10 @@ h2 {
   border: 2px solid #eee;
 }
 
-
 .profesional-info {
   display: flex;
   flex-direction: column;
 }
-
 
 .nombre-profesional {
   font-weight: bold;
@@ -64,25 +58,21 @@ h2 {
   font-size: clamp(1rem, 3vw, 1.1rem);
 }
 
-
 .profesion {
   color: #7f8c8d;
   font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
-
 
 .ubicacion {
   color: #7f8c8d;
   font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
-
 .favorito-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
 }
-
 
 .delete-button {
   background-color: #e74c3c;
@@ -100,7 +90,6 @@ h2 {
   background-color: #c0392b;
 }
 
-
 .view-button {
   background-color: #3498db;
   color: #fff;
@@ -117,54 +106,9 @@ h2 {
   background-color: #2980b9;
 }
 
-
 .no-favoritos {
   text-align: center;
   color: #7f8c8d;
   font-size: clamp(1rem, 3vw, 1.2rem);
   margin: 2rem 0;
-}
-
-
-@media (max-width: 600px) {
-  .favoritos-container {
-    padding: 1rem;
-  }
-
-  .favorito-card {
-    padding: 0.75rem;
-  }
-
-  .favorito-header {
-    gap: 0.5rem;
-  }
-
-  .avatar {
-    width: clamp(30px, 8vw, 40px);
-    height: clamp(30px, 8vw, 40px);
-  }
-
-  .delete-button, .view-button {
-    padding: 0.4rem 0.6rem;
-    min-width: 80px;
-  }
-}
-
-
-@media (max-width: 400px) {
-  .favoritos-container {
-    padding: 0.5rem;
-  }
-
-  h2 {
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
-  }
-
-  .nombre-profesional {
-    font-size: clamp(0.9rem, 2.8vw, 1rem);
-  }
-
-  .profesion, .ubicacion {
-    font-size: clamp(0.7rem, 2.3vw, 0.8rem);
-  }
 }

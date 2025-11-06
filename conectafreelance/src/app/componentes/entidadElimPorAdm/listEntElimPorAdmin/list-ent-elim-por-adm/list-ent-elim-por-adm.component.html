@@ -1,0 +1,78 @@
+<p>list-ent-elim-por-adm works!</p>
+<div class="entidad-eliminada-container">
+  <h2>Entidad Eliminada por el Administrador</h2>
+
+  <div class="motivo-eliminacion">
+    <strong>Motivo:</strong> {{ entidad?.motivo || 'No especificado' }}
+  </div>
+
+  @if (esPublicacion && publicacion) {
+    <section class="publicacion-eliminada">
+      <article class="publicacion-card">
+        <div class="publicacion-header">
+          <div class="creador-info">
+            <img
+              [src]="imgPerfilProfesional || 'assets/default-avatar.png'"
+              alt="Foto de perfil del profesional"
+              class="creador-foto"
+              loading="lazy"
+            />
+            <div class="creador-details">
+              <h3>{{ usuarioProfesional?.nombreCompleto || 'Profesional' }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="publicacion-content">
+          <p>{{ publicacion.cont }}</p>
+
+          @if (publicacion.urlFoto && imgPublicacion) {
+            <div class="publicacion-imagen">
+              <img
+                [src]="imgPublicacion"
+                alt="Imagen de la publicación"
+                loading="lazy"
+              />
+            </div>
+          }
+        </div>
+
+        <div class="estado-eliminacion">
+          <span class="eliminada-label">Publicación eliminada</span>
+        </div>
+      </article>
+    </section>
+  }
+
+  @else if (!esPublicacion && comentario) {
+    <section class="comentario-eliminado">
+      <div class="comentario-card reported">
+        <div class="comentario-header">
+          <img
+            [src]="imgPerfilContratador || 'assets/default-avatar.png'"
+            [alt]="'Foto de ' + (usuarioContratador?.nombreCompleto || 'Usuario')"
+            class="avatar"
+            loading="lazy"
+          />
+
+          <div class="creador-info">
+            <span class="nombre-creador">{{ usuarioContratador?.nombreCompleto || 'Contratador' }}</span>
+            <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
+          </div>
+        </div>
+
+        <div class="comentario-content">
+          <p>{{ comentario.contenido }}</p>
+        </div>
+
+        <div class="comentario-actions">
+          <span class="reported-label">Comentario eliminado</span>
+        </div>
+      </div>
+    </section>
+  }
+
+  @else {
+    <p class="no-entidad">No se encontró la entidad eliminada.</p>
+  }
+</div>

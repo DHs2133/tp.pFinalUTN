@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-access-denied-page-component',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './access-denied-page-component.component.css'
 })
 export class AccessDeniedPageComponentComponent {
+  router = inject(Router);
 
+  redireccion(){
+    this.router.navigate([''])
+  }
 }

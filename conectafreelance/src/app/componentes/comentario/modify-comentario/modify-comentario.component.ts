@@ -6,6 +6,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ComentarioService } from '../serviceComentario/comentario.service';
 import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
 import { CommonModule } from '@angular/common';
+import { NotificacionService } from '../../notificacion/notificacionService/notificacion.service';
+import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
+import { UsuarioContratadorService } from '../../usuario/usuarioContratador/service/usuario-contratador.service';
+import { UsuarioContratador } from '../../usuario/interfaceUsuario/usuario.interface';
 
 @Component({
   selector: 'app-modify-comentario',
@@ -19,12 +23,15 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
   idComentario: string | null = null;
   destroy$ = new Subject<void>();
   comentarioAModificar!: Comentario;
+  usuarioContSesion!: UsuarioContratador;
 
   // Servicios
   activatedRoute = inject(ActivatedRoute);
   fb = inject(FormBuilder);
   comentarioService = inject(ComentarioService);
   router = inject(Router);
+  listaNotifServ = inject(NotificacionService);
+  usuarioContServ = inject(UsuarioContratadorService);
 
     // Formulario
   formulario = this.fb.nonNullable.group({
@@ -42,7 +49,7 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
       next: (param) => {
-        this.idComentario = param.get('id');
+        this.idComentario = param.get('idComentario');
         if (this.idComentario) {
 
           this.getComentarioById(this.idComentario);
@@ -50,7 +57,7 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error al obtener parámetros de la ruta:', err);
-        this.router.navigate(['/perfilProfesional']);
+        this.router.navigate(['contratador/perfilProfesional']);
       },
     });
   }
@@ -66,9 +73,38 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
       error: (err) => {
         alert('No se pudo obtener la publicación a modificar. Será redirigido');
         console.error('Error al obtener la publicación:', err);
-        this.router.navigate(['/perfilProfesional']);
+        this.router.navigate(['contratador/perfilProfesional']);
       },
     });
+  }
+
+  obtenerIdUsuarioSesion(){
+    const id = this.comentarioAModificar.idCreador;
+
+    if(id){
+      this.obtenerUsuarioSesion(id);
+    }else{
+      alert("No se ha podido obtener el id del usuario de sesión");
+      this.router.navigate(['contratador/perfil']);
+    }
+  }
+
+  obtenerUsuarioSesion(idUsuario: string){
+    this.usuarioContServ.getUsuariosContratadoresPorId(idUsuario).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (value) => {
+        if(value){
+          this.usuarioContSesion = value;
+        }else{
+          alert("No se ha podido obtener la información del usuario de sesión");
+          this.router.navigate(['contratador/perfil']);
+
+        }
+      },
+      error : (err) => {
+        alert("No se ha podido obtener los datos del usuario contratador. Será redirigido a su perfil");
+      },
+    })
+
   }
 
   formularioDefecto() {
@@ -110,10 +146,10 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
 
   updateComentario(comModificada: Comentario) {
     if (this.idComentario) {
-      this.comentarioService.putComentario(comModificada, this.idComentario).pipe(takeUntil(this.destroy$)).subscribe({
+      this.comentarioService.putComentario(comModificada, comModificada.id as string).pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           alert('Comentario modificado con éxito');
-          this.router.navigate(['/contprofperfil', this.comentarioAModificar.idDestinatario]);
+          this.router.navigate(['contratador/contprofperfil', this.comentarioAModificar.idDestinatario]);
         },
         error: (err) => {
           alert('El comentario no ha podido ser modificado');
@@ -122,6 +158,72 @@ export class ModifyComentarioComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+
+  obtenerListaDeNotificacionesDeDestinatario(idProf: string){
+    this.listaNotifServ.getListaNotificacionesPorIDUsuario(idProf).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        if(value.length > 0){
+          this.emitirNotificación(value[0]);
+
+        }
+        alert("No se ha podido obtener la lista de favoritos del destinatario del comentario. Será redirigido a su perfil");
+        this.router.navigate(['contratador/perfil']);
+      },
+      error: (err) => {
+        alert("No se ha podido obtener la lista de favoritos del destinatario del comentario. Será redirigido a su perfil");
+        this.router.navigate(['contratador/perfil']);
+      },
+    })
+  }
+
+  emitirNotificación(listaNot: ListaNotificaciones){
+
+    const nvaNotificacion: Notificacion = {
+
+      descripcion: `El usuario: ${this.usuarioContSesion.nombreCompleto} ha modificado su comentario`,
+      leido: false
+
+    }
+
+    listaNot.notificaciones.push(nvaNotificacion);
+    this.actualizarListaNotificacion(listaNot)
+
+  }
+
+
+  actualizarListaNotificacion(listaNot: ListaNotificaciones){
+    this.listaNotifServ.putListaNotificaciones(listaNot, listaNot.id as string).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (value) => {
+        alert("Se ha enviado exitosamente la notificación al usuario destinatario ");
+        this.router.navigate(['contratador/perfil']);
+
+      },
+      error : (err) => {
+        alert("No se ha enviado exitosamente la notificación al usuario destinatario ");
+
+      },
+
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   contentLength(): number {
     return this.formulario.get('contenido')?.value?.length || 0;

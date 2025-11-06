@@ -142,15 +142,47 @@ export class ListPublicacionComponent implements OnChanges, OnInit, OnDestroy {
 
 
   eliminar(publicacion: Publicacion) {
-    if (publicacion.id) {
-      this.eliminarPublicacion(publicacion.id);
+
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar esta publicación?');
+    if (!confirmacion) {
+      console.log('Eliminacion cancelada');
+      return;
+
+    }else{
+
+      if (publicacion.id) {
+        this.eliminarPublicacion(publicacion.id);
+      }else {
+        console.error('ID de publicación no proporcionado');
+        alert('Error. No se ha podido eliminar la publicación');
+        return;
+      }
+
     }
+
+
+  }
+
+
+
+  eliminarPublicacion(idPublicacion: string) {
+
+
+    const publicacion = this.publicacionesUsuario.find(p => p.id === idPublicacion);
+    if (!publicacion) {
+      console.error(`No se encontró la publicación con ID: ${idPublicacion}`);
+      alert('Publicación no encontrada');
+      return;
+    }
+
     if (publicacion.urlFoto) {
       this.eliminarFoto(publicacion.urlFoto);
     }
+
+    this.eliminarPublicacionDeBDD(idPublicacion);
   }
 
-  eliminarPublicacion(idPublicacion: string) {
+  eliminarPublicacionDeBDD(idPublicacion: string) {
     this.publicacionService.eliminarPublicacion(idPublicacion).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         alert('Publicación eliminada.');

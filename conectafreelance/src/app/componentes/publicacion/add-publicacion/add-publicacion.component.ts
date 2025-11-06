@@ -2,7 +2,6 @@ import { Component, inject, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { PublicacionService } from '../servicePublicacion/publicacion.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImageService } from '../../../service/back-end/image.service';
-import { Router } from '@angular/router';
 import { FileSelectService } from '../../../utils/FileSelectService';
 import { Publicacion } from '../interfacePublicacion/publicacion.interface';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -30,7 +29,6 @@ export class AddPublicacionComponent implements OnInit {
   servicioPubli = inject(PublicacionService);
   fb = inject(FormBuilder);
   uploadImage = inject(ImageService);
-  router = inject(Router);
   manejoArchivo = inject(FileSelectService);
   logServ = inject(LoginService);
   usuProfService = inject(UsuarioProfesionalService);

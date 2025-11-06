@@ -128,37 +128,6 @@ export class ListPublicacionContprofperfComponent {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   reportarPublicacion(idPublicacion: string | undefined) {
     if (!idPublicacion) {
       console.error('ID de publicación no proporcionado');

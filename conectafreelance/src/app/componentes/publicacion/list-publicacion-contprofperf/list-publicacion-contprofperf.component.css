@@ -5,7 +5,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto';
   display: flex;
   flex-direction: column-reverse;
 }
@@ -40,8 +40,8 @@ h2 {
 }
 
 .publicacion-card.reported {
-  background-color: #fffde7; /* Amarillo claro */
-  border-color: #f1c40f; /* Borde amarillo */
+  background-color: #fffde7;
+  border-color: #f1c40f;
 }
 
 .publicacion-header {
@@ -122,37 +122,4 @@ h2 {
   color: #f1c40f;
   font-weight: bold;
   font-size: 0.9em;
-}
-
-@media (max-width: 600px) {
-  .publicaciones-container {
-    margin: 1rem;
-    padding: 0.75rem;
-  }
-
-  .publicacion-card {
-    padding: 0.75rem;
-  }
-
-  .avatar {
-    width: 36px;
-    height: 36px;
-  }
-
-  .nombre-creador {
-    font-size: 1rem;
-  }
-
-  .publicacion-content p {
-    font-size: 0.9rem;
-  }
-
-  .publicacion-imagen img {
-    max-height: 200px;
-  }
-
-  .report-button,
-  .reported-label {
-    font-size: 0.85rem;
-  }
 }

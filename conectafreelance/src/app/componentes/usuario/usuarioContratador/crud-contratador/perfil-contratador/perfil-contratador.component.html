@@ -1,5 +1,4 @@
 <div class="profile-container">
-  <!-- Encabezado del perfil -->
   <header class="profile-header">
     <div class="profile-image">
       <img
@@ -16,12 +15,6 @@
       }
     </div>
   </header>
-
-  <div class="profile-actions">
-    <a [routerLink]="['/modPerCont', usuarioCont.id]" class="action-link">Modificar perfil</a>
-    <button (click)="eliminar()" class="action-button">Eliminar la cuenta</button>
-    <a [routerLink]="['/listaProfesionales']" class="action-link">Ir a la lista de profesionales</a>
-  </div>
 
   <section class="profile-details">
     <h2>Información de contacto</h2>
@@ -52,7 +45,6 @@
         </button>
       </div>
 
-      <!-- Contenido condicional -->
       @if (activeTab === 'listaFav') {
         <div class="tab-content">
           <app-list-favoritos></app-list-favoritos>

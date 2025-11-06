@@ -1,1 +1,48 @@
-<p>navbar-administrador-component works!</p>
+<nav>
+  <div class="contenendorlogo">
+    <img src="logorecortado.png" alt="ConectaFreelance" class="logo">
+  </div>
+
+  <div class="nav-links">
+    <a [routerLink]="['/admin/listaProfesionales']" class="nav-link">Lista de profesionales</a>
+    <a [routerLink]="['/admin/listaContratadores']" class="nav-link">Lista de contratadores</a>
+
+    <div class="dropdown-notif" (click)="toggleDropdownNotif()">
+      <span class="nav-link">
+        Notificaciones
+        @if (notificacionesNoLeidas > 0) {
+          <span class="notification-badge">{{notificacionesNoLeidas}}</span>
+        }
+      </span>
+      <ul class="dropdown-menu" [class.show]="isDropdownOpenNotif">
+        @if (notificaciones.length === 0) {
+          <li class="dropdown-item no-notifications">No hay notificaciones</li>
+        } @else {
+          @for (not of notificaciones; track not.descripcion) {
+            <li class="dropdown-item" [class.leido]="not.leido">
+              <span>{{ not.descripcion }}</span>
+              @if (!not.leido) {
+                <span class="unread-dot"></span>
+              }
+            </li>
+          }
+        }
+      </ul>
+    </div>
+
+    <a [routerLink]="['/admin/perfil']" class="nav-link">Perfil</a>
+  </div>
+
+  <div class="dropdown" (click)="toggleDropdown()">
+    <img
+      [src]="imagenUrl"
+      alt="Foto de perfil"
+      class="profile-img"
+    >
+    <span class="nav-link">Opciones</span>
+    <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+      <li><a class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</a></li>
+      <li><a class="dropdown-item" (click)="modificarCuenta()">Modificar cuenta</a></li>
+    </ul>
+  </div>
+</nav>

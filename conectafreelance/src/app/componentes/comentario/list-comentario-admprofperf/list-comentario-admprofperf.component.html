@@ -1,0 +1,49 @@
+<div class="comentarios-container">
+  <h2>Comentarios para el Profesional</h2>
+
+  <div class="comentario-list">
+    @if (comentarios.length === 0) {
+      <p class="no-publicaciones">No hay comentarios para mostrar.</p>
+    } @else {
+      @for (comentario of comentarios; track comentario.id) {
+        <div class="comentario-card">
+          <div class="comentario-header">
+            <img
+              [src]="getImagenPerfil(comentario.idCreador)"
+              [alt]="'Foto de ' + (getUsuarioById(comentario.idCreador)?.nombreCompleto || 'Usuario')"
+              class="avatar"
+              loading="lazy"
+            />
+            <div class="creador-info">
+              <span class="nombre-creador">
+                {{ getUsuarioById(comentario.idCreador)?.nombreCompleto || 'Anónimo' }}
+              </span>
+              <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
+            </div>
+          </div>
+
+          <div class="comentario-content">
+            <p>{{ comentario.contenido }}</p>
+            @if (comentario.reportada) {
+              <small class="text-warning">
+                <em>Este comentario fue reportado.</em>
+              </small>
+            }
+          </div>
+
+          @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
+            <div class="comentario-actions">
+              <button
+                (click)="eliminar(comentario.id)"
+                class="delete-button"
+                [disabled]="comentario.reportada"
+              >
+                {{ comentario.reportada ? 'Reportado' : 'Eliminar' }}
+              </button>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

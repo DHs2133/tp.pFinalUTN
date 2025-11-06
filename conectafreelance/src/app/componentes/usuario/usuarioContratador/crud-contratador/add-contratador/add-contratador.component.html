@@ -1,36 +1,36 @@
 <section class="form-container">
   <fieldset>
     <form [formGroup]="formularioUsuarioContratador" (ngSubmit)="agregarUsuarioContratador()">
-      <label for="nombreCompleto">Ingrese su nombre completo</label>
+      <label for="nombreCompleto">Ingrese su nombre completo*</label>
       <input
         type="text"
         id="nombreCompleto"
         class="input"
         formControlName="nombreCompleto">
       @if (formularioUsuarioContratador.controls["nombreCompleto"].touched && formularioUsuarioContratador.controls["nombreCompleto"].getError("required")) {
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
       }
       @if(formularioUsuarioContratador.controls['nombreCompleto'].touched && formularioUsuarioContratador.controls['nombreCompleto'].hasError('whitespace')){
         <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="email">Email</label>
+      <label for="email">Email*</label>
       <input
         type="text"
         id="email"
         class="input"
         formControlName="email">
       @if (formularioUsuarioContratador.controls["email"].touched && formularioUsuarioContratador.controls["email"].getError("required")) {
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
       }
       @if (formularioUsuarioContratador.controls["email"].touched && formularioUsuarioContratador.controls["email"].getError("email")) {
-        <div class="error">NO POSEE FORMATO DE EMAIL</div>
+        <div class="error">No posee formato de mail</div>
       }
 
 
       <label for="foto" class="form-control-label">
         <img [src]="imgSrc" alt="Foto actual" />
-        <div>Subir foto</div>
+        <div>Subir foto*</div>
       </label>
       <input
         type="file"
@@ -53,11 +53,11 @@
       <label for="Cont">Contraseña</label>
       <input type="password" id="Cont" class="input" formControlName="contrasenia">
       @if (formularioUsuarioContratador.controls["contrasenia"].touched && formularioUsuarioContratador.controls["contrasenia"].getError("required")){
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
       }
       @if(formularioUsuarioContratador.controls["contrasenia"].hasError("pattern")){
         <div class="error">
-          LA CONTRASEÑA DEBE TENER POR LO MENOS UNA MAYÚSCULA, UNA MINÚSCULA, UN NÚMERO, UN CARÁCTER ESPECIAL Y UN TAMAÑO ENTRE 8 Y 16 CARACTERES.
+          La contraseña debe tener por lo menos una mayúscula, una minúscula, un número, un carácter especial y un tamaño entre 8 y 16 caracteres.
         </div>
       }
 

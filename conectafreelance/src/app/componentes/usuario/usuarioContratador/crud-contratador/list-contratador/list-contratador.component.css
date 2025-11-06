@@ -1,0 +1,176 @@
+.container {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 1.5rem;
+  font-family: 'Roboto';
+}
+
+.filter-aside {
+  width: 20%;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  height: calc(100vh - 72px);
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.filter-aside h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 4px rgba(40, 167, 69, 0.3);
+}
+
+.filter-group input::placeholder {
+  color: #888888;
+}
+
+.filter-group input[disabled],
+.filter-group select[disabled] {
+  background-color: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.7;
+  border-color: #ccc;
+}
+
+.contratador-list {
+  margin-left: calc(20% + 1.5rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.contratador-card {
+  position: relative;
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.contratador-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contratador-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contratador-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.empresa {
+  font-size: 0.9rem;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #333333;
+  margin-top: 0.5rem;
+}
+
+.contratador-card.inactive {
+  background-color: #f8d7da;
+  border: 2px solid #dc3545;
+  opacity: 0.85;
+}
+
+.contratador-card.inactive:hover {
+  transform: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.contratador-card.inactive .contratador-info h3,
+.contratador-card.inactive .contratador-info p,
+.contratador-card.inactive .contratador-info span {
+  color: #721c24;
+}
+
+.contratador-card.inactive::after {
+  content: "DESACTIVADO";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1;
+}

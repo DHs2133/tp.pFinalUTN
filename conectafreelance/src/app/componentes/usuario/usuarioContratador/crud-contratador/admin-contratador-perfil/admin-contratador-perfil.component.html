@@ -1,0 +1,60 @@
+<div class="profile-container">
+  <header class="profile-header">
+    <div class="profile-image">
+      <img
+        [src]="imagenUrl"
+        alt="Foto de perfil de {{ usuarioCont.nombreCompleto || 'Usuario' }}"
+        loading="lazy"
+      />
+    </div>
+    <div class="profile-info">
+      <h1>{{ usuarioCont.nombreCompleto || 'Nombre no disponible' }}</h1>
+      <p class="role">{{ usuarioCont.rol || 'Rol no especificado' }}</p>
+      @if (usuarioCont.empresaRepresentada) {
+        <p class="company">Representa a: {{ usuarioCont.empresaRepresentada }}</p>
+      }
+    </div>
+  </header>
+
+  <section class="profile-details">
+    <h2>Información de contacto</h2>
+    <div class="contact-info">
+      <div class="email">
+        <span class="material-icons">email</span>
+        <p>{{ usuarioCont.email || 'Email no disponible' }}</p>
+      </div>
+    </div>
+
+    <section class="profile-content-switcher">
+      <div class="tab-buttons">
+        <button
+          (click)="setActiveTab('listaFav')"
+          [class.active]="activeTab === 'listaFav'"
+          aria-label="Mostrar favoritos"
+          class="tab-button"
+        >
+          Favoritos
+        </button>
+        <button
+          (click)="setActiveTab('comentarios')"
+          [class.active]="activeTab === 'comentarios'"
+          aria-label="Mostrar comentarios"
+          class="tab-button"
+        >
+          Comentarios
+        </button>
+      </div>
+
+      @if (activeTab === 'listaFav') {
+        <div class="tab-content">
+          <app-list-favoritos-perfil-admin-cont></app-list-favoritos-perfil-admin-cont>
+        </div>
+      }
+      @if (activeTab === 'comentarios') {
+        <div class="tab-content">
+
+        </div>
+      }
+    </section>
+  </section>
+</div>

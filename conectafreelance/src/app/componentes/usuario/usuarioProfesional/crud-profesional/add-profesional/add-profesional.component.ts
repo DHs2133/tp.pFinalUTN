@@ -8,6 +8,8 @@ import { FileSelectService } from '../../../../../utils/FileSelectService';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { noWhitespaceValidator } from '../../../../../utils/ValidadoresPersonalizados';
+import { NotificacionService } from '../../../../notificacion/notificacionService/notificacion.service';
+import { ListaNotificaciones } from '../../../../notificacion/interfaceNotificacion/notificacion.interface';
 
 @Component({
   selector: 'app-add-profesional',
@@ -30,22 +32,34 @@ export class AddProfesionalComponent implements OnDestroy{
   manejoArchivo = inject(FileSelectService);
   // Si bien no tiene un API request ni es para manejar un HttpClient, lo hice así porque
   // no tiene sentido manejar un componente con .ts .html y .css por unas funciones reutilizables
-  router = inject(Router)
+  router = inject(Router);
+  listaNotServ = inject(NotificacionService);
 
   destroy$ = new Subject<void>();
 
 
   formularioUsuarioProfesional = this.fb.nonNullable.group({
-    nombreCompleto: ['',[Validators.required]],
-    email: ['',[Validators.required, Validators.email]],
-    contrasenia: ['',[Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
+    nombreCompleto: ["",[Validators.required, noWhitespaceValidator()]],
+    email: ["",[Validators.required, Validators.email, noWhitespaceValidator()]],
+    contrasenia: ["",[Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/), noWhitespaceValidator()]],
     activo:[true],
-    profesion:['', [Validators.required]],
-    descripcion: ['', [Validators.required, Validators.maxLength(220), noWhitespaceValidator()]],
-    ciudad:["", Validators.required],
-    provincia: ["", Validators.required],
-    pais: ["", Validators.required],
+    profesion:["", [Validators.required, noWhitespaceValidator()]],
+    descripcion: ["", [Validators.required, Validators.maxLength(220), noWhitespaceValidator()]],
+    ciudad:["", [Validators.required, noWhitespaceValidator()]],
+    provincia: ["", [Validators.required, noWhitespaceValidator()]],
+    pais: ["", [Validators.required, noWhitespaceValidator()]],
   })
+
+
+
+
+
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
 
   // Método para guardar el archivo al seleccionarlo
@@ -58,13 +72,6 @@ export class AddProfesionalComponent implements OnDestroy{
 
       this.imgSrc = urlPrevisualizacion;
     }
-    // Para evitar la repetición código, ya que el manejo de archivo para poder vincular la foto que se va a
-    // subir a una entidad va a estar en este componente, en add-contratador y posiblemente en más partes, se
-    // centralizó el código en un service.
-
-    // No es recomendable que cada componente que utilice fotos tenga que crear su propia variable de tipo File,
-    // ni definir una función onFileChange para asignar el valor de event.target.files[0] a dichas variables,
-    // suscribirse al servicio y obtener la URL correspondiente.
 
   }
 
@@ -97,8 +104,8 @@ export class AddProfesionalComponent implements OnDestroy{
           const archivo = this.manejoArchivo.getArchivoSeleccionado();
 
           if(archivo){
-            // Subir imagen
             this.subirImagen(archivo, datos)
+
 
           }else{
             alert("Debe subir una foto")
@@ -124,10 +131,11 @@ export class AddProfesionalComponent implements OnDestroy{
           rol: 'profesional',
           activo: true,
           promedio: 0,
-          cantComentarios: 0
+          cantComentarios: 0,
+          cantPubRep: 0
         };
 
-        this.arr(usuarioProfesionalNuevo);
+        this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
 
       },
       error: (err) => {
@@ -139,29 +147,86 @@ export class AddProfesionalComponent implements OnDestroy{
   }
 
 
-  arr(usuarioProfesionalNuevo: UsuarioProfesional){
-    this.agregarAUsuarioProfesionalBDD(usuarioProfesionalNuevo);
-    this.reseteo();
-    this.redirecciónLogin();
-  }
-
-  // Método para cargar el usuario profesional en la BDD simulada
   agregarAUsuarioProfesionalBDD(usuarioProfNuevo: UsuarioProfesional){
 
     this.serviceUsuProf.postUsuariosProfesionales(usuarioProfNuevo).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        alert('Usuario creado. Serás redirigido a inicio de sesión');
+      next: (value) => {
+
+        this.generarListaNotificaciones(value);
 
       },
       error: (e) => {
         console.error('Error al crear el usuario:', e, 'Será redirigido a la página principal');
-        this.eliminarFoto(usuarioProfNuevo.urlFoto);
-        this.redirecciónHome();
+        this.eliminarFoto(usuarioProfNuevo);
+        this.redireccionHome();
 
       }
     });
 
   }
+
+  eliminarFoto(usu: UsuarioProfesional){
+    this.uploadImage.deleteImage(usu.urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        console.log("Imágen borrada");
+      },
+      error: (err) => {
+        console.log("No se pudo borrar la imágen");
+
+      },
+    })
+  }
+
+
+  generarListaNotificaciones(usuNvo: UsuarioProfesional){
+
+    const listaNot: ListaNotificaciones = {
+
+      idDuenio: usuNvo.id as string,
+
+      notificaciones: [{
+        descripcion: `Cuenta creada. Bienvenido, ${usuNvo.nombreCompleto}`,
+        leido: false
+      }]
+    }
+
+    this.listaNotServ.postListaNotificaciones(listaNot).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        console.log("Lista de notificaciones creada.");
+        alert('Usuario creado. Serás redirigido a inicio de sesión');
+        this.reseteo();
+        this.redirecciónLogin();
+
+
+      },
+      error: (e) => {
+
+        this.eliminarFoto(usuNvo);
+        this.eliminarUsuarioProfesional(usuNvo.id as string);
+
+        console.error('Error al crear el usuario:', e, "Será redirigido a la página principal");
+        this.redireccionHome();
+      }
+    })
+  }
+
+  eliminarUsuarioProfesional(id: string){
+
+    this.serviceUsuProf.deleteUsuarioProfesionalById(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (value) => {
+        console.log("Usuario profesional eliminado")
+      },
+      error : (err) => {
+        console.log("No se ha podido borrar la foto")
+      }
+
+    })
+  }
+
+
+
+
+
 
   reseteo(){
     this.formularioUsuarioProfesional.reset();
@@ -169,32 +234,16 @@ export class AddProfesionalComponent implements OnDestroy{
     this.manejoArchivo.clearSelection();
   }
 
+
+
   redirecciónLogin(){
     this.router.navigate(['/login']);
   }
 
-  redirecciónHome(){
+  redireccionHome(){
     this.router.navigate(['/']);
   }
 
-  eliminarFoto(urlFoto: string){
-    this.uploadImage.deleteImage(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value) => {
-        console.log("Imágen borrada")
-      },
-      error: (err) => {
-        console.log("No se pudo borrar la imágen")
 
-      },
-
-    })
-
-  }
-
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
 }

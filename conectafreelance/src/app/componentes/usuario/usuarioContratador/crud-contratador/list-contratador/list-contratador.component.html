@@ -1,1 +1,64 @@
-<p>list-contratador works!</p>
+<div class="container">
+  <aside class="filter-aside">
+    <h2>Filtros</h2>
+    <form [formGroup]="filtroForm" class="filter-form">
+      <div class="filter-group">
+
+        <label for="tipoFiltro" id="tipo-label">Tipo de contratador:</label>
+        <select
+          id="tipoFiltro"
+          formControlName="tipoFiltro"
+          aria-labelledby="tipo-label"
+        >
+          <option value="todos">Todos</option>
+          <option value="independientes">Solo independientes</option>
+          <option value="empresa">Solo con empresa</option>
+        </select>
+
+        <label for="nombreCompleto" id="nombre-label">Nombre completo:</label>
+        <input
+          id="nombreCompleto"
+          formControlName="nombreCompleto"
+          placeholder="Buscar por nombre"
+          type="text"
+          aria-labelledby="nombre-label"
+        />
+
+        <label for="empresaRepresentada" id="empresa-label">Empresa:</label>
+        <input
+          id="empresaRepresentada"
+          formControlName="empresaRepresentada"
+          placeholder="Buscar por empresa"
+          type="text"
+          aria-labelledby="empresa-label"
+          [disabled]="filtroForm.get('tipoFiltro')?.value === 'independientes'"
+        />
+      </div>
+    </form>
+  </aside>
+
+  <div class="contratador-list">
+    @for (contratador of listaFiltrada; track $index) {
+      <div
+        class="contratador-card"
+        [class.inactive]="!contratador.activo"
+        (click)="redirigir(contratador.id)"
+      >
+        <img
+          [src]="imagenPerfil[contratador.urlFoto]"
+          alt="Foto de {{ contratador.nombreCompleto }}"
+          class="profile-img"
+          loading="lazy"
+        />
+        <div class="contratador-info">
+          <h3>{{ contratador.nombreCompleto }}</h3>
+          @if (contratador.empresaRepresentada) {
+            <p class="empresa"><strong>Empresa:</strong> {{ contratador.empresaRepresentada }}</p>
+          } @else {
+            <p class="empresa"><strong>Contratista independiente</strong></p>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

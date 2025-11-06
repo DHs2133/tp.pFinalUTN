@@ -24,28 +24,13 @@ export class ContratadorProfesionalPerfilComponent {
   idContratador: string | null = null;
   imagenUrl!: SafeUrl;
   activeTab: 'publicaciones' | 'comentarios' = 'publicaciones';
-  listaFav!: Favorito
+  listaFav!: Favorito;
   usuarioProf: UsuarioProfesional = {
-
-    id: " ",
-    nombreCompleto: " ",
-    email: " ",
-    contrasenia: " ",
-    urlFoto: " ",
-    activo: true,
-    rol: "profesional",
-    profesion: " ",
-    descripcion: " ",
-    ciudad: " ",
-    provincia: " ",
-    pais: " ",
-    promedio: 0,
-    cantComentarios: 0
-
-  }
+    id: " ", nombreCompleto: " ", email: " ", contrasenia: " ", urlFoto: " ",
+    activo: true, rol: "profesional", profesion: " ", descripcion: " ",
+    ciudad: " ", provincia: " ", pais: " ", promedio: 0, cantComentarios: 0, cantPubRep: 0
+  };
   destroy$ = new Subject<void>();
-
-
 
   loginService = inject(LoginService);
   profService = inject(UsuarioProfesionalService);
@@ -56,13 +41,12 @@ export class ContratadorProfesionalPerfilComponent {
   promedioService = inject(PromedioService);
   listFavService = inject(FavoritoService);
 
-
   ngOnInit() {
     this.obtenerIDProfesional();
     this.idContratador = this.loginService.getId();
   }
 
-  obtenerIDProfesional(){
+  obtenerIDProfesional() {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
       next: (param) => {
         this.idProfesional = param.get('id');
@@ -72,7 +56,7 @@ export class ContratadorProfesionalPerfilComponent {
       },
       error: (err) => {
         console.error('Error al obtener parámetros de la ruta:', err);
-        this.router.navigate(['/perfilProfesional']);
+        this.router.navigate(['contratador/perfil']);
       },
     });
   }
@@ -82,11 +66,10 @@ export class ContratadorProfesionalPerfilComponent {
       next: (usu: UsuarioProfesional) => {
         if (usu) {
           this.usuarioProf = usu;
-
           this.cargarImagen(this.usuarioProf.urlFoto);
         } else {
           alert('Ha ocurrido un error.');
-          this.router.navigate(['/perfilContratador']);
+          this.router.navigate(['contratador/perfil']);
         }
       },
       error: (err) => {
@@ -113,91 +96,82 @@ export class ContratadorProfesionalPerfilComponent {
     this.activeTab = tab;
   }
 
-
-  actualizarPromedio(puntajeNvo: number){
-
+  actualizarPromedio(puntajeNvo: number) {
     this.promedioService.agregarPuntaje(puntajeNvo);
     this.usuarioProf.promedio = this.promedioService.getPromedio();
     this.usuarioProf.cantComentarios = this.promedioService.getCantidadElementos();
     this.actualizarCuentaProfesional();
-
   }
 
-  quitarPuntajeAPromedio(puntajeAEliminar: number){
-    this.promedioService.eliminarUnElemento(puntajeAEliminar);
+  quitarPuntajeAPromedio(puntajeAEliminar: number | number[]) {
+    if (!puntajeAEliminar) return;
+
+    const aEliminar = Array.isArray(puntajeAEliminar) ? puntajeAEliminar : [puntajeAEliminar];
+    aEliminar.forEach(p => this.promedioService.eliminarUnElemento(p));
+
     this.usuarioProf.promedio = this.promedioService.getPromedio();
     this.usuarioProf.cantComentarios = this.promedioService.getCantidadElementos();
     this.actualizarCuentaProfesional();
-
-
   }
 
-  actualizarCuentaProfesional(){
+  actualizarCuentaProfesional() {
     this.profService.putUsuariosProfesionales(this.usuarioProf, this.idProfesional).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (usu: UsuarioProfesional) => {
-        alert('Se ha actualizado la información.');
+      next: () => {
 
       },
       error: (err) => {
-        alert('No se ha podido actualizar la información.');
-        console.log('Error: ' + err);
+        console.log('Error al actualizar profesional:', err);
       }
     });
-
   }
 
-  addUsuarioALista(){
-
+  addUsuarioALista() {
     this.getListaFavUsuarioContratador();
-
   }
 
-  getListaFavUsuarioContratador(){
+  getListaFavUsuarioContratador() {
     this.listFavService.getFavoritoPorIDCreador(this.idContratador).pipe(takeUntil(this.destroy$)).subscribe({
-      next : (value) => {
-        if(value.length > 0){
+      next: (value) => {
+        if (value.length > 0) {
           this.listaFav = value[0];
-          console.log(value)
           this.updateListaFavUsuarioContratador();
         }
       },
-      error : (err) => {
+      error: (err) => {
         alert("No se ha podido actualizar la lista de favoritos.");
         console.log("Error: " + err);
       },
+    });
+  }
 
-    })
+  iniciarChat(prof: UsuarioProfesional) {
+    if (prof.id)
+      this.router.navigate(['contratador/listaChatsContratador', prof.id]);
   }
 
   updateListaFavUsuarioContratador() {
+    if (this.listaFav.idUsuariosFavoritos.includes(this.idProfesional as string)) {
+      alert("El usuario ya está en la lista de favoritos.");
+      return;
+    }
 
-  if (this.listaFav.idUsuariosFavoritos.includes(this.idProfesional as string)) {
-    alert("El usuario ya está en la lista de favoritos.");
-    return;
+    this.listaFav.idUsuariosFavoritos.push(this.idProfesional as string);
+
+    if (this.listaFav.id) {
+      this.listFavService.putFavorito(this.listaFav, this.listaFav.id).pipe(takeUntil(this.destroy$)).subscribe({
+        next: () => alert("Lista actualizada con éxito."),
+        error: () => alert("No se ha podido agregar al usuario a la lista")
+      });
+    } else {
+      alert("No se ha podido agregar al usuario a la lista. Falta el id");
+    }
   }
 
-  this.listaFav.idUsuariosFavoritos.push(this.idProfesional as string);
-
-  if (this.listaFav.id) {
-    this.listFavService.putFavorito(this.listaFav, this.listaFav.id).pipe(takeUntil(this.destroy$)).subscribe({
-      next(value) {
-        alert("Lista actualizada con éxito.");
-      },
-      error(err) {
-        alert("No se ha podido agregar al usuario a la lista");
-      },
-    });
-  } else {
-    alert("No se ha podido agregar al usuario a la lista. Falta el id");
-  }
-}
   ngOnDestroy(): void {
-
     this.destroy$.next();
     this.destroy$.complete();
     this.promedioService.deletePuntaje();
-
-
   }
+
 
 }

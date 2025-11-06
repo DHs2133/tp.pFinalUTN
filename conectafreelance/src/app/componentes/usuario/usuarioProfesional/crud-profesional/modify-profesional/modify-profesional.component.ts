@@ -53,7 +53,8 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
     promedio: [0, [Validators.required]],
     cantComentarios: [0, [Validators.required]],
     urlFoto: ['', [Validators.required]],
-    rol: ['profesional' as 'profesional' | 'contratador' | 'administrador'],
+    rol: ['profesional' as 'profesional' | 'contratador' | 'admin'],
+    cantPubRep: [0]
   });
   // formulario------------------------------------------------------------------------------------
 
@@ -114,6 +115,7 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
       promedio: this.usuProfDefault.promedio,
       cantComentarios: this.usuProfDefault.cantComentarios,
       urlFoto: this.usuProfDefault.urlFoto,
+      cantPubRep: this.usuProfDefault.cantPubRep
     });
     if (this.usuProfDefault.urlFoto) {
       this.cargarImagen(this.usuProfDefault.urlFoto);
@@ -174,7 +176,7 @@ export class ModifyProfesionalComponent implements OnInit, OnDestroy {
       next: () => {
         alert('Usuario actualizado correctamente. Será redirigido a su perfil');
         this.manejoArchivo.clearSelection();
-        this.router.navigate(['/perfilProfesional']);
+        this.router.navigate(['profesional/perfil']);
       },
       error: (err) => {
         console.error('Error al actualizar el usuario:', err);

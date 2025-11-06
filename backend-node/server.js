@@ -87,18 +87,15 @@ app.delete('/uploads/single/:filename', (req, res) => {
   const filePath = path.join(__dirname, 'uploads', 'single', filename);
 
   fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      return res.status(404).json({ error: 'Imagen no encontrada' });
-    }
+    if (err) return res.status(404).json({ error: 'Imagen no encontrada' });
 
-    try {
-      fs.unlinkSync(filePath);
-      console.log(`Imagen ${filename} eliminada`);
+    fs.unlink(filePath, (err) => {  // ← ASÍNCRONO
+      if (err) {
+        console.error('Error al eliminar:', err);
+        return res.status(500).json({ error: 'Error al eliminar' });
+      }
       res.status(200).json({ message: 'Imagen eliminada correctamente' });
-    } catch (err) {
-      console.error('Error al eliminar la imagen:', err);
-      res.status(500).json({ error: 'Error al eliminar la imagen' });
-    }
+    });
   });
 });
 

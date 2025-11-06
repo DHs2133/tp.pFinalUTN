@@ -2,15 +2,6 @@
   <h2>Modificar Publicación</h2>
   <fieldset>
     <form [formGroup]="formulario" (ngSubmit)="update()">
-      <label for="fotoPublicacion" class="form-control-label">
-        @if (imagenPublicacion) {
-          <img [src]="imagenPublicacion" alt="Foto de la publicación" loading="lazy"/>
-        } @else {
-          <div>Sin imagen de publicación</div>
-        }
-        <div>Foto de la publicación</div>
-      </label>
-
       <div class="publicacion-input">
         <label for="cont">Contenido</label>
         <textarea
@@ -18,29 +9,20 @@
           class="input textarea"
           formControlName="cont"
           placeholder="¿Qué estás pensando?"
-          rows="4"
           (input)="restrictLength($event); autoResize($event)"
         ></textarea>
+        <div class="char-counter" [class.warning]="contentLength() >= 450">
+          {{ contentLength() }}/500
+        </div>
         @if (formulario.controls['cont'].touched && formulario.controls['cont'].hasError('required')) {
           <div class="error">El contenido es obligatorio</div>
         }
         @if (formulario.controls['cont'].touched && formulario.controls['cont'].hasError('maxlength')) {
           <div class="error">El contenido no puede exceder los 500 caracteres</div>
         }
-        @if (contentLength() >= 450) {
-          <div class="char-counter warning">
-            {{ contentLength() }}/500
-          </div>
-        } @else {
-          <div class="char-counter">
-            {{ contentLength() }}/500
-          </div>
+        @if (formulario.controls['cont'].touched && formulario.controls['cont'].hasError('whitespace')) {
+          <div class="error">No se aceptan cadenas vacías</div>
         }
-
-        @if(formulario.controls['cont'].touched && formulario.controls['cont'].hasError('whitespace')){
-          <div class="error">No se aceptan cadenas vacias</div>
-        }
-
       </div>
 
       <div class="form-actions">

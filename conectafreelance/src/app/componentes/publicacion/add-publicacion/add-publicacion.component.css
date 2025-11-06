@@ -1,16 +1,19 @@
 .add-publicacion-container {
   max-width: 800px;
   margin: 1.5rem auto;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Roboto', sans-serif;
 }
 
 .publicacion-input {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 input[type="file"] {
@@ -22,14 +25,19 @@ textarea {
   padding: 0.75rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   resize: none;
   outline: none;
   font-family: 'Roboto', sans-serif;
+  min-height: 80px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 textarea:focus {
-  border-color: #1d9bf0;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
 textarea::placeholder {
@@ -37,29 +45,36 @@ textarea::placeholder {
 }
 
 .char-counter {
-  position: absolute;
-  bottom: 0.5rem;
-  right: 0.75rem;
   font-size: 0.85rem;
   color: #666666;
+  background-color: #f5f5f5;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  align-self: flex-end;
+  line-height: 1.2;
 }
 
 .char-counter.warning {
   color: #ffc107;
+  font-weight: 500;
+  background-color: #fff3cd;
 }
 
 .image-preview {
   position: relative;
   max-width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .image-preview img {
   max-width: 100%;
-  max-height: 250px;
+  max-height: 200px;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .remove-image {
@@ -70,13 +85,14 @@ textarea::placeholder {
   color: #ffffff;
   border: none;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s;
 }
 
 .remove-image:hover {
@@ -88,25 +104,28 @@ textarea::placeholder {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  margin-top: 0.5rem;
 }
 
 .action-buttons {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
 .form-buttons {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .image-upload-label {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  background-color: #f5f5f5;
   border: 1px solid #e0e0e0;
   border-radius: 50%;
   cursor: pointer;
@@ -118,23 +137,23 @@ textarea::placeholder {
 }
 
 .image-upload-label .material-icons {
-  color: #1d9bf0;
-  font-size: 1.2rem;
+  color: #007bff;
+  font-size: 1.4rem;
 }
 
 button[type="submit"] {
   padding: 0.5rem 1.5rem;
-  background-color: #1d9bf0;
+  background-color: #007bff;
   color: #ffffff;
   border: none;
   border-radius: 20px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 button[type="submit"]:hover {
-  background-color: #1a8cd8;
+  background-color: #0056b3;
 }
 
 button[type="submit"]:disabled {
@@ -144,37 +163,16 @@ button[type="submit"]:disabled {
 
 .reset-button {
   padding: 0.5rem 1.5rem;
-  background-color: #7f8c8d;
+  background-color: #6c757d;
   color: #ffffff;
   border: none;
   border-radius: 20px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   font-family: 'Roboto', sans-serif;
   transition: background-color 0.2s;
 }
 
 .reset-button:hover {
-  background-color: #6c757d;
-}
-
-@media (max-width: 600px) {
-  .add-publicacion-container {
-    margin: 1rem;
-    padding: 0.75rem;
-  }
-
-  textarea {
-    font-size: 0.9rem;
-  }
-
-  .image-preview img {
-    max-height: 200px;
-  }
-
-  button[type="submit"],
-  .reset-button {
-    padding: 0.4rem 1.2rem;
-    font-size: 0.9rem;
-  }
+  background-color: #5a6268;
 }

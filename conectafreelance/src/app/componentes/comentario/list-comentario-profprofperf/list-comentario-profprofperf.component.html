@@ -1,0 +1,32 @@
+<div class="comentarios-container">
+  <h2>Comentarios</h2>
+  <div class="comentario-list">
+
+  @if (comentarios.length === 0) {
+    <p class="no-publicaciones">No hay comentarios para mostrar.</p>
+  } @else {
+    @for (comentario of comentarios; track $index) {
+      @if(esUsuarioOComentarioActivo(comentario)){
+        <div class="comentario-card" [class.reported]="comentario.reportada">
+          <div class="comentario-header">
+              <img
+                [src]="imgPerfCreadores[getUsuarioById(comentario.idCreador)?.urlFoto || ''] || 'public/avatar.png'"
+                alt="Foto de {{ getUsuarioById(comentario.idCreador)?.nombreCompleto }}"
+                class="avatar"
+                loading="lazy"
+              />
+
+            <div class="creador-info">
+              <span class="nombre-creador">{{ getUsuarioById(comentario.idCreador)?.nombreCompleto }}</span>
+              <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
+            </div>
+          </div>
+          <div class="comentario-content">
+            <p>{{ comentario.contenido }}</p>
+          </div>
+        </div>
+      }
+    }
+  }
+  </div>
+</div>

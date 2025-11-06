@@ -2,37 +2,53 @@
   <fieldset>
     <form [formGroup]="formularioUsuarioProfesional" (ngSubmit)="agregarUsuarioProfesional()">
 
-      <label for="ciudad">Ciudad</label>
+      <label for="ciudad">Ciudad*</label>
       <input type="text" id="ciudad" class="input" formControlName="ciudad">
       @if (formularioUsuarioProfesional.controls["ciudad"].touched && formularioUsuarioProfesional.controls["ciudad"].getError("required")){
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
+      }
+      @if(formularioUsuarioProfesional.controls['ciudad'].touched && formularioUsuarioProfesional.controls['ciudad'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="provincia">Provincia</label>
+
+      <label for="provincia">Provincia*</label>
       <input type="text" id="provincia" class="input" formControlName="provincia">
       @if (formularioUsuarioProfesional.controls["provincia"].touched && formularioUsuarioProfesional.controls["provincia"].getError("required")){
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
+      }
+      @if(formularioUsuarioProfesional.controls['provincia'].touched && formularioUsuarioProfesional.controls['provincia'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="pais">País</label>
+      <label for="pais">País*</label>
       <input type="text" id="pais" class="input" formControlName="pais">
       @if (formularioUsuarioProfesional.controls["pais"].touched && formularioUsuarioProfesional.controls["pais"].getError("required")){
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
+      }
+      @if(formularioUsuarioProfesional.controls['pais'].touched && formularioUsuarioProfesional.controls['pais'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="nombreCompleto">Ingrese su nombre completo</label>
+      <label for="nombreCompleto">Ingrese su nombre completo*</label>
       <input type="text" id="nombreCompleto" class="input" formControlName="nombreCompleto">
       @if (formularioUsuarioProfesional.controls['nombreCompleto'].touched && formularioUsuarioProfesional.controls['nombreCompleto'].getError("required")){
-        <div class="error">CAMPO REQUERIDO</div>
+        <div class="error">Campo obligatorio</div>
+      }
+      @if(formularioUsuarioProfesional.controls['nombreCompleto'].touched && formularioUsuarioProfesional.controls['nombreCompleto'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="profesion">Ingrese su profesión</label>
+      <label for="profesion">Ingrese su profesión*</label>
       <input type="text" id="profesion" class="input" formControlName="profesion">
       @if (formularioUsuarioProfesional.controls["profesion"].touched && formularioUsuarioProfesional.controls["profesion"].getError("required")){
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
+      }
+      @if(formularioUsuarioProfesional.controls['profesion'].touched && formularioUsuarioProfesional.controls['profesion'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="descripcion">Descripción</label>
+      <label for="descripcion">Descripción*</label>
       <textarea id="descripcion" class="input textarea" formControlName="descripcion" rows="5"></textarea>
       @if (formularioUsuarioProfesional.controls['descripcion'].touched && formularioUsuarioProfesional.controls['descripcion'].hasError('required')) {
         <div class="error">Campo obligatorio</div>
@@ -47,13 +63,16 @@
       }
 
 
-      <label for="Cor">Correo electrónico</label>
+      <label for="Cor">Correo electrónico*</label>
       <input type="text" id="Cor" class="input" formControlName="email">
       @if (formularioUsuarioProfesional.controls["email"].touched && formularioUsuarioProfesional.controls["email"].getError("required")){
-        <div class="error">CAMPO REQUERIDO</div>
+        <div class="error">Campo obligatorio</div>
       }
       @if (formularioUsuarioProfesional.controls["email"].touched && formularioUsuarioProfesional.controls["email"].getError("email")){
-        <div class="error">NO POSEE FORMATO DE EMAIL</div>
+        <div class="error">No posee el formato de maol</div>
+      }
+      @if(formularioUsuarioProfesional.controls['email'].touched && formularioUsuarioProfesional.controls['email'].hasError('whitespace')){
+        <div class="error">No se aceptan cadenas vacias</div>
       }
 
 
@@ -66,14 +85,14 @@
 
 
 
-      <label for="Cont">Contraseña</label>
+      <label for="Cont">Contraseña*</label>
       <input type="password" id="Cont" class="input" formControlName="contrasenia">
       @if (formularioUsuarioProfesional.controls["contrasenia"].touched && formularioUsuarioProfesional.controls["contrasenia"].getError("required")){
-        <div class="error">CAMPO OBLIGATORIO</div>
+        <div class="error">Campo obligatorio</div>
       }
       @if(formularioUsuarioProfesional.controls["contrasenia"].hasError("pattern")){
         <div class="error">
-          LA CONTRASEÑA DEBE TENER POR LO MENOS UNA MAYÚSCULA, UNA MINÚSCULA, UN NÚMERO, UN CARÁCTER ESPECIAL Y UN TAMAÑO ENTRE 8 Y 16 CARACTERES.
+          La contraseña debe tener por lo menos una mayúscula, una minúscula, un número, un carácter especial y un tamaño entre 8 y 16 caracteres.
         </div>
       }
 

@@ -3,7 +3,7 @@
   display: block;
   min-height: 100vh;
   background-color: #f8fafc;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Segoe UI';
 }
 
 .login-container {
@@ -52,7 +52,7 @@
 }
 
 .logo-section .slogan {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Playfair Display';
   font-style: italic;
   font-size: 1.4rem;
   color: #000000;

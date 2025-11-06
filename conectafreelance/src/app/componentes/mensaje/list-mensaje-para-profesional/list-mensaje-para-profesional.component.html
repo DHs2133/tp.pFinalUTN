@@ -1,0 +1,46 @@
+<section class="chat-container">
+  <header class="chat-header">
+    <div class="user-info">
+      <img
+        [src]="imagenUrl"
+        alt="Foto de perfil de {{ usuarioContratador.nombreCompleto || 'Usuario' }}"
+        class="profile-img"
+      />
+
+      <div class="user-container">
+        <span class="user-name">{{ usuarioContratador.nombreCompleto || 'Usuario' }}</span>
+        <span class="user-empresa">
+        {{ usuarioContratador.empresaRepresentada || 'Contratista Independiente' }}
+      </span>
+      </div>
+
+    </div>
+  </header>
+
+  <section class="messages-container">
+    @if (chat && chat.mensajes && chat.mensajes.length > 0) {
+      @for (mensaje of chat.mensajes; track $index) {
+        <article
+          class="message-wrapper"
+          [ngClass]="{
+            'message-right': mensaje.idCreador === idSesion,
+            'message-left': mensaje.idCreador !== idSesion
+          }"
+        >
+          <p class="message-bubble">
+            {{ mensaje.contenido }}
+            @if (mensaje.idCreador === idSesion) {
+              <span class="message-status">
+                {{ mensaje.leido ? 'Leído' : 'Enviado' }}
+              </span>
+            }
+          </p>
+        </article>
+      }
+    } @else {
+      <p class="sin-mensaje">No hay mensajes todavía</p>
+    }
+  </section>
+
+  <app-add-mensaje (mensajeAEnviar)="agregarNvoMensaje($event)"></app-add-mensaje>
+</section>

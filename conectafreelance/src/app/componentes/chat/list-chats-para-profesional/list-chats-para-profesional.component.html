@@ -1,0 +1,44 @@
+
+<div class="main-container">
+  <aside class="chat-list">
+    @if (chatsOrdenado.length > 0) {
+      @for (chat of chatsOrdenado; track $index) {
+        <article class="chat-item" (click)="seleccionarChat(chat)">
+          <img
+            [src]="imagenesPerfiles[getUsuContFoto(chat.idParticipantes[0])] || 'avatar.jpg'"
+            alt="Foto de perfil"
+            class="profile-img"
+            loading="lazy"
+          >
+          <div class="chat-info">
+            <h3 class="chat-name">
+              {{ getNombreUsuario(chat) }}
+              @if (getMensajesNoLeidosCount(chat) > 0) {
+                <span class="unread-count">{{ getMensajesNoLeidosCount(chat) }}</span>
+              }
+            </h3>
+            <p class="chat-last-message">
+              {{ getUltimoMensaje(chat) | slice:0:30 }}
+            </p>
+          </div>
+        </article>
+      }
+    } @else {
+      <div class="no-chats">
+        <p>No tienes chats disponibles</p>
+      </div>
+    }
+  </aside>
+
+  <section class="chat-content">
+    @if (chatParaCLM) {
+      <app-list-mensaje-para-profesional [chat]="chatParaCLM"></app-list-mensaje-para-profesional>
+
+
+    } @else {
+      <div class="no-chat-selected">
+        <p>Selecciona un chat para ver los mensajes</p>
+      </div>
+    }
+  </section>
+</div>

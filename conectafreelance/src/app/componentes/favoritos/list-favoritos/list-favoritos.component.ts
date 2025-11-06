@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from '../../../utils/service/login-service.service';
 import { Favorito } from '../interfaceFavoritos/favorito.interface';
-import { Subject, takeUntil } from 'rxjs';
+import { catchError, forkJoin, of, Subject, takeUntil } from 'rxjs';
 import { FavoritoService } from '../serviceFavorito/favorito.service';
 import { UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
 import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
@@ -15,25 +15,19 @@ import { Router } from '@angular/router';
   templateUrl: './list-favoritos.component.html',
   styleUrl: './list-favoritos.component.css'
 })
-export class ListFavoritosComponent implements OnInit{
-
+export class ListFavoritosComponent implements OnInit, OnDestroy{
 
   idDuenio: string | null = null;
   destroy$ = new Subject<void>();
-
   listaFav: Favorito = {
-
-    id: " ",
-    idDuenio: " ",
+    id: '',
+    idDuenio: '',
     idUsuariosFavoritos: []
-
-  }
-
-  idUsuProfLista: string[]=[];
+  };
+  idUsuProfLista: string[] = [];
   usuProfLista: UsuarioProfesional[] = [];
   imgPerfCreadores: { [key: string]: SafeUrl } = {};
   objectUrls: string[] = [];
-
 
   loginService = inject(LoginService);
   listFavService = inject(FavoritoService);
@@ -42,95 +36,133 @@ export class ListFavoritosComponent implements OnInit{
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
 
-
-
   ngOnInit(): void {
     this.idDuenio = this.loginService.getId();
-    this.obtenerListaDeFavoritos(this.idDuenio);
+    if (this.idDuenio) {
+      this.obtenerListaDeFavoritos(this.idDuenio);
+    }
   }
 
-
-  obtenerListaDeFavoritos(idDuenio: string){
+  obtenerListaDeFavoritos(idDuenio: string): void {
 
     this.listFavService.getFavoritoPorIDCreador(idDuenio).pipe(takeUntil(this.destroy$)).subscribe({
-
-      next : (value) => {
-        if(value.length > 0){
+      next: (value) => {
+        if (value.length > 0) {
           this.listaFav = value[0];
           this.idUsuProfLista = this.listaFav.idUsuariosFavoritos;
-          this.idUsuProfLista.forEach(id => this.obtenerUsuariosProfesionales(id));
+          if (this.idUsuProfLista.length > 0) {
+            this.obtenerUsuariosProfesionales(this.idUsuProfLista);
+          }
         }
-
-      },
-
-    })
-
-  }
-
-  obtenerUsuariosProfesionales(id: string){
-    this.usuProfService.getUsuariosProfesionalPorID(id).pipe(takeUntil(this.destroy$)).subscribe({
-      next : (value) => {
-        this.usuProfLista.push(value);
-        this.usuProfLista.forEach(up => this.obtenerImagenesPerfilDelServidor(up.urlFoto));
-      },
-
-    })
-
-  }
-
-  obtenerImagenesPerfilDelServidor(urlFoto: string) {
-
-    this.imagenService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (blob) => {
-        const objectUrl = URL.createObjectURL(blob);
-        this.objectUrls.push(objectUrl);
-        this.imgPerfCreadores[urlFoto] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-
       },
       error: (err) => {
-        console.error(`Error al cargar la imagen de perfil: ${urlFoto}:`, err);
+        console.error('Error al obtener la lista de favoritos:', err);
       }
     });
   }
 
-  redirigir(idProf: string | undefined){
-    if(idProf){
-      this.router.navigate(['/contprofperfil', idProf]);
-    }else{
-      /// acá voy a tener que poner algo como página no encontrada
-    }
+  obtenerUsuariosProfesionales(ids: string[]): void {
+    const requests = ids.map(id =>
+      this.usuProfService.getUsuariosProfesionalPorID(id).pipe(
+        catchError(() => of(null))
+      )
+    );
 
+    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (results: (UsuarioProfesional | null)[]) => {
+        const validUsers = results.filter((user): user is UsuarioProfesional => user !== null);
+        const invalidIds = ids.filter((_, index) => results[index] === null);
+
+        this.usuProfLista = validUsers;
+
+        if (invalidIds.length > 0) {
+          this.idUsuProfLista = this.idUsuProfLista.filter(id => !invalidIds.includes(id));
+          this.listaFav.idUsuariosFavoritos = this.idUsuProfLista;
+          this.updateListaFav(this.listaFav, this.listaFav.id);
+        }
+
+        if (validUsers.length > 0) {
+          this.obtenerImagenesPerfilDelServidor(validUsers.map(user => user.urlFoto));
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener usuarios profesionales:', err);
+      }
+    });
   }
 
-  eliminarFavorito(idProf: string | undefined){
+  obtenerImagenesPerfilDelServidor(urlsFotos: string[]): void {
 
-    if(idProf){
+    const uniqueUrls = [...new Set(urlsFotos.filter(url => url && url.trim() !== ''))];
+
+    if (uniqueUrls.length === 0) {
+      return;
+    }
+
+    const requests = uniqueUrls.map(url =>
+      this.imagenService.getImagen(url).pipe(
+        catchError(() => of(null)) // Retorna null si falla la solicitud para una imagen
+      )
+    );
+
+    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (results: (Blob | null)[]) => {
+        results.forEach((blob, index) => {
+          if (blob) {
+            const objectUrl = URL.createObjectURL(blob);
+            this.objectUrls.push(objectUrl);
+            this.imgPerfCreadores[uniqueUrls[index]] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+          } else {
+            console.warn(`No se pudo cargar la imagen para la URL: ${uniqueUrls[index]}`);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar imágenes de perfil:', err);
+      }
+    });
+  }
+
+  redirigir(idProf: string | undefined): void {
+    if (idProf) {
+      this.router.navigate(['contratador/contprofperfil', idProf]);
+    } else {
+      this.router.navigate(['pagina-no-encontrada']);
+    }
+  }
+
+  eliminarFavorito(idProf: string | undefined): void {
+    if (idProf) {
       this.idUsuProfLista = this.idUsuProfLista.filter(id => id !== idProf);
       this.usuProfLista = this.usuProfLista.filter(u => u.id !== idProf);
-      this.listaFav.idUsuariosFavoritos = this.listaFav.idUsuariosFavoritos.filter(e => e !== idProf);
+      this.listaFav.idUsuariosFavoritos = this.idUsuProfLista;
       this.updateListaFav(this.listaFav, this.listaFav.id);
-
     }
-
   }
 
-  updateListaFav(listaFav: Favorito, id: string | undefined){
-
-    if(id){
+  updateListaFav(listaFav: Favorito, id: string | undefined): void {
+    if (id) {
       this.listFavService.putFavorito(listaFav, id).pipe(takeUntil(this.destroy$)).subscribe({
-        next(value) {
-          alert("Lista actualizada.");
+        next: () => {
+          alert('Lista actualizada.');
         },
-        error(err) {
-          alert("No se ha podido actualizar la lista");
-          console.log("Error: " + err);
-        },
+        error: (err) => {
+          alert('No se ha podido actualizar la lista');
+          console.error('Error:', err);
+        }
+      });
+    } else {
+      alert('No se pudo obtener el id de la lista.');
+    }
+  }
 
-      })
-    }else{
-      alert("No se pudo obtener el id de la lista.");
+  estaActivada(usuProf: UsuarioProfesional): boolean{
+
+    if(usuProf.activo){
+      return true;
     }
 
+    return false;
   }
 
   ngOnDestroy(): void {

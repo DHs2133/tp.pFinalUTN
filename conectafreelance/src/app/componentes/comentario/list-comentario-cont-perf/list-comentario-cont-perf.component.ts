@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Comentario } from '../interfaceComentario/interface-comentario';
-import { Subject, takeUntil } from 'rxjs';
+import { catchError, forkJoin, of, Subject, takeUntil } from 'rxjs';
 import { UsuarioContratador, UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LoginService } from '../../../utils/service/login-service.service';
@@ -10,6 +10,8 @@ import { ImageService } from '../../../service/back-end/image.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PromedioService } from '../../../utils/promedio.service';
 import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
+import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
+import { NotificacionService } from '../../notificacion/notificacionService/notificacion.service';
 
 @Component({
   selector: 'app-list-comentario-cont-perf',
@@ -21,12 +23,14 @@ export class ListComentarioContPerfComponent implements OnInit, OnDestroy {
 
   usuContratador!: UsuarioContratador;
   comentarios: Comentario[] = [];
-  usuariosProf: UsuarioProfesional[] = [];
+  usuariosProf: { [id: string]: UsuarioProfesional | null } = {};
   imagenesProf: { [key: string]: SafeUrl } = {};
-  idContratador: string = " ";
+  idContratador: string = "";
   destroy$ = new Subject<void>();
   objectUrls: string[] = [];
   imagenUrl!: SafeUrl;
+  listaNotificaciones: ListaNotificaciones = { id: "", idDuenio: "", notificaciones: [] };
+
 
   loginService = inject(LoginService);
   comentarioService = inject(ComentarioService);
@@ -34,26 +38,28 @@ export class ListComentarioContPerfComponent implements OnInit, OnDestroy {
   profService = inject(UsuarioProfesionalService);
   imageService = inject(ImageService);
   sanitizer = inject(DomSanitizer);
-  activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
   promedioService = inject(PromedioService);
+  listNotService = inject(NotificacionService);
 
   ngOnInit(): void {
     this.idContratador = this.loginService.getId();
-    this.obtenerUsuarioContratador();
+    if (this.idContratador) {
+      this.obtenerUsuarioContratador();
+    }
   }
 
   obtenerUsuarioContratador() {
     this.contratadorService.getUsuariosContratadoresPorId(this.idContratador).pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         this.usuContratador = value;
-        this.inicializarListaComentarios(value.id as string);
         this.cargarImagen(this.usuContratador.urlFoto);
+        this.inicializarListaComentarios(value.id as string);
       },
-      error: (err) => {
-        alert("Ha ocurrido un error al obtener los comentarios del usuario. Será redirigido a la página principal");
+      error: () => {
+        alert("Error al obtener datos del usuario. Redirigiendo...");
         this.redirecciónHome();
-      },
+      }
     });
   }
 
@@ -62,99 +68,150 @@ export class ListComentarioContPerfComponent implements OnInit, OnDestroy {
       next: (value) => {
         if (value.length > 0) {
           this.comentarios = value;
-          this.comentarios.forEach(c => this.cargarDatosProfesional(c));
+          this.validarYLimpiarComentariosInvalidos();
         }
       },
-      error: (err) => {
-        alert("Ha ocurrido un error al obtener los comentarios del usuario. Será redirigido a la página principal");
+      error: () => {
+        alert("Error al cargar comentarios.");
         this.redirecciónHome();
-      },
+      }
     });
   }
 
-  cargarDatosProfesional(comentario: Comentario) {
-    this.profService.getUsuariosProfesionalPorID(comentario.idDestinatario).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value) => {
-        if (!this.usuariosProf.some(prof => prof.id === value.id)) {
-          this.usuariosProf.push(value);
-          this.cargarImagenProfesional(value.urlFoto, comentario.idDestinatario);
+  validarYLimpiarComentariosInvalidos(): void {
+    const idsProfesionales = [...new Set(this.comentarios.map(c => c.idDestinatario))];
+    const requests = idsProfesionales.map(id =>
+      this.profService.getUsuariosProfesionalPorID(id).pipe(
+        catchError(() => of(null))
+      )
+    );
+
+    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (results: (UsuarioProfesional | null)[]) => {
+        const idsAEliminar: string[] = [];
+
+        results.forEach((prof, index) => {
+          const idProf = idsProfesionales[index];
+          this.usuariosProf[idProf] = prof;
+
+          if (prof === null) {
+            const comentariosInvalidos = this.comentarios.filter(c => c.idDestinatario === idProf);
+            idsAEliminar.push(...comentariosInvalidos.map(c => c.id!).filter(Boolean));
+          } else {
+            this.cargarImagenProfesional(prof.urlFoto, idProf);
+          }
+        });
+
+        if (idsAEliminar.length > 0) {
+          this.eliminarComentariosInvalidos(idsAEliminar);
         }
-      },
-      error: (err) => {
-        console.log("Error al cargar datos del profesional: " + err);
-      },
+      }
+    });
+  }
+
+  eliminarComentariosInvalidos(ids: string[]): void {
+    const deleteRequests = ids.map(id =>
+      this.comentarioService.eliminarComentario(id).pipe(
+        catchError(() => of(null))
+      )
+    );
+
+    forkJoin(deleteRequests).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.comentarios = this.comentarios.filter(c => !ids.includes(c.id!));
+      }
     });
   }
 
   cargarImagen(fileName: string) {
+    if (!fileName) return;
     this.imageService.getImagen(fileName).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (blob: Blob) => {
-        const objectUrl = URL.createObjectURL(blob);
-        this.imagenUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-        this.objectUrls.push(objectUrl);
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Error al cargar la imagen del contratador');
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        this.imagenUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+        this.objectUrls.push(url);
       }
     });
   }
 
   cargarImagenProfesional(fileName: string, idProfesional: string) {
+    if (!fileName || this.imagenesProf[idProfesional]) return;
+
     this.imageService.getImagen(fileName).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (blob: Blob) => {
-        const objectUrl = URL.createObjectURL(blob);
-        this.imagenesProf[idProfesional] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-        this.objectUrls.push(objectUrl);
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        this.imagenesProf[idProfesional] = this.sanitizer.bypassSecurityTrustUrl(url);
+        this.objectUrls.push(url);
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
+        this.imagenesProf[idProfesional] = 'public/avatar.png' as any;
       }
     });
   }
 
-  getUsuarioProfesional(idDestinatario: string): UsuarioProfesional | undefined {
-    return this.usuariosProf.find(prof => prof.id === idDestinatario);
+  estaActivada(idProf: string): boolean {
+    const prof = this.usuariosProf[idProf];
+
+    if(prof !== null && prof.activo === true){
+      return true;
+
+    }
+    return false;
+  }
+
+  getUsuarioProfesional(id: string): UsuarioProfesional | undefined {
+    const prof = this.usuariosProf[id];
+    return prof && prof.activo ? prof : undefined;
+  }
+
+  irAPerfilProfesional(idDestinatario: string) {
+    if (this.estaActivada(idDestinatario)) {
+      this.router.navigate(['contratador/contprofperfil', idDestinatario]);
+    }
+  }
+
+  eliminar(idComentario: string | undefined) {
+    if (!idComentario) return;
+
+    const comentario = this.comentarios.find(c => c.id === idComentario);
+    if (!comentario) return;
+
+    if (!confirm('¿Eliminar este comentario?')) return;
+
+    this.comentarioService.eliminarComentario(idComentario).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
+        this.emitirNotificacion(comentario.idDestinatario);
+        alert('Comentario eliminado');
+      },
+      error: () => alert('Error al eliminar')
+    });
+  }
+
+  emitirNotificacion(idProf: string) {
+    this.listNotService.getListaNotificacionesPorIDUsuario(idProf).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => {
+        if (value.length > 0) {
+          this.listaNotificaciones = value[0];
+          const notif: Notificacion = {
+            descripcion: `${this.usuContratador.nombreCompleto} eliminó un comentario`,
+            leido: false
+          };
+          this.listaNotificaciones.notificaciones.push(notif);
+          this.putListaDeNotificaciones(this.listaNotificaciones);
+        }
+      }
+    });
+  }
+
+  putListaDeNotificaciones(lista: ListaNotificaciones) {
+    if (lista.id) {
+      this.listNotService.putListaNotificaciones(lista, lista.id).pipe(takeUntil(this.destroy$)).subscribe();
+    }
   }
 
   redirecciónHome() {
     this.router.navigate(['/']);
-  }
-
-  irAPerfilProfesional(idDestinatario: string) {
-    this.router.navigate(['/contprofperfil', idDestinatario]);
-  }
-
-  eliminar(idComentario: string | undefined) {
-    if (!idComentario) {
-      console.error('ID de comentario no proporcionado');
-      alert('Error. No se ha podido eliminar el comentario');
-      return;
-    }
-
-    const comentario = this.comentarios.find(c => c.id === idComentario);
-    if (!comentario) {
-      console.log(`No se encontró el comentario con ID: ${idComentario}`);
-      alert('Comentario no encontrado');
-      return;
-    }
-
-    const confirmacion = confirm('¿Estás seguro de que deseas eliminar tu comentario?');
-    if (!confirmacion) {
-      console.log('La eliminación del comentario ha sido cancelada.');
-      return;
-    }
-
-    this.comentarioService.eliminarComentario(idComentario).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response) => {
-        alert('Comentario eliminado');
-        this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
-      },
-      error: (err) => {
-        console.error('Error al eliminar el comentario:', err);
-        alert('No se pudo eliminar el comentario: ' + err.message);
-      }
-    });
   }
 
   ngOnDestroy(): void {

@@ -1,11 +1,10 @@
 import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { Mensaje } from '../interface-mensaje/interface-mensaje';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
 import { LoginService } from '../../../utils/service/login-service.service';
-import { ChatService } from '../../chat/chatService/chat.service';
 
 @Component({
   selector: 'app-add-mensaje',
@@ -20,21 +19,16 @@ export class AddMensajeComponent implements OnInit, OnDestroy{
   destroy$ = new Subject<void>();
 
   @Output()
-  mensajeAEnviar: EventEmitter<Mensaje> = new EventEmitter;;
+  mensajeAEnviar: EventEmitter<Mensaje> = new EventEmitter();
 
   logService = inject(LoginService);
-  chatService = inject(ChatService);
   fb = inject(FormBuilder);
   activatedRoute = inject(ActivatedRoute);
-  router = inject(Router);
-
 
   formMensaje = this.fb.nonNullable.group({
-    id: [""],
     idCreador: [""],
     contenido: ["", [Validators.required, Validators.maxLength(500), noWhitespaceValidator()]],
     leido: false,
-    visualizado: false
   });
 
   ngOnInit(): void {
@@ -54,20 +48,19 @@ export class AddMensajeComponent implements OnInit, OnDestroy{
     }
     const datosMinMensaje = this.formMensaje.getRawValue();
 
-    const mensaje = {
+    const mensaje : Mensaje = {
       ...datosMinMensaje,
       leido: false,
-      visualizado: false
     };
 
 
     this.emitirMensaje(mensaje);
+    this.resetear();
 
   }
 
   emitirMensaje(nvoMensaje: Mensaje){
 
-    this.resetear();
 
     this.mensajeAEnviar.emit(nvoMensaje);
 

@@ -1,24 +1,56 @@
-<body>
-  <nav>
-    <div class="contenendorlogo">
-      <img src="logorecortado.png" alt="ConectaFreelance" class="logo">
-    </div>
+<nav>
+  <div class="contenendorlogo">
+    <img src="logorecortado.png" alt="ConectaFreelance" class="logo">
+  </div>
 
-    <a>lista profesionales</a>
+  <div class="nav-links">
+    <a [routerLink]="['/profesional/listaProfesionales']" class="nav-link">Lista de profesionales</a>
+    <a [routerLink]="['/profesional/listaChatsProfesional']" class="nav-link">
+      <p class="chat-link">
+        Chats
+        @if (mensajesNoLeidos > 0) {
+          <span class="notification-badge">{{mensajesNoLeidos}}</span>
+        }
+      </p>
+    </a>
 
-    <!-- FALTA NOTIFICACION -->
-    <!-- FALTA CHAT -->
-    <a [routerLink]="['/perfilProfesional']">Perfil</a>
-
-
-    <div>
-      <img>
-       <a class="nav-link">Opciones</a>
-       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" routerLink="/option1">Cerrar Sesión</a></li>
-        <li><a class="dropdown-item" routerLink="/option2">Modificar Cuenta</a></li>
-        <li><a class="dropdown-item" routerLink="/option3">Eliminar Cuenta</a></li>
+    <div class="dropdown-notif" (click)="toggleDropdownNotif()">
+      <span class="nav-link">
+        Notificaciones
+        @if (notificacionesNoLeidas > 0) {
+          <span class="notification-badge">{{notificacionesNoLeidas}}</span>
+        }
+      </span>
+      <ul class="dropdown-menu" [class.show]="isDropdownOpenNotif">
+        @if (notificaciones.length === 0) {
+          <li class="dropdown-item no-notifications">No hay notificaciones</li>
+        } @else {
+          @for (not of notificaciones; track not.descripcion) {
+            <li class="dropdown-item" [class.leido]="not.leido">
+              <span>{{ not.descripcion }}</span>
+              @if (!not.leido) {
+                <span class="unread-dot"></span>
+              }
+            </li>
+          }
+        }
       </ul>
     </div>
-  </nav>
-</body>
+
+    <a [routerLink]="['/profesional/perfil']" class="nav-link">Perfil</a>
+  </div>
+
+  <div class="dropdown" (click)="toggleDropdown()">
+    <img
+      [src]="imagenUrl"
+      alt="Foto de perfil"
+      class="profile-img"
+    >
+    <span class="nav-link">Opciones</span>
+    <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+      <li><a class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</a></li>
+      <li><a class="dropdown-item" (click)="modificarCuenta()">Modificar cuenta</a></li>
+      <li><a class="dropdown-item" (click)="eliminarCuenta()">Eliminar cuenta</a></li>
+    </ul>
+  </div>
+</nav>

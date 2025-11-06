@@ -21,7 +21,6 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
   idPublicacion: string | null = null;
   destroy$ = new Subject<void>();
   publicacionAModificar!: Publicacion;
-  imagenPublicacion: SafeUrl | null = null;
 
   // Servicios
   activatedRoute = inject(ActivatedRoute);
@@ -51,7 +50,7 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error al obtener parámetros de la ruta:', err);
-        this.router.navigate(['/perfilProfesional']);
+        this.router.navigate(['profesional/perfil']);
       },
     });
   }
@@ -60,37 +59,17 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
     this.publicacionService.getPublicacionPorIDPublicacion(idPublicacion).pipe(takeUntil(this.destroy$)).subscribe({
       next: (publi) => {
         this.publicacionAModificar = publi;
-        this.imagenPublicacion = publi.urlFoto ? this.sanitizer.bypassSecurityTrustUrl(publi.urlFoto) : null;
         this.formularioDefecto();
-        this.cargarImagenes();
 
       },
       error: (err) => {
         alert('No se pudo obtener la publicación a modificar. Será redirigido');
         console.error('Error al obtener la publicación:', err);
-        this.router.navigate(['/perfilProfesional']);
+        this.router.navigate(['profesional/perfil']);
       },
     });
   }
 
-  cargarImagenes() {
-
-    if (this.publicacionAModificar.urlFoto) {
-      this.imageService.getImagen(this.publicacionAModificar.urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (blob: Blob) => {
-          const objectUrl = URL.createObjectURL(blob);
-          this.imagenPublicacion = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-          console.log('Imagen Publicación cargada:', this.imagenPublicacion);
-        },
-        error: (err) => {
-          console.error('Error al cargar urlFoto:', err);
-          this.imagenPublicacion = null;
-        },
-      });
-    } else {
-      this.imagenPublicacion = null;
-    }
-  }
 
   formularioDefecto() {
     if (this.publicacionAModificar) {
@@ -132,7 +111,7 @@ export class ModifyPublicacionComponent implements OnInit, OnDestroy {
       this.publicacionService.putPublicacion(publiModificada, this.idPublicacion).pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
           alert('Publicación modificada con éxito');
-          this.router.navigate(['/perfilProfesional']);
+          this.router.navigate(['profesional/perfil']);
         },
         error: (err) => {
           alert('La publicación no ha podido ser modificada');

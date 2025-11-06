@@ -29,7 +29,7 @@ export class PerfilAdminComponent {
     urlFoto: " ",
     activo: true,
     rol: "contratador",
-    permisos: 1
+    permisos: "c"
 
   }
   destroy$ = new Subject<void>();
@@ -80,7 +80,6 @@ export class PerfilAdminComponent {
       }
     });
   }
-
 
   ngOnDestroy(): void {
 

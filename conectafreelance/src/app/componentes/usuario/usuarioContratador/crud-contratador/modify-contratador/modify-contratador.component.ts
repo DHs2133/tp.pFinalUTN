@@ -42,8 +42,9 @@ export class ModifyContratadorComponent implements OnInit, OnDestroy {
     contrasenia: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
     activo: [true],
     urlFoto: ['', [Validators.required]],
-    rol: ['contratador' as 'profesional' | 'contratador' | 'administrador'],
-    empresaRepresentada: ["", [noWhitespaceValidator()]]
+    rol: ['contratador' as 'profesional' | 'contratador' | 'admin'],
+    empresaRepresentada: ["", [noWhitespaceValidator()]],
+    cantComRep: [0]
   });
   // formulario------------------------------------------------------------------------------------
 
@@ -99,6 +100,7 @@ export class ModifyContratadorComponent implements OnInit, OnDestroy {
       activo: this.usuContDefault.activo,
       empresaRepresentada: this.usuContDefault.empresaRepresentada,
       urlFoto: this.usuContDefault.urlFoto,
+      cantComRep: this.usuContDefault.cantComRep
     });
     if (this.usuContDefault.urlFoto) {
       this.cargarImagen(this.usuContDefault.urlFoto);

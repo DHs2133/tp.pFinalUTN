@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <header class="profile-header">
+  <aside class="info-perfil">
     <div class="profile-image">
       <img
         [src]="imagenUrl"
@@ -10,32 +10,49 @@
     <div class="profile-info">
       <h1>{{ usuarioProf.nombreCompleto || 'Nombre no disponible' }}</h1>
       <p class="profession">{{ usuarioProf.profesion || 'Profesión no especificada' }}</p>
-      <button (click)="addUsuarioALista()" class="add-favorite-btn">Agregar a Favoritos</button>
     </div>
-  </header>
 
-  <section class="profile-details">
-    <h2>Sobre mí</h2>
-    <p class="description">{{ usuarioProf.descripcion || 'Sin descripción disponible' }}</p>
-    <div class="location">
-      <span class="material-icons">location_on</span>
-      <p>{{ usuarioProf.ciudad || 'Ciudad' }}, {{ usuarioProf.provincia || 'Provincia' }}, {{ usuarioProf.pais || 'País' }}</p>
-    </div>
-  </section>
+    <section class="profile-details">
+      <h2>Sobre mí</h2>
+      <p class="description">{{ usuarioProf.descripcion || 'Sin descripción disponible' }}</p>
+      <div class="location">
+        <span class="material-icons">location_on</span>
+        <p>{{ usuarioProf.ciudad || 'Ciudad' }}, {{ usuarioProf.provincia || 'Provincia' }}, {{ usuarioProf.pais || 'País' }}</p>
+      </div>
+    </section>
 
-  <section class="profile-ratings">
-    <h2>Calificaciones</h2>
-    <div class="ratings-info">
-      <div class="rating">
-        <span class="material-icons">star</span>
-        <p>{{ usuarioProf.promedio ? usuarioProf.promedio.toFixed(1) : '0.0' }} / 5</p>
+    <section class="profile-ratings">
+      <div class="ratings-info">
+        <div class="rating">
+          <span class="material-icons">star</span>
+          <p>{{ usuarioProf.promedio ? usuarioProf.promedio.toFixed(1) : '0.0' }} / 5</p>
+        </div>
+        <div class="comments">
+          <span class="material-icons">comment</span>
+          <p>{{ usuarioProf.cantComentarios || 0 }} comentario(s)</p>
+        </div>
       </div>
-      <div class="comments">
-        <span class="material-icons">comment</span>
-        <p>{{ usuarioProf.cantComentarios || 0 }} comentario(s)</p>
-      </div>
+    </section>
+
+    <div class="button-group">
+      <button
+        (click)="iniciarChat(usuarioProf)"
+        class="chat-button"
+        [attr.aria-label]="'Iniciar chat con ' + (usuarioProf.nombreCompleto || 'Usuario')"
+      >
+        <span class="material-icons">chat</span>
+        Chat
+      </button>
+      <button
+        (click)="addUsuarioALista()"
+        class="favorite-button"
+        [attr.aria-label]="'Agregar a favoritos a ' + (usuarioProf.nombreCompleto || 'Usuario')"
+      >
+        <span class="material-icons">favorite</span>
+        Favoritos
+      </button>
     </div>
-  </section>
+  </aside>
 
   <section class="profile-content-switcher">
     <div class="tab-buttons">
@@ -56,16 +73,16 @@
         Comentarios
       </button>
     </div>
-    @if (activeTab === 'publicaciones') {
-      <div class="tab-content">
-        <app-list-publicacion-contprofperf></app-list-publicacion-contprofperf>
-      </div>
-    }
 
-    @if (activeTab === 'comentarios') {
-      <div class="tab-content">
+    <div class="tab-content">
+      @if (activeTab === 'publicaciones') {
+        <app-list-publicacion-contprofperf></app-list-publicacion-contprofperf>
+      } @else {
+
         <app-add-comentario (puntajeAEliminar)="quitarPuntajeAPromedio($event)" (puntajeAEmitir)="actualizarPromedio($event)"></app-add-comentario>
-      </div>
-    }
+
+      }
+    </div>
   </section>
 </div>
+

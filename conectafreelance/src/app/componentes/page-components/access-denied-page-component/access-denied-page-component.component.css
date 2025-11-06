@@ -47,17 +47,3 @@ p {
 .btn-home:hover {
   background-color: #0056b3;
 }
-
-@media (max-width: 576px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  p {
-    font-size: 1rem;
-  }
-
-  .content {
-    padding: 15px;
-  }
-}

@@ -1,14 +1,14 @@
 <section class="add-comentario-container">
-  <h2>Agregar Comentario</h2>
   <form [formGroup]="formMensaje" (ngSubmit)="mandarMensaje()" class="comentario-form">
     <div class="form-group">
-      <label for="contenido">Comentario</label>
+
+      <label for="contenido">Mandar un mensaje</label>
       <textarea
         id="contenido"
+        maxlength="500"
+        (input)="autoResize($event)"
         formControlName="contenido"
         placeholder="Escribe tu comentario aquí..."
-        (input)="autoResize($event)"
-        rows="4"
       ></textarea>
 
     </div>

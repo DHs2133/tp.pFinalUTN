@@ -43,8 +43,8 @@ export class ModifyAdminComponent implements OnInit, OnDestroy{
     contrasenia: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/)]],
     activo: [true],
     urlFoto: ['', [Validators.required]],
-    rol: ['administrador' as 'profesional' | 'contratador' | 'administrador'],
-    permisos: [1 as 1 | 2 | 3, [Validators.required]]
+    rol: ['admin' as 'profesional' | 'contratador' | 'admin'],
+    permisos: ["c" as "c" | "cp" | "p", [Validators.required]]
   });
   // formulario------------------------------------------------------------------------------------
 
@@ -155,7 +155,7 @@ export class ModifyAdminComponent implements OnInit, OnDestroy{
       next: () => {
         alert('Usuario actualizado correctamente. Será redirigido a su perfil');
         this.manejoArchivo.clearSelection();
-        this.router.navigate(['/perfilAdmin']);
+        this.router.navigate(['admin/perfil']);
       },
       error: (err) => {
         console.error('Error al actualizar el usuario:', err);

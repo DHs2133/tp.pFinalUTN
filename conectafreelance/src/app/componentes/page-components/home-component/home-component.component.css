@@ -10,16 +10,17 @@
 
   border-bottom-left-radius: 25%;
   border-bottom-right-radius: 25%;
-  overflow: hidden;            /* recorta la imagen según el border-radius */
+  overflow: hidden;
 
 
   display: flex;
   flex-direction: column;
   width: 100%;
 
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content:end;
+  padding-bottom: 4rem;
+  align-items:center;
+  text-align:center;
   color: #fff;
 
 }

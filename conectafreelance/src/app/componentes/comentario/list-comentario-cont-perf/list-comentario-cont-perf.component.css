@@ -1,24 +1,14 @@
 .comentarios-container {
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 h2 {
   text-align: center;
-  color: #1a1a1a;
-  margin-bottom: 2rem;
-  font-size: clamp(1.8rem, 5vw, 2.2rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.no-publicaciones {
-  text-align: center;
-  color: #6b7280;
-  font-size: clamp(1rem, 3vw, 1.1rem);
-  font-style: italic;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
 }
 
 .comentario-list {
@@ -28,81 +18,80 @@ h2 {
 }
 
 .comentario-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .comentario-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .comentario-card.reported {
   background-color: #fefce8;
   border: 1px solid #facc15;
+  box-shadow: 0 2px 6px rgba(250, 204, 21, 0.2);
 }
 
 .comentario-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
 }
 
-.avatar-contratador,
-.avatar-profesional {
-  width: clamp(36px, 8vw, 44px);
-  height: clamp(36px, 8vw, 44px);
+.avatar {
+  width: clamp(40px, 10vw, 50px);
+  height: clamp(40px, 10vw, 50px);
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e5e7eb;
-  transition: border-color 0.2s ease;
+  border: 2px solid #eee;
 }
 
-.avatar-contratador:hover,
-.avatar-profesional:hover {
-  border-color: #3b82f6;
+.avatar-contratador {
+  flex-shrink: 0;
 }
 
 .creador-info,
 .profesional-details {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
 .nombre-creador,
 .nombre-profesional {
-  font-weight: 600;
-  color: #1f2937;
-  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: clamp(1rem, 3vw, 1.1rem);
 }
 
 .puntaje {
-  color: #6b7280;
-  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  color: #e67e22;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
 .profesional-info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
+  margin-left: auto;
 }
 
 .comentario-content {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .comentario-content p {
   margin: 0;
-  color: #374151;
-  line-height: 1.6;
-  font-size: clamp(0.95rem, 3vw, 1.05rem);
+  color: #2c3e50;
+  line-height: 1.5;
+  font-size: clamp(0.9rem, 2.8vw, 1rem);
   word-break: break-word;
 }
 
@@ -112,89 +101,61 @@ h2 {
   gap: 0.75rem;
 }
 
-.delete-button,
-.edit-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: none;
-  background-color: transparent;
-  transition: background-color 0.2s ease;
-}
-
 .delete-button {
-  color: #ef4444;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  transition: background-color 0.3s ease;
+  min-width: 100px;
 }
 
 .delete-button:hover {
-  background-color: #fee2e2;
+  background-color: #c0392b;
 }
 
 .edit-link {
-  color: #3b82f6;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  transition: background-color 0.3s ease;
+  min-width: 100px;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .edit-link:hover {
-  background-color: #dbeafe;
+  background-color: #2980b9;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .reported-label {
-  color: #facc15;
-  font-weight: 500;
-  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
-  padding: 0.5rem 1rem;
-  background-color: #fefce8;
-  border-radius: 6px;
+  background-color: #facc15;
+  color: #92400e;
+  font-weight: bold;
+  font-size: clamp(0.75rem, 2.3vw, 0.85rem);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  align-self: flex-end;
 }
 
-@media (max-width: 600px) {
-  .comentarios-container {
-    padding: 1rem;
-  }
-
-  .comentario-card {
-    padding: 1rem;
-  }
-
-  .comentario-header {
-    gap: 0.75rem;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .avatar-contratador,
-  .avatar-profesional {
-    width: clamp(32px, 7vw, 38px);
-    height: clamp(32px, 7vw, 38px);
-  }
-
-  .nombre-creador,
-  .nombre-profesional,
-  .puntaje,
-  .comentario-content p {
-    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
-  }
-}
-
-@media (max-width: 400px) {
-  .comentarios-container {
-    padding: 0.75rem;
-  }
-
-  h2 {
-    font-size: clamp(1.5rem, 4vw, 1.8rem);
-  }
-
-  .comentario-card {
-    padding: 0.75rem;
-  }
+.no-publicaciones {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  margin: 2rem 0;
 }

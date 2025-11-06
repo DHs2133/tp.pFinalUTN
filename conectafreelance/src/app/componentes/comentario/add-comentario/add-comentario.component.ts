@@ -10,6 +10,8 @@ import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados'
 import { UsuarioContratadorService } from '../../usuario/usuarioContratador/service/usuario-contratador.service';
 import { CommonModule } from '@angular/common';
 import { ListComentarioContprofperfComponent } from "../list-comentario-contprofperf/list-comentario-contprofperf.component";
+import { NotificacionService } from '../../notificacion/notificacionService/notificacion.service';
+import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
 
 @Component({
   selector: 'app-add-comentario',
@@ -24,14 +26,25 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
   idCreador: string = " ";
   idDestinatario: string | null = " ";
   destroy$ = new Subject<void>();
-  bandera: boolean = true; // Se supone por defecto que el usuario ha realizado ningún comentario.
   puntaje: number = 1;
   comentarioAAgregar!: Comentario;
 
+
+  listaNotificaciones: ListaNotificaciones = {
+    id: "",
+    idDuenio: "",
+    notificaciones: []
+
+  };
+
+  // event emitter para el puntaje del comentario
   @Output()
   puntajeAEmitir: EventEmitter<number> = new EventEmitter;
+
+  // event emitter para eliminar el puntaje del comentario eliminado
   @Output()
   puntajeAEliminar: EventEmitter<number> = new EventEmitter;
+
 
   comentarioService = inject(ComentarioService);
   usuContService = inject(UsuarioContratadorService)
@@ -40,6 +53,8 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
   logServ = inject(LoginService);
   sanitizer = inject(DomSanitizer);
   activatedRoute = inject(ActivatedRoute);
+  listNotService = inject(NotificacionService);
+
 
   formComentario = this.fb.nonNullable.group({
     idCreador: [" "],
@@ -88,7 +103,7 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
         this.idDestinatario = param.get('id');
         if (!this.idDestinatario) {
           alert("Ha ocurrido un error. Será redirigido a su perfil.")
-          this.router.navigate(['/perfilContratador']);
+          this.router.navigate(['contratador/perfil']);
         }
 
         this.formComentario.patchValue({
@@ -97,7 +112,7 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
       },
       error: (err) => {
         console.error('Error al obtener parámetros de la ruta:', err);
-        this.router.navigate(['/perfilContratador']);
+        this.router.navigate(['contratador/perfil']);
       },
     });
   }
@@ -114,10 +129,12 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
   }
 
   agregarComentario() {
+
     if (this.formComentario.invalid) {
       alert("Formulario inválido");
       return;
     }
+
     const datosMinComentario = this.formComentario.getRawValue();
 
     const comentario = {
@@ -139,6 +156,9 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
       next : (value) => {
         alert("Comentario enviado con éxito.");
         this.comentarioAAgregar = value;
+        value.puntaje;
+        this.puntajeAEmitir.emit(value.puntaje);
+        this.emitirNotificacion(this.idDestinatario as string);
       },
       error : (err) => {
         alert("Error: no se ha podido enviar el comentario.");
@@ -149,6 +169,38 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
     })
   }
 
+  emitirNotificacion(id: string){
+
+    this.listNotService.getListaNotificacionesPorIDUsuario(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) =>{
+        if(value.length > 0){
+          this.listaNotificaciones = value[0];
+          const notificion: Notificacion = {
+            descripcion: `El usuario ${this.nombreUsu} ha realizado un comentario`,
+            leido: false
+
+          }
+          this.listaNotificaciones.notificaciones.push(notificion);
+          this.putListaDeNotificaciones(this.listaNotificaciones);
+        }
+      }
+    })
+  }
+
+  putListaDeNotificaciones(listaNotifMod: ListaNotificaciones){
+    if(listaNotifMod.id){
+      this.listNotService.putListaNotificaciones(listaNotifMod, listaNotifMod.id).pipe(takeUntil(this.destroy$)).subscribe({
+        next : (value) => {
+          console.log("Notificación emitida");
+        },
+        error : (err) => {
+          console.error("Ha ocurrido un error al intentar emitir la notificación: " + err);
+          alert("Error");
+        },
+      });
+    }
+  }
+
   resetear() {
     this.formComentario.get('contenido')?.setValue('');
   }
@@ -157,19 +209,12 @@ export class AddComentarioComponent implements OnInit, OnDestroy{
 
     this.comentarioService.getComentarioPorIDcreadorYDestinatario(this.idCreador, this.idDestinatario).pipe(takeUntil(this.destroy$)).subscribe({
       next : (value) => {
-        if(value.length >0 ){
-          this.bandera = true;
+        if(value.length > 0 ){
+          alert("Usted ya ha publicado un comentario.")
         }else{
-          this.bandera = false;
+          this.addComentarioABDD(nvoComentario);
         }
 
-        if(!this.bandera){
-          this.addComentarioABDD(nvoComentario);
-          this.puntaje = nvoComentario.puntaje;
-          this.puntajeAEmitir.emit(this.puntaje);
-        }else{
-          alert("Usted ya ha publicado un comentario.")
-        }
       },
       error : (err) => {
 

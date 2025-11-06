@@ -29,7 +29,8 @@ export class PerfilContratadorComponent implements OnInit, OnDestroy {
     urlFoto: " ",
     activo: true,
     rol: "contratador",
-    empresaRepresentada: ""
+    empresaRepresentada: "",
+    cantComRep: 0
 
   }
   destroy$ = new Subject<void>();
@@ -53,6 +54,13 @@ export class PerfilContratadorComponent implements OnInit, OnDestroy {
     this.contService.getUsuariosContratadoresPorId(this.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (usu: UsuarioContratador) => {
         if (usu) {
+
+
+          if(!usu.activo){
+
+            this.router.navigate(['/cuenta-desactivada']);
+          }
+
           this.usuarioCont = usu;
           this.cargarImagen(this.usuarioCont.urlFoto);
         } else {
@@ -81,47 +89,6 @@ export class PerfilContratadorComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Esto posiblemente lo pase al componente del navbar
-  eliminar(){
-    this.eliminarCuenta();
-
-  }
-
-  eliminarCuenta(){
-    const confirmado = window.confirm("¿Estás seguro de que querés eliminar tu cuenta?");
-    if (confirmado) {
-
-      this.contService.deleteUsuarioContratadorByID(this.id).pipe(takeUntil(this.destroy$)).subscribe({
-        next: () =>{
-          alert("Cuenta eliminada exitosamente.");
-          this.loginService.clear();
-          this.eliminarFoto()
-
-        },
-        error: (err) => {
-          alert("No se pudo eliminar la cuenta profesional");
-          console.log("Error: " + err);
-        },
-      });
-    }
-  }
-
-  eliminarFoto(){
-    this.imageService.deleteImage(this.usuarioCont.urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-
-      next : (value) => {
-        console.log("Foto eliminada correctamente");
-        this.router.navigate(['/home']);
-
-      },
-      error : (err) => {
-        console.log("No se pudo eliminar la foto: " + err);
-
-      },
-    });
-
-  }
-  // Esto posiblemente lo pase al componente del navbar
 
   ngOnDestroy(): void {
 

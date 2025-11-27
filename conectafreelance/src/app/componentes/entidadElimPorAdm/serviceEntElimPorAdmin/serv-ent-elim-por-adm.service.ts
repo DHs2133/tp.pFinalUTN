@@ -10,16 +10,16 @@ export class ServEntElimPorAdmService {
 
   constructor(private http: HttpClient) { }
 
-  urlentElimPorAdm: string = 'http://localhost:3001/entElimPorAdm'
+  urlentElimPorAdm: string = 'http://localhost:3001/entElimPorAdmin'
 
   postEntElimPorAdm(entElimPorAdm: EntElimPorAdm): Observable<EntElimPorAdm>{
 
     return this.http.post<EntElimPorAdm>(this.urlentElimPorAdm, entElimPorAdm);
   }
 
-  getPublicacionesPorIDDuenio(idDuenio: string): Observable<EntElimPorAdm[]> {
+  getEntElimPorAdmPorID(id: string): Observable<EntElimPorAdm> {
 
-    return this.http.get<EntElimPorAdm[]>(`${this.urlentElimPorAdm}?idDuenio=${idDuenio}`);
+    return this.http.get<EntElimPorAdm>(`${this.urlentElimPorAdm}/${id}`);
   }
 
   putPublicacion(entElimPorAdm: EntElimPorAdm, id: string | null): Observable<EntElimPorAdm>{

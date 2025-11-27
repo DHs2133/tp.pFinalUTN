@@ -101,7 +101,7 @@ export class NavbarContratadorComponentComponent implements OnInit, OnDestroy {
         console.log('Notificaciones recibidas:', value);
         if (value.length > 0) {
           this.listaNotificaciones = value[0];
-          this.notificaciones = (this.listaNotificaciones.notificaciones || []).slice().reverse();;
+          this.notificaciones = this.listaNotificaciones.notificaciones || [];
         } else {
           this.notificaciones = [];
         }
@@ -239,7 +239,11 @@ export class NavbarContratadorComponentComponent implements OnInit, OnDestroy {
   }
 
 
+  irAEntidadEliminada( idEnt: string, ) {
+    this.router.navigate(['contratador/entElim', idEnt]);
 
+    // this.isDropdownOpenNotif = false;
+  }
 
 
 

@@ -122,29 +122,55 @@ export class ListProfesionalComponent implements OnInit, OnDestroy {
       )
     );
 
-    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (resultados: Comentario[][]) => {
-        resultados.forEach((comentarios, index) => {
-          const idProf = idsProfesionales[index];
-          this.comentariosPorProfesional[idProf] = comentarios;
+   forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
+    next: (resultados: Comentario[][]) => {
+      const profesionalesParaActualizar: UsuarioProfesional[] = [];
 
-          const cant = comentarios.length;
-          const suma = comentarios.reduce((acc, c) => acc + c.puntaje, 0);
-          const promedio = cant > 0 ? suma / cant : 0;
+      resultados.forEach((comentarios, index) => {
+        const idProf = idsProfesionales[index];
+        const cant = comentarios.length;
+        const suma = comentarios.reduce((acc, c) => acc + c.puntaje, 0);
+        const promedio = cant > 0 ? suma / cant : 0;
 
-          const prof = this.listaFiltrada.find(p => p.id === idProf);
-          if (prof) {
+        const prof = this.listaFiltrada.find(p => p.id === idProf);
+        if (prof) {
+          const haCambiado = prof.cantComentarios !== cant ||
+                            Math.abs((prof.promedio || 0) - promedio) > 0.01;
+
+          if (haCambiado) {
+            prof.cantComentarios = cant;
+            prof.promedio = promedio;
+            profesionalesParaActualizar.push({...prof});
+          } else {
             prof.cantComentarios = cant;
             prof.promedio = promedio;
           }
-        });
 
-        this.ordenarLista();
-      },
-      error: (err) => {
-        console.error('Error al cargar comentarios para promedio:', err);
-      }
+          this.comentariosPorProfesional[idProf] = comentarios;
+        }
     });
+
+      if (profesionalesParaActualizar.length > 0) {
+        this.actualizarProfesionalesEnBD(profesionalesParaActualizar);
+      }
+
+      this.ordenarLista();
+    }
+    });
+  }
+
+  actualizarProfesionalesEnBD(profesionales: UsuarioProfesional[]) {
+    const updates$ = profesionales.map(prof =>
+      this.profesionalService.putUsuariosProfesionales(
+        prof,
+        prof.id!
+      ).pipe(catchError(err => {
+        console.error(`Error actualizando profesional ${prof.id}`, err);
+        return of(null);
+      }))
+    );
+
+    forkJoin(updates$).subscribe();
   }
 
   filtrarProfesionales(filtros: any) {

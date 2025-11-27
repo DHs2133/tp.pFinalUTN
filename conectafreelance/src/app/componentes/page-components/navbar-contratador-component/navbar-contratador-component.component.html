@@ -13,6 +13,8 @@
       }
     </p>
     </a>
+
+
     <div class="dropdown-notif" (click)="toggleDropdownNotif()">
       <span class="nav-link">
         Notificaciones
@@ -20,12 +22,18 @@
           <span class="notification-badge">{{notificacionesNoLeidas}}</span>
         }
       </span>
+
       <ul class="dropdown-menu" [class.show]="isDropdownOpenNotif">
         @if (notificaciones.length === 0) {
           <li class="dropdown-item no-notifications">No hay notificaciones</li>
         } @else {
-          @for (not of notificaciones; track not.descripcion) {
-            <li class="dropdown-item" [class.leido]="not.leido">
+          @for (not of notificaciones.slice().reverse(); track not.descripcion) {
+            <li
+              class="dropdown-item"
+              [class.leido]="not.leido"
+              [class.clickable]="not.idEnt"
+              (click)="not.idEnt ? irAEntidadEliminada( not.idEnt) : null"
+            >
               <span>{{ not.descripcion }}</span>
               @if (!not.leido) {
                 <span class="unread-dot"></span>
@@ -35,6 +43,10 @@
         }
       </ul>
     </div>
+
+
+
+
 
     <a [routerLink]="['/contratador/perfil']" class="nav-link">Perfil</a>
   </div>

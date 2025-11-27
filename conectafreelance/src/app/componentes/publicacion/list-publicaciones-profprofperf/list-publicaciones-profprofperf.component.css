@@ -79,18 +79,24 @@ h2 {
   color: #333;
   line-height: 1.5;
   font-size: 1em;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .publicacion-imagen {
   max-width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
 }
 
 .publicacion-imagen img {
   max-width: 100%;
-  max-height: 250px;
+  max-height: 200px;
   object-fit: contain;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
+  background-color: #f0f0f0;
 }
 
 .publicacion-actions {

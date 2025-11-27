@@ -5,7 +5,7 @@
     @if (comentarios.length === 0) {
       <p class="no-publicaciones">No hay comentarios para mostrar.</p>
     } @else {
-      @for (comentario of comentarios; track comentario.id) {
+      @for (comentario of comentarios; track $index) {
         <div class="comentario-card">
           <div class="comentario-header">
             <img
@@ -32,14 +32,40 @@
           </div>
 
           @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
-            <div class="comentario-actions">
-              <button
-                (click)="eliminar(comentario.id)"
-                class="delete-button"
-                [disabled]="comentario.reportada"
-              >
-                {{ comentario.reportada ? 'Reportado' : 'Eliminar' }}
-              </button>
+            <div class="eliminar-form">
+              <label for="motivo-{{ comentario.id }}">
+                Escriba el motivo de la eliminación
+              </label>
+              <input
+                type="text"
+                id="motivo-{{ comentario.id }}"
+                [formControl]="motivoControls[comentario.id!]"
+                placeholder="Ej: Contenido ofensivo, spam..."
+                class="motivo-input"
+              />
+              @if (motivoControls[comentario.id!].touched && motivoControls[comentario.id!].invalid) {
+                <small class="error-text">
+                  @if (motivoControls[comentario.id!].errors?.['required']) {
+                    El motivo es obligatorio.
+                  } @else if (motivoControls[comentario.id!].errors?.['minlength']) {
+                    Mínimo 50 caracteres.
+                  } @else if (motivoControls[comentario.id!].errors?.['maxlength']) {
+                    Máximo 200 caracteres.
+                  }
+                </small>
+              }
+
+              <div class="comentario-actions">
+                <button
+                  (click)="eliminar(comentario.id)"
+                  [disabled]="motivoControls[comentario.id!].invalid"
+                  class="delete-button"
+                >
+                  Eliminar
+                </button>
+
+
+              </div>
             </div>
           }
         </div>

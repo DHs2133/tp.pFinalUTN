@@ -1,53 +1,88 @@
 <section class="comentarios-container">
   <h2>Comentarios Reportados</h2>
+
   @if (comentarioUsuario.length === 0) {
     <p class="no-comentarios">No hay comentarios reportados para mostrar.</p>
   } @else {
     @for (comentario of comentarioUsuario; track comentario.id) {
-      <article
-        class="comentario-card"
-        (click)="irAPerfilProfesional(comentario.idCreador)"
-      >
+      <article class="comentario-card">
+
         <div class="comentario-header">
+
           <div class="creador-info">
             @if (getUsuarioContratadorById(comentario.idCreador)) {
-              <img
-                [src]="imagenesPerfil[comentario.idCreador]"
-                [alt]="'Foto de ' + getUsuarioContratadorById(comentario.idCreador)!.nombreCompleto"
-                class="creador-foto"
-                loading="lazy"
-              />
-              <div class="creador-details">
-                <h3>{{ getUsuarioContratadorById(comentario.idCreador)!.nombreCompleto }}</h3>
+              <div (click)="irAPerfilContratador(comentario.idCreador)">
+                <img
+                  [src]="imagenesPerfil[comentario.idCreador] || 'public/avatar.png'"
+                  [alt]="'Foto de ' + getUsuarioContratadorById(comentario.idCreador)!.nombreCompleto"
+                  class="creador-foto"
+                  loading="lazy"
+                />
+                <div class="usuario-details">
+                  <h3>{{ getUsuarioContratadorById(comentario.idCreador)!.nombreCompleto }}</h3>
+                </div>
               </div>
             } @else {
-              <span>Cargando datos del usuario...</span>
+              <span class="loading-text">Cargando usuario...</span>
+            }
+          </div>
+
+          <div class="profesional-info" (click)="irAPerfilProfesional(comentario.idDestinatario)">
+            @if (getUsuarioProfesionalById(comentario.idDestinatario)) {
+              <div class="profesional-container">
+                <img
+                  [src]="imagenesPerfil[comentario.idDestinatario] || 'public/avatar.png'"
+                  [alt]="'Foto de ' + getUsuarioProfesionalById(comentario.idDestinatario)!.nombreCompleto"
+                  class="profesional-foto"
+                  loading="lazy"
+                />
+                <div class="usuario-details profesional-nombre">
+                  <h3>{{ getUsuarioProfesionalById(comentario.idDestinatario)!.nombreCompleto }}</h3>
+                </div>
+              </div>
+            } @else {
+              <span class="loading-text">Cargando...</span>
             }
           </div>
         </div>
+
         <div class="comentario-content">
           <p>{{ comentario.contenido }}</p>
         </div>
+
+        <div class="motivo-container">
+          <textarea
+            [formControl]="motivoControls[comentario.id!]"
+            placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
+            class="motivo-input"
+            rows="3"
+          ></textarea>
+
+          @if (motivoControls[comentario.id!].touched && motivoControls[comentario.id!].invalid) {
+            <small class="error-text">
+              @if (motivoControls[comentario.id!].errors?.['required']) {
+                El motivo es obligatorio.
+              } @else if (motivoControls[comentario.id!].errors?.['minlength']) {
+                Mínimo 50 caracteres.
+              } @else if (motivoControls[comentario.id!].errors?.['maxlength']) {
+                Máximo 200 caracteres.
+              }
+            </small>
+          }
+        </div>
+
         <div class="comentario-actions" (click)="$event.stopPropagation()">
-          <button
-            type="button"
-            class="approve-button"
-            (click)="controlar(comentario, 'aprobar')"
-            title="Aprobar comentario"
-          >
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 13l4 4L19 7" />
-            </svg>
+          <button class="approve-button" (click)="controlar(comentario, 'aprobar')">
+            Aprobar
+            <span class="action-label">Aprobar</span>
           </button>
           <button
-            type="button"
             class="delete-button"
             (click)="controlar(comentario, 'eliminar')"
-            title="Eliminar comentario"
+            [disabled]="motivoControls[comentario.id!].invalid"
           >
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-4 5v6m-4 0v-6m8 6v-6" />
-            </svg>
+            Eliminar
+            <span class="action-label">Eliminar</span>
           </button>
         </div>
       </article>

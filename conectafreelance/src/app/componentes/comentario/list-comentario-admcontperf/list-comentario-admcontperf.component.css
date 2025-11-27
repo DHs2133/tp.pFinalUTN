@@ -1,4 +1,5 @@
-.publicaciones-container {
+/* === CONTENEDOR PRINCIPAL === */
+.comentarios-container {
   max-width: 900px;
   margin: 2rem auto;
   padding: 1.5rem;
@@ -19,7 +20,7 @@ h2 {
   text-align: center;
 }
 
-.no-publicaciones {
+.no-comentarios {
   font-size: clamp(1rem, 3vw, 1.1rem);
   color: #6b7280;
   text-align: center;
@@ -29,41 +30,56 @@ h2 {
   border-radius: 8px;
 }
 
-.publicacion-card {
+/* === TARJETA DE COMENTARIO === */
+.comentario-card {
   background-color: #fafafa;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
-  cursor: pointer;
+  cursor: default;
   border: 1px solid #e5e7eb;
 }
 
-.publicacion-card:hover {
+.comentario-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   border-color: #d1d5db;
 }
 
-.publicacion-header {
+.comentario-card.reported {
+  background-color: #fffde7;
+  border-color: #f1c40f;
+}
+
+/* === HEADER: CONTRATADOR + PROFESIONAL === */
+.comentario-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px dashed #e5e7eb;
   margin-bottom: 1rem;
 }
 
+/* === CONTRATADOR (izquierda) === */
 .creador-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.creador-info:hover {
+  opacity: 0.9;
 }
 
 .creador-foto {
-  width: clamp(45px, 9vw, 55px);
-  height: clamp(45px, 9vw, 55px);
+  width: clamp(40px, 8vw, 50px);
+  height: clamp(40px, 8vw, 50px);
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #e5e7eb;
@@ -71,45 +87,86 @@ h2 {
   transition: border-color 0.2s ease;
 }
 
-.creador-foto:hover {
+.creador-info:hover .creador-foto {
   border-color: #3b82f6;
 }
 
-.publicacion-header .usuario-details h3 {
+.creador-info .usuario-details h3 {
   margin: 0;
-  font-size: clamp(1.05rem, 3vw, 1.15rem);
+  font-size: clamp(1rem, 2.8vw, 1.1rem);
   font-weight: 600;
   color: #1f2937;
 }
 
-.publicacion-content {
+/* === PROFESIONAL (derecha) === */
+.profesional-info {
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.profesional-info:hover {
+  opacity: 0.9;
+}
+
+.profesional-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.profesional-foto {
+  width: clamp(40px, 8vw, 50px);
+  height: clamp(40px, 8vw, 50px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  background-color: #f3f4f6;
+  transition: border-color 0.2s ease;
+}
+
+.profesional-info:hover .profesional-foto {
+  border-color: #3b82f6;
+}
+
+.profesional-info .usuario-details h3 {
+  margin: 0;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+/* === PUNTAJE === */
+.puntaje-container {
+  text-align: right;
+  margin-bottom: 0.75rem;
+}
+
+.puntaje {
+  color: #666666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* === CONTENIDO === */
+.comentario-content {
   margin-bottom: 1rem;
 }
 
-.publicacion-content p {
+.comentario-content p {
   font-size: clamp(0.95rem, 3vw, 1.05rem);
   color: #374151;
   line-height: 1.6;
-  margin: 0 0 1rem 0;
+  margin: 0;
   word-break: break-word;
 }
 
-.publicacion-imagen {
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 0.75rem;
-}
-
-.publicacion-imagen img {
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  background-color: #f0f0f0;
-}
-
+/* === MOTIVO DE ELIMINACIÓN === */
 .motivo-container {
   margin: 1rem 0;
   padding-top: 1rem;
@@ -149,14 +206,13 @@ h2 {
   display: block;
 }
 
-.publicacion-actions {
+.comentario-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
   margin-top: 1rem;
 }
 
-.approve-button,
 .delete-button {
   display: flex;
   align-items: center;
@@ -168,18 +224,6 @@ h2 {
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.approve-button {
-  background-color: #dcfce7;
-  color: #166534;
-}
-
-.approve-button:hover {
-  background-color: #bbf7d0;
-}
-
-.delete-button {
   background-color: #fee2e2;
   color: #991b1b;
 }
@@ -197,10 +241,4 @@ h2 {
 
 .action-label {
   display: none;
-}
-
-.loading-text {
-  color: #9ca3af;
-  font-style: italic;
-  font-size: 0.9rem;
 }

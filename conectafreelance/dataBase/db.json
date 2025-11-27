@@ -1,116 +1,70 @@
 {
   "usuariosProfesionales": [
     {
-      "id": "d87e",
-      "nombreCompleto": "Henry Ford",
-      "email": "HenryFord@gmail.com",
-      "contrasenia": "DdSs#3sad",
-      "activo": true,
-      "profesion": "Ingeniero",
-      "descripcion": "dsada",
-      "ciudad": "Mar del Plata",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "urlFoto": "15-Grecia_Fotolia_218021187_Subscription_XL-1762268044892-307032.jpg",
-      "rol": "profesional",
-      "promedio": 4,
-      "cantComentarios": 1,
-      "cantPubRep": 0
-    },
-    {
-      "id": "901f",
-      "nombreCompleto": "Thomas Shelby",
-      "email": "ThomasShelby@gmail.com",
-      "contrasenia": "DdSs#3sad",
-      "activo": true,
-      "profesion": "Ingeniero",
-      "descripcion": "d nask ndsads an",
-      "ciudad": "Mar del Plata",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "urlFoto": "600155-1762268103148-176759.jpg",
-      "rol": "profesional",
-      "promedio": 1,
-      "cantComentarios": 1,
-      "cantPubRep": 0
-    },
-    {
-      "id": "70a6",
-      "nombreCompleto": "Marcelo Torcuato de Alvear",
-      "email": "MarceloTorcuatoAlvear@gmail.com",
-      "contrasenia": "DdSs#3sad",
-      "activo": true,
-      "profesion": "Político",
-      "descripcion": "dmsoadspadmsao odsdasdsa dsa ds ",
-      "ciudad": "Mar del Plata",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "urlFoto": "1570029081_071016_1570029510_rrss_normal-1762268138441-367119.jpg",
-      "rol": "profesional",
-      "promedio": 1,
-      "cantComentarios": 1,
-      "cantPubRep": 0
-    },
-    {
-      "id": "c37e",
-      "nombreCompleto": "Agustin Comte",
-      "email": "AgustinComte@gmail.com",
-      "contrasenia": "DdSs#3sad",
-      "activo": true,
-      "profesion": "Sociologo",
-      "descripcion": "ds jadas dsa dsapd saodps dsajosa s apos",
-      "ciudad": "Mar del Plata",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "urlFoto": "a78c12e2f0f4a2a3cb6914e799bdc15c-1762268178672-701769.jpg",
-      "rol": "profesional",
-      "promedio": 4,
-      "cantComentarios": 1,
-      "cantPubRep": 0
-    },
-    {
-      "id": "97b6",
-      "nombreCompleto": "Mauricio Macri",
-      "email": "MauricioMacri@gmail.com",
-      "contrasenia": "DdSs#3sad",
-      "activo": true,
-      "profesion": "Ingeniero",
-      "descripcion": "dkmosad sasao´d askoád soad",
-      "ciudad": "Mar del Plata",
-      "provincia": "Buenos Aires",
-      "pais": "Argentina",
-      "urlFoto": "chef-1762268236252-95360.png",
-      "rol": "profesional",
-      "promedio": 4,
-      "cantComentarios": 1,
-      "cantPubRep": 0
-    },
-    {
-      "id": "a358",
-      "nombreCompleto": "Arnold Schwarzenegger",
-      "email": "ArnoldSchwarzenegger@gmail.com",
+      "id": "194a",
+      "nombreCompleto": "Diego del Valle",
+      "email": "DiegoValle@gmail.com",
       "contrasenia": "DdSs#3sad",
       "activo": true,
       "profesion": "Actor",
-      "descripcion": "dsjoapd jsaods aodas poa o",
+      "descripcion": " Dsjaiod jaijs ai dasi sjai dasid sid aija dsiad saijd asias dsaijap diajpd asijd saias jisa daijd asidas ds dasjidasp dsia dsiaj daspdsa",
       "ciudad": "Mar del Plata",
       "provincia": "Buenos Aires",
       "pais": "Argentina",
-      "urlFoto": "forest-7469400_1280-1762268293560-9758.jpg",
+      "urlFoto": "00-1763082691608-625654.jpg",
       "rol": "profesional",
-      "promedio": 1,
-      "cantComentarios": 1,
+      "promedio": 0,
+      "cantComentarios": 0,
+      "cantPubRep": 0
+    },
+    {
+      "id": "fd92",
+      "nombreCompleto": "Camilo Lertner",
+      "email": "CamiloLertner@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "activo": true,
+      "profesion": "Actor",
+      "descripcion": "dsa jipdsa jdpoas dsaod sajodas o dsao´daodas ´dj sadaso dsaodsa",
+      "ciudad": "Mar del Plata",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "R_francesa-1763859486079-821570.jpg",
+      "rol": "profesional",
+      "promedio": 0,
+      "cantComentarios": 0,
       "cantPubRep": 0
     }
   ],
   "usuariosContratadores": [
     {
-      "id": "2c61",
-      "nombreCompleto": "Nelson Mandela",
-      "email": "NelsonMandela@gmail.com",
+      "id": "d703",
+      "nombreCompleto": "Maximo Sotelo",
+      "email": "MaxiMaxi@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "Globant",
+      "urlFoto": "15-Grecia_Fotolia_218021187_Subscription_XL-1763082715989-826883.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "f75b",
+      "nombreCompleto": "Mabel Maribel",
+      "email": "MabelMaribel@gmail.com",
       "contrasenia": "DdSs#3sad",
       "empresaRepresentada": "",
-      "urlFoto": "JerryMouse-1762268367708-814159.webp",
+      "urlFoto": "spike-1764198758725-436063.webp",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "8991",
+      "nombreCompleto": "Sergio Luna",
+      "email": "SergioLuna@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "",
+      "urlFoto": "600155-1764208535295-659486.jpg",
       "rol": "contratador",
       "activo": true,
       "cantComRep": 0
@@ -121,7 +75,7 @@
       "id": "5148",
       "nombreCompleto": "Bruno Marx",
       "email": "BrunoMarx@gmail.com",
-      "contrasenia": "DSads#dsdfas#3",
+      "contrasenia": "DdSs#3sad",
       "activo": true,
       "urlFoto": "leon-1759870095347-6105.webp",
       "rol": "admin",
@@ -129,145 +83,58 @@
     }
   ],
   "publicaciones": [],
-  "comentarios": [
-    {
-      "id": "c7a8",
-      "idCreador": "2c61",
-      "idDestinatario": "d87e",
-      "nombreCreador": "Nelson Mandela",
-      "contenido": "d sijapd saip dsaidp asjsip",
-      "puntaje": 4,
-      "estado": "activa",
-      "controlado": false,
-      "reportada": false
-    }
-  ],
+  "comentarios": [],
   "favoritos": [
     {
-      "id": "25c9",
-      "idDuenio": "4624",
+      "id": "b088",
+      "idDuenio": "d703",
       "idUsuariosFavoritos": [
-        "d87e",
-        "901f",
-        "c37e",
-        "a358"
+        "194a",
+        "fd92"
       ]
     },
     {
-      "id": "1d29",
-      "idDuenio": "2c61",
+      "id": "dfa8",
+      "idDuenio": "f75b",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "5653",
+      "idDuenio": "8991",
       "idUsuariosFavoritos": []
     }
   ],
   "chats": [],
   "listasnotificaciones": [
     {
-      "id": "525d",
+      "id": "a7f9",
       "idDuenio": "5148",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Bruno Marx",
-          "leido": true
-        }
-      ]
+      "notificaciones": []
     },
     {
-      "id": "26b3",
-      "idDuenio": "d87e",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Henry Ford",
-          "leido": true
-        },
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": true
-        },
-        {
-          "descripcion": "El usuario Nelson Mandela ha realizado un comentario",
-          "leido": false
-        }
-      ]
+      "id": "f926",
+      "idDuenio": "194a",
+      "notificaciones": []
     },
     {
-      "id": "a387",
-      "idDuenio": "901f",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Thomas Shelby",
-          "leido": false
-        },
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": false
-        }
-      ]
+      "id": "ea60",
+      "idDuenio": "d703",
+      "notificaciones": []
     },
     {
-      "id": "c2ff",
-      "idDuenio": "70a6",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Marcelo Torcuato de Alvear",
-          "leido": false
-        },
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": false
-        }
-      ]
+      "id": "95e8",
+      "idDuenio": "fd92",
+      "notificaciones": []
     },
     {
-      "id": "343b",
-      "idDuenio": "c37e",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Agustin Comte",
-          "leido": false
-        },
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": false
-        }
-      ]
+      "id": "394b",
+      "idDuenio": "f75b",
+      "notificaciones": []
     },
     {
-      "id": "2215",
-      "idDuenio": "97b6",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Mauricio Macri",
-          "leido": false
-        },
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": false
-        }
-      ]
-    },
-    {
-      "id": "e2de",
-      "idDuenio": "a358",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Arnold Schwarzenegger",
-          "leido": false
-        },
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": false
-        }
-      ]
-    },
-    {
-      "id": "1516",
-      "idDuenio": "2c61",
-      "notificaciones": [
-        {
-          "descripcion": "Cuenta creada. Bienvenido, Nelson Mandela",
-          "leido": true
-        }
-      ]
+      "id": "c5a2",
+      "idDuenio": "8991",
+      "notificaciones": []
     }
   ],
   "entElimPorAdmin": []

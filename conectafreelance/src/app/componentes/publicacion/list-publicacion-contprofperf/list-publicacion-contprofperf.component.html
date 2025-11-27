@@ -1,5 +1,4 @@
 <section class="publicaciones-container">
-  <h2>Publicaciones</h2>
   @if (publicacionesUsuario.length === 0) {
     <p class="no-publicaciones">No hay publicaciones para mostrar.</p>
   } @else {
@@ -24,10 +23,10 @@
 
         <div class="publicacion-content">
           <p>{{ publicacion.cont }}</p>
-          @if (publicacion.urlFoto && imagenPublicacion[publicacion.urlFoto]) {
+          @if (publicacion.urlFoto && imagenPublicacion[publicacion.id!]) {
             <div class="publicacion-imagen">
               <img
-                [src]="imagenPublicacion[publicacion.urlFoto]"
+                [src]="imagenPublicacion[publicacion.id!]"
                 alt="Imagen de la publicación"
                 loading="lazy"
               />
@@ -36,14 +35,19 @@
         </div>
         <div class="publicacion-actions">
           @if (!publicacion.reportada) {
+            @if(!publicacion.controlado){
             <button
               (click)="reportarPublicacion(publicacion.id)"
               class="report-button"
             >
               Reportar
             </button>
+            }@else {
+            <span class="reported-label">Publicación controlada</span>
+
+            }
           } @else {
-            <span class="reported-label">Publicación Reportada</span>
+            <span class="reported-label">Publicación reportada</span>
           }
         </div>
       </article>

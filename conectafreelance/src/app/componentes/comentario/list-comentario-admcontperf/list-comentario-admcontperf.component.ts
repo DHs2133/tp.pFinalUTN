@@ -1,63 +1,57 @@
-import { Component, EventEmitter, inject, Output, SimpleChange } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Comentario } from '../interfaceComentario/interface-comentario';
 import { catchError, forkJoin, map, of, Subject, takeUntil } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UsuarioAdministrador, UsuarioContratador, UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../../utils/service/login-service.service';
 import { ComentarioService } from '../serviceComentario/comentario.service';
-import { ImageService } from '../../../service/back-end/image.service';
 import { UsuarioContratadorService } from '../../usuario/usuarioContratador/service/usuario-contratador.service';
+import { ImageService } from '../../../service/back-end/image.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificacionService } from '../../notificacion/notificacionService/notificacion.service';
 import { UsuarioAdministradorService } from '../../usuario/usuarioAdmin/service/usuario-administrador.service';
-import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
-import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PromedioService } from '../../../utils/promedio.service';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
 import { ServEntElimPorAdmService } from '../../entidadElimPorAdm/serviceEntElimPorAdmin/serv-ent-elim-por-adm.service';
+import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
+import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
 import { EntElimPorAdm } from '../../entidadElimPorAdm/interfaceEntElimPorAdmin/int-ent-elim-por-adm';
+import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
 
 @Component({
-  selector: 'app-list-comentario-admprofperf',
+  selector: 'app-list-comentario-admcontperf',
   imports: [ReactiveFormsModule],
-  templateUrl: './list-comentario-admprofperf.component.html',
-  styleUrl: './list-comentario-admprofperf.component.css'
+  templateUrl: './list-comentario-admcontperf.component.html',
+  styleUrl: './list-comentario-admcontperf.component.css'
 })
-export class ListComentarioAdmprofperfComponent {
+export class ListComentarioAdmcontperfComponent {
 
-
-  @Output() puntajeAEliminar = new EventEmitter<number>();
 
   comentarios: Comentario[] = [];
-  idDestinatario: string | null = null;
+  idContratador: string | null = null;
   idAdm: string = '';
   destroy$ = new Subject<void>();
-  imgPerfCreadores: { [idCreador: string]: SafeUrl } = {};
+
+  imgPerfCreador: SafeUrl | null = null;
+  imgPerfDestinatarios: { [idDestinatario: string]: SafeUrl } = {};
   objectUrls: string[] = [];
-  usuContratadores: UsuarioContratador[] = [];
+
   usuAdm!: UsuarioAdministrador;
+  contratador!: UsuarioContratador;
+  profesionales: UsuarioProfesional[] = [];
 
-
-  //Este mapa me va a servir para utilizar un formulario para múltiples comentarios
   motivoControls: { [comentarioId: string]: FormControl } = {};
-
-
 
   loginService = inject(LoginService);
   comentarioService = inject(ComentarioService);
   contratadorService = inject(UsuarioContratadorService);
+  profesionalService = inject(UsuarioProfesionalService);
   imagenService = inject(ImageService);
   sanitizer = inject(DomSanitizer);
   route = inject(ActivatedRoute);
   router = inject(Router);
   listNotService = inject(NotificacionService);
   usuAdmService = inject(UsuarioAdministradorService);
-  promedioService = inject(PromedioService);
   entElimPorAdmService = inject(ServEntElimPorAdmService);
-
-
-
 
   ngOnInit(): void {
     this.idAdm = this.loginService.getId();
@@ -78,37 +72,72 @@ export class ListComentarioAdmprofperfComponent {
   }
 
   inicializarListaComentarios() {
-    this.obtenerIDdestinatario();
+    this.obtenerIDContratador();
   }
 
-
-  obtenerIDdestinatario() {
+  obtenerIDContratador() {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
       next: (params) => {
-        this.idDestinatario = params.get('id');
-        if (!this.idDestinatario) {
+        this.idContratador = params.get('id');
+        if (!this.idContratador) {
           alert('ID no válido. Redirigiendo al perfil.');
           this.router.navigate(['admin/perfil']);
         } else {
-          this.obtenerComentariosADestinatario();
+          this.cargarContratadorYComentarios();
         }
       },
       error: () => this.router.navigate(['admin/perfil'])
     });
   }
 
-  obtenerComentariosADestinatario() {
-    if (!this.idDestinatario) return;
+  cargarContratadorYComentarios() {
+    if (!this.idContratador) return;
 
-    this.comentarioService.getComentarioPorIDdestinatario(this.idDestinatario)
+    this.contratadorService.getUsuariosContratadoresPorId(this.idContratador)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (contratador) => {
+          if (!contratador) {
+            alert('Contratador no encontrado.');
+            this.router.navigate(['admin/perfil']);
+            return;
+          }
+          this.contratador = contratador;
+          this.cargarImagenCreador();
+          this.obtenerComentariosDelContratador();
+        },
+        error: () => {
+          alert('Error al cargar el contratador.');
+          this.router.navigate(['admin/perfil']);
+        }
+      });
+  }
+
+  cargarImagenCreador() {
+    if (!this.contratador.urlFoto) return;
+
+    this.imagenService.getImagen(this.contratador.urlFoto).pipe(
+      takeUntil(this.destroy$),
+      map(blob => {
+        const url = URL.createObjectURL(blob);
+        this.objectUrls.push(url);
+        return this.sanitizer.bypassSecurityTrustUrl(url);
+      }),
+      catchError(() => of('public/avatar.png'))
+    ).subscribe(url => {
+      this.imgPerfCreador = url as SafeUrl;
+    });
+  }
+
+  obtenerComentariosDelContratador() {
+    this.comentarioService.getComentarioPorIDcreador(this.idContratador!)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (comentarios) => {
           if (comentarios.length > 0) {
-            comentarios.forEach(c => this.promedioService.agregarPuntaje(c.puntaje));
             this.comentarios = comentarios;
             this.inicializarFormularios();
-            this.cargarUsuariosCreadores();
+            this.cargarProfesionalesDestinatarios();
           }
         },
         error: (err) => {
@@ -117,7 +146,6 @@ export class ListComentarioAdmprofperfComponent {
         }
       });
   }
-
 
   inicializarFormularios() {
     this.motivoControls = {};
@@ -131,39 +159,38 @@ export class ListComentarioAdmprofperfComponent {
     });
   }
 
-  cargarUsuariosCreadores() {
-    const idsCreadores = [...new Set(this.comentarios.map(c => c.idCreador))];
+  cargarProfesionalesDestinatarios() {
+    const idsDestinatarios = [...new Set(this.comentarios.map(c => c.idDestinatario))].filter(Boolean) as string[];
 
-    const requests = idsCreadores.map(id =>
-      this.contratadorService.getUsuariosContratadoresPorId(id).pipe(
+    const requests = idsDestinatarios.map(id =>
+      this.profesionalService.getUsuariosProfesionalPorID(id).pipe(
         catchError(() => of(null))
       )
     );
 
     forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
       next: (results) => {
-        const contratadoresValidos: { urlFoto: string; idCreador: string }[] = [];
+        const profesionalesValidos: { urlFoto: string; idDestinatario: string }[] = [];
 
-        results.forEach((contratador, index) => {
-          const idCreador = idsCreadores[index];
-          if (contratador) {
-            this.usuContratadores.push(contratador);
-            contratadoresValidos.push({ urlFoto: contratador.urlFoto, idCreador });
+        results.forEach((profesional, index) => {
+          const idDestinatario = idsDestinatarios[index];
+          if (profesional) {
+            this.profesionales.push(profesional);
+            profesionalesValidos.push({ urlFoto: profesional.urlFoto, idDestinatario });
           }
         });
 
-        this.cargarImagenesPerfil(contratadoresValidos);
-      },
-      error: (err) => console.error('Error cargando contratadores:', err)
+        this.cargarImagenesDestinatarios(profesionalesValidos);
+      }
     });
   }
 
-  cargarImagenesPerfil(contratadores: { urlFoto: string; idCreador: string }[]) {
-    if (contratadores.length === 0) return;
+  cargarImagenesDestinatarios(profesionales: { urlFoto: string; idDestinatario: string }[]) {
+    if (profesionales.length === 0) return;
 
-    const requests = contratadores.map(({ urlFoto, idCreador }) => {
-      if (!urlFoto || this.imgPerfCreadores[idCreador]) {
-        return of({ idCreador, url: 'skip' });
+    const requests = profesionales.map(({ urlFoto, idDestinatario }) => {
+      if (!urlFoto || this.imgPerfDestinatarios[idDestinatario]) {
+        return of({ idDestinatario, url: 'skip' });
       }
 
       return this.imagenService.getImagen(urlFoto).pipe(
@@ -171,11 +198,11 @@ export class ListComentarioAdmprofperfComponent {
           const objectUrl = URL.createObjectURL(blob);
           this.objectUrls.push(objectUrl);
           return {
-            idCreador,
+            idDestinatario,
             url: this.sanitizer.bypassSecurityTrustUrl(objectUrl)
           };
         }),
-        catchError(() => of({ idCreador, url: 'public/avatar.png' }))
+        catchError(() => of({ idDestinatario, url: 'public/avatar.png' }))
       );
     });
 
@@ -183,21 +210,20 @@ export class ListComentarioAdmprofperfComponent {
       next: (results) => {
         results.forEach(result => {
           if (result.url !== 'skip') {
-            this.imgPerfCreadores[result.idCreador] = result.url as SafeUrl;
+            this.imgPerfDestinatarios[result.idDestinatario] = result.url as SafeUrl;
           }
         });
       }
     });
   }
 
-  getUsuarioById(idCreador: string): UsuarioContratador | undefined {
-    return this.usuContratadores.find(u => u.id === idCreador);
+  getProfesionalById(idDestinatario: string): UsuarioProfesional | undefined {
+    return this.profesionales.find(p => p.id === idDestinatario);
   }
 
-  getImagenPerfil(idCreador: string): SafeUrl {
-    return this.imgPerfCreadores[idCreador] || 'public/avatar.png';
+  getImagenDestinatario(idDestinatario: string): SafeUrl {
+    return this.imgPerfDestinatarios[idDestinatario] || 'public/avatar.png';
   }
-
 
   eliminar(idComentario: string | undefined) {
     if (!idComentario) {
@@ -217,19 +243,16 @@ export class ListComentarioAdmprofperfComponent {
 
     if (!confirm(`¿Eliminar comentario? Motivo: "${motivo}"`)) return;
 
-    const idDestinatario = comentario.idDestinatario;
-
     this.comentarioService.eliminarComentario(idComentario)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.crearEntidadEliminada(comentario, idComentario, motivo);
-
           this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
           delete this.motivoControls[idComentario];
-          this.puntajeAEliminar.emit(comentario.puntaje);
 
-          this.notificarEliminacion(comentario.idCreador, motivo, idComentario, idDestinatario);
+          // Notificar al contratador (creador) y al profesional (destinatario)
+          this.notificarEliminacion(comentario.idCreador, comentario.idDestinatario, motivo, idComentario);
 
           alert('Comentario eliminado correctamente.');
         },
@@ -241,12 +264,11 @@ export class ListComentarioAdmprofperfComponent {
   }
 
   crearEntidadEliminada(comentario: Comentario, idComentario: string, motivo: string) {
-
     const { id, ...comentarioSinId } = comentario;
 
     const entidadEliminada: EntElimPorAdm = {
       id: idComentario,
-      idDuenio: comentario.idCreador,
+      idDuenio: comentario.idCreador, // El contratador es el dueño
       tipo: 'comentario',
       motivo: motivo,
       entidadElim: comentarioSinId
@@ -255,9 +277,7 @@ export class ListComentarioAdmprofperfComponent {
     this.entElimPorAdmService.postEntElimPorAdm(entidadEliminada)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
-          console.log('Entidad eliminada guardada:', entidadEliminada);
-        },
+        next: () => console.log('Entidad eliminada guardada:', entidadEliminada),
         error: (err) => {
           console.error('Error al guardar entidad eliminada:', err);
           alert("Error al guardar entidad eliminada: " + err);
@@ -265,40 +285,27 @@ export class ListComentarioAdmprofperfComponent {
       });
   }
 
-
-
-
-  notificarEliminacion(
-    idCreador: string,
-    motivo: string,
-    idCom: string,
-    idDestinatario: string | null | undefined
-  ) {
-
+  notificarEliminacion(idCreador: string, idDestinatario: string, motivo: string, idCom: string) {
     this.notificarUsuario(
       idCreador,
-      `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario realizado por usted. Motivo: "${motivo}". Apriete para ver más detalles`,
+      `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que realizaste. Motivo: "${motivo}".`,
       idCom
     );
 
-    if (idDestinatario) {
-      this.notificarUsuario(
-        idDestinatario,
-        `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que recibiste. Motivo: "${motivo}".`,
-        idCom
-      );
-    }
+    this.notificarUsuario(
+      idDestinatario,
+      `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que recibiste. Motivo: "${motivo}".`,
+      idCom
+    );
   }
-
 
   notificarUsuario(idUsuario: string, mensaje: string, idEnt: string) {
     this.listNotService.getListaNotificacionesPorIDUsuario(idUsuario)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (listas) => {
-          if (listas.length === 0){
-
-            alert("No se pudo notificar debidamente a los usuarios de la acción realizada.");
+          if (listas.length === 0) {
+            console.warn('No se encontró lista de notificaciones para:', idUsuario);
             return;
           }
 
@@ -312,10 +319,9 @@ export class ListComentarioAdmprofperfComponent {
           lista.notificaciones.push(notificacion);
           this.actualizarListaNotificacion(lista);
         },
-        error: (err) => console.error('Error al notificar usuario:', idUsuario, err)
+        error: (err) => console.error('Error al notificar:', err)
       });
   }
-
 
   actualizarListaNotificacion(lista: ListaNotificaciones) {
     if (!lista.id) return;
@@ -327,13 +333,21 @@ export class ListComentarioAdmprofperfComponent {
       });
   }
 
+  irAPerfilProfesional(idProfesional: string){
+    this.router.navigate(['admin/admprofperfil', idProfesional]);
+  }
+
+  irAPerfilContratador(idContratador: string){
+    this.router.navigate(['admin/perfAdmCont', idContratador]);
+  }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
     this.objectUrls.forEach(url => URL.revokeObjectURL(url));
     this.objectUrls = [];
-    this.imgPerfCreadores = {};
+    this.imgPerfDestinatarios = {};
   }
 
 }

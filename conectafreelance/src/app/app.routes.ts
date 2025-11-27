@@ -31,6 +31,7 @@ import { authGuardFnHrlAccessDenied } from './utils/service/auth-guard-fn-hrl-ac
 import { CuentaDesactivadaPageComponent } from './componentes/page-components/cuenta-desactivada-page/cuenta-desactivada-page.component';
 import { ListContratadorComponent } from './componentes/usuario/usuarioContratador/crud-contratador/list-contratador/list-contratador.component';
 import { AdminContratadorPerfilComponent } from './componentes/usuario/usuarioContratador/crud-contratador/admin-contratador-perfil/admin-contratador-perfil.component';
+import { MostrarEntElimPorAdmComponent } from './componentes/entidadElimPorAdm/mostrarEntElimPorAdmin/mostrar-ent-elim-por-adm/mostrar-ent-elim-por-adm.component';
 
 
 
@@ -49,6 +50,7 @@ export const routes: Routes = [{
     { path: "listaChatsContratador", component: ListChatPageParaContratadorComponent},
     { path: "listaChatsContratador/:idProf", component: ListChatPageParaContratadorComponent},
     { path: "modPerCont/:id", component: ModifyContratadorComponent},
+    { path: "entElim/:idEntElim", component: MostrarEntElimPorAdmComponent}
   ],
 
 
@@ -64,7 +66,9 @@ export const routes: Routes = [{
       { path: "listaProfesionales", component: ListProfesionalComponent },
       { path: "profprofperfil/:id", component: ProfesionalProfesionalPerfilComponent},
       { path: "listaChatsProfesional", component: ListChatProfesionalPageComponent},
-      { path: "listaChatsProfesional:idCont", component: ListChatProfesionalPageComponent}
+      { path: "listaChatsProfesional:idCont", component: ListChatProfesionalPageComponent},
+      { path: "entElim/:idEntElim", component: MostrarEntElimPorAdmComponent}
+
 
     ]
   },

@@ -203,12 +203,14 @@ export class NavbarProfesionalComponentComponent implements OnInit, OnDestroy{
 
 
   inicializarNotificaciones(idSesion: string) {
-    this.listNotService.getListaNotificacionesPorIDUsuario(idSesion).pipe(takeUntil(this.destroy$)).subscribe({
+    this.listNotService.getListaNotificacionesPorIDUsuario(idSesion)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (value) => {
         console.log('Notificaciones recibidas:', value);
         if (value.length > 0) {
           this.listaNotificaciones = value[0];
-          this.notificaciones = (this.listaNotificaciones.notificaciones || []).slice().reverse();;
+          this.notificaciones = this.listaNotificaciones.notificaciones || [];
         } else {
           this.notificaciones = [];
         }
@@ -229,6 +231,11 @@ export class NavbarProfesionalComponentComponent implements OnInit, OnDestroy{
   }
 
 
+  irAEntidadEliminada( idEnt: string, ) {
+    this.router.navigate(['profesional/entElim', idEnt]);
+
+    // this.isDropdownOpenNotif = false;
+  }
 
 
   marcarNotificacionesComoLeidas(){

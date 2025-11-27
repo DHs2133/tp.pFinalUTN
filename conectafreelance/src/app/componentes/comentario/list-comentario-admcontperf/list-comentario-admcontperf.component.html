@@ -1,0 +1,84 @@
+<section class="comentarios-container">
+  <h2>Comentarios realizados por {{ contratador.nombreCompleto || 'el contratador' }}</h2>
+
+  @if (comentarios.length === 0) {
+    <p class="no-comentarios">Este contratador no ha realizado comentarios.</p>
+  } @else {
+    @for (comentario of comentarios; track comentario.id) {
+      <article class="comentario-card" [class.reported]="comentario.reportada">
+
+        <div class="comentario-header">
+
+          <div class="creador-info" (click)="irAPerfilContratador(comentario.idCreador)">
+            <img
+              [src]="imgPerfCreador || 'public/avatar.png'"
+              [alt]="'Foto de ' + (contratador.nombreCompleto || 'Contratador')"
+              class="creador-foto"
+              loading="lazy"
+            />
+            <div class="usuario-details">
+              <h3 class="nombre-creador">{{ contratador.nombreCompleto }}</h3>
+              <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
+            </div>
+          </div>
+
+          <div class="profesional-info" (click)="irAPerfilProfesional(comentario.idDestinatario)">
+            @if (getProfesionalById(comentario.idDestinatario)) {
+              <div class="profesional-container">
+                <img
+                  [src]="getImagenDestinatario(comentario.idDestinatario)"
+                  [alt]="'Foto de ' + (getProfesionalById(comentario.idDestinatario)?.nombreCompleto || 'Profesional')"
+                  class="profesional-foto"
+                  loading="lazy"
+                />
+                <div class="usuario-details profesional-nombre">
+                  <h3>{{ getProfesionalById(comentario.idDestinatario)?.nombreCompleto || 'Profesional' }}</h3>
+                </div>
+              </div>
+            } @else {
+              <span class="loading-text">Cargando...</span>
+            }
+          </div>
+        </div>
+
+        <div class="comentario-content">
+          <p>{{ comentario.contenido }}</p>
+        </div>
+
+        @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
+          <div class="motivo-container">
+            <textarea
+              [formControl]="motivoControls[comentario.id!]"
+              placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
+              class="motivo-input"
+              rows="3"
+            ></textarea>
+
+            @if (motivoControls[comentario.id!].touched && motivoControls[comentario.id!].invalid) {
+              <small class="error-text">
+                @if (motivoControls[comentario.id!].errors?.['required']) {
+                  El motivo es obligatorio.
+                } @else if (motivoControls[comentario.id!].errors?.['minlength']) {
+                  Mínimo 50 caracteres.
+                } @else if (motivoControls[comentario.id!].errors?.['maxlength']) {
+                  Máximo 200 caracteres.
+                }
+              </small>
+            }
+          </div>
+
+          <div class="comentario-actions" (click)="$event.stopPropagation()">
+            <button
+              class="delete-button"
+              (click)="eliminar(comentario.id)"
+              [disabled]="motivoControls[comentario.id!].invalid"
+            >
+              Eliminar
+              <span class="action-label">Eliminar</span>
+            </button>
+          </div>
+        }
+      </article>
+    }
+  }
+</section>

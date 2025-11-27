@@ -30,17 +30,20 @@
           }
         </div>
         <div class="publicacion-actions">
-          <a [routerLink]="['modPublicacion', publicacion.id]" class="edit-link">
-            Modificar
-          </a>
-          <button
-          type="button"
-          id="delete-btn-{{publicacion.id}}"
-          class="delete-button"
-          (click)="eliminar(publicacion)"
-          >
-          Eliminar
-          </button>
+          @if (!publicacion.reportada) {
+
+            <a [routerLink]="['modPublicacion', publicacion.id]" class="edit-link">
+              Modificar
+            </a>
+            <button
+            type="button"
+            id="delete-btn-{{publicacion.id}}"
+            class="delete-button"
+            (click)="eliminar(publicacion)"
+            >
+            Eliminar
+            </button>
+          }
         </div>
       </article>
     }

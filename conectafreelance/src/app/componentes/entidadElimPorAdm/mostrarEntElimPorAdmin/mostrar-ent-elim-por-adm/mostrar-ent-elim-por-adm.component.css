@@ -1,0 +1,262 @@
+.entidad-eliminada-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333333;
+  margin: 0;
+}
+
+.btn-volver {
+  padding: 0.5rem 1.2rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+}
+
+.motivo-principal {
+  margin: 1.5rem 0;
+  padding: 1.2rem;
+  background-color: #fff8f8;
+  border: 2px solid #e74c3c;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.15);
+}
+
+.motivo-principal h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c0392b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.motivo-principal h3::before {
+  content: "Warning";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.motivo-texto {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  font-style: italic;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.publicacion-card.eliminada,
+.comentario-card.eliminada {
+  border: 2px dashed #e74c3c;
+  background-color: #fdf2f2;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.publicacion-card.eliminada::before,
+.comentario-card.eliminada::before {
+  content: "ELIMINADA";
+  position: absolute;
+  top: 10px;
+  right: -32px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 36px;
+  transform: rotate(45deg);
+  z-index: 1;
+}
+
+.publicacion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  opacity: 0.9;
+}
+
+.creador-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.creador-foto {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.creador-details h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.publicacion-content {
+  padding: 1rem 0;
+}
+
+.publicacion-content p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 0.75rem 0;
+  word-break: break-word;
+}
+
+.publicacion-imagen {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.publicacion-imagen img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #f0f0f0;
+}
+
+.comentario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+}
+
+.creador-info,
+.destinatario-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 180px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nombre-creador {
+  font-weight: 600;
+  color: #333333;
+  font-size: 1.1rem;
+}
+
+.puntaje {
+  color: #666666;
+  font-size: 0.9rem;
+}
+
+.arrow {
+  font-weight: bold;
+  color: #ccc;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.comentario-content {
+  margin-bottom: 0.75rem;
+}
+
+.comentario-content p {
+  margin: 0;
+  color: #555555;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.estado-eliminacion {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.eliminada-label {
+  display: inline-block;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  opacity: 0.95;
+  box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
+}
+
+.no-entidad {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.no-entidad p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}

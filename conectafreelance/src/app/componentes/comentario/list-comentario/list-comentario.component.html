@@ -25,14 +25,19 @@
           </div>
           <div class="comentario-actions">
             @if (!comentario.reportada) {
-              <button
-                (click)="reportarComentario(comentario.id)"
-                class="report-button"
-              >
-                Reportar
-              </button>
+              @if(!comentario.controlado){
+                <button
+                  (click)="reportarComentario(comentario.id)"
+                  class="report-button"
+                >
+                  Reportar
+                </button>
+              }@else {
+                <span class="reported-label">Comentario controlado</span>
+
+              }
             } @else {
-              <span class="reported-label">Comentario Reportado</span>
+              <span class="reported-label">Comentario reportado</span>
             }
           </div>
         </div>

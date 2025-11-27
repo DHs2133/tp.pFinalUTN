@@ -18,7 +18,7 @@
         @if (notificaciones.length === 0) {
           <li class="dropdown-item no-notifications">No hay notificaciones</li>
         } @else {
-          @for (not of notificaciones; track not.descripcion) {
+          @for (not of notificaciones.slice().reverse(); track not.descripcion) {
             <li class="dropdown-item" [class.leido]="not.leido">
               <span>{{ not.descripcion }}</span>
               @if (!not.leido) {

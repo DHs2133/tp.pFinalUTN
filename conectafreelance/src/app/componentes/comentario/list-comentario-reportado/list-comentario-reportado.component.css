@@ -1,3 +1,4 @@
+/* === CONTENEDOR PRINCIPAL === */
 .comentarios-container {
   max-width: 900px;
   margin: 2rem auto;
@@ -5,16 +6,17 @@
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 h2 {
   font-size: clamp(1.8rem, 5vw, 2.2rem);
   font-weight: 600;
   color: #1f2937;
-  margin-bottom: 2rem;
+  margin: 0 0 1.5rem 0;
   text-align: center;
 }
 
@@ -22,46 +24,55 @@ h2 {
   font-size: clamp(1rem, 3vw, 1.1rem);
   color: #6b7280;
   text-align: center;
-  padding: 1rem;
+  padding: 2rem;
   font-style: italic;
+  background: #f9fafb;
+  border-radius: 8px;
 }
 
+/* === TARJETA DE COMENTARIO === */
 .comentario-card {
   background-color: #fafafa;
   border-radius: 12px;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
+  border: 1px solid #e5e7eb;
 }
 
 .comentario-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-color: #d1d5db;
 }
 
+/* === HEADER: CONTRATADOR (izq) + PROFESIONAL (der) === */
 .comentario-header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px dashed #e5e7eb;
+  margin-bottom: 1rem;
 }
 
+/* === CONTRATADOR (izquierda) === */
 .creador-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 1;
 }
 
 .creador-foto {
-  width: clamp(36px, 8vw, 44px);
-  height: clamp(36px, 8vw, 44px);
+  width: clamp(40px, 8vw, 50px);
+  height: clamp(40px, 8vw, 50px);
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #e5e7eb;
-  background-color: #f0f0f0;
+  background-color: #f3f4f6;
   transition: border-color 0.2s ease;
 }
 
@@ -69,60 +80,163 @@ h2 {
   border-color: #3b82f6;
 }
 
-.creador-details h3 {
+.creador-info .usuario-details h3 {
   margin: 0;
-  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  font-size: clamp(1rem, 2.8vw, 1.1rem);
   font-weight: 600;
   color: #1f2937;
 }
 
+/* === PROFESIONAL (derecha) - FOTO ARRIBA, NOMBRE DEBAJO === */
+.profesional-info {
+  cursor: pointer;
+  text-align: center;
+}
+
+.profesional-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.profesional-foto {
+  width: clamp(40px, 8vw, 50px);
+  height: clamp(40px, 8vw, 50px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  background-color: #f3f4f6;
+  transition: border-color 0.2s ease;
+}
+
+.profesional-foto:hover {
+  border-color: #3b82f6;
+}
+
+.profesional-info .usuario-details h3 {
+  margin: 0;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+/* === TEXTO DE CARGA === */
+.loading-text {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* === CONTENIDO DEL COMENTARIO === */
 .comentario-content {
-  padding: 1rem 0;
+  margin-bottom: 1rem;
 }
 
 .comentario-content p {
   font-size: clamp(0.95rem, 3vw, 1.05rem);
   color: #374151;
   line-height: 1.6;
-  margin: 0 0 1rem 0;
+  margin: 0;
+  word-break: break-word;
 }
 
+/* === MOTIVO DE ELIMINACIÓN === */
+.motivo-container {
+  margin: 1rem 0;
+  padding-top: 1rem;
+  border-top: 1px dashed #d1d5db;
+}
+
+.motivo-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  resize: vertical;
+  font-family: inherit;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.motivo-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.motivo-input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.error-text {
+  margin-top: 0.5rem;
+}
+
+.error-text small {
+  color: #ef4444;
+  font-size: 0.8rem;
+  display: block;
+}
+
+/* === BOTONES DE ACCIÓN === */
 .comentario-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .approve-button,
 .delete-button {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
-  background-color: transparent;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .approve-button {
-  color: #22c55e;
+  background-color: #dcfce7;
+  color: #166534;
 }
 
 .approve-button:hover {
-  background-color: #dcfce7;
+  background-color: #bbf7d0;
 }
 
 .delete-button {
-  color: #ef4444;
+  background-color: #fee2e2;
+  color: #991b1b;
 }
 
-.delete-button:hover {
-  background-color: #fee2e2;
+.delete-button:hover:not(:disabled) {
+  background-color: #fecaca;
+}
+
+.delete-button:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+}
+
+.action-label {
+  display: none;
 }

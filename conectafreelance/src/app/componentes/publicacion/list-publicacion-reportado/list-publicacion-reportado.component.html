@@ -1,62 +1,79 @@
 <section class="publicaciones-container">
   <h2>Publicaciones Reportadas</h2>
-  @if (publicacionesUsuario.length === 0) {
+
+  @if (publicaciones.length === 0) {
     <p class="no-publicaciones">No hay publicaciones reportadas para mostrar.</p>
   } @else {
-    @for (publicacion of publicacionesUsuario; track publicacion.id) {
-      <article
-        class="publicacion-card"
-        (click)="irAPerfilProfesional(publicacion.idCreador)"
-      >
-        <div class="publicacion-header">
+    @for (publicacion of publicaciones; track publicacion.id!) {
+      <article class="publicacion-card">
+
+        <div class="publicacion-header" (click)="irAPerfilProfesional(publicacion.idCreador)">
           <div class="creador-info">
             @if (getUsuarioProfesionalById(publicacion.idCreador)) {
               <img
-                [src]="imagenesPerfil[publicacion.idCreador]"
+                [src]="imagenesPerfil[publicacion.idCreador] || 'public/avatar.png'"
                 [alt]="'Foto de ' + getUsuarioProfesionalById(publicacion.idCreador)!.nombreCompleto"
                 class="creador-foto"
                 loading="lazy"
               />
-              <div class="creador-details">
+              <div class="usuario-details">
                 <h3>{{ getUsuarioProfesionalById(publicacion.idCreador)!.nombreCompleto }}</h3>
               </div>
             } @else {
-              <span>Cargando datos del profesional...</span>
+              <span class="loading-text">Cargando profesional...</span>
             }
           </div>
         </div>
+
         <div class="publicacion-content">
           <p>{{ publicacion.cont }}</p>
-          @if (publicacion.urlFoto && imagenPublicacion[publicacion.urlFoto]) {
+
+          @if (publicacion.urlFoto && imagenPublicacion[publicacion.id!]) {
             <div class="publicacion-imagen">
               <img
-                [src]="imagenPublicacion[publicacion.urlFoto]"
-                alt="Imagen de la publicación"
+                [src]="imagenPublicacion[publicacion.id!]"
+                [alt]="'Imagen de la publicación de ' + getUsuarioProfesionalById(publicacion.idCreador)?.nombreCompleto"
                 loading="lazy"
               />
             </div>
           }
         </div>
+
+        <div class="motivo-container">
+          <textarea
+            [formControl]="motivoControls[publicacion.id!]"
+            placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
+            class="motivo-input"
+            rows="3"
+          ></textarea>
+
+          @if (motivoControls[publicacion.id!].touched && motivoControls[publicacion.id!].invalid) {
+            <small class="error-text">
+              @if (motivoControls[publicacion.id!].errors?.['required']) {
+                El motivo es obligatorio.
+              } @else if (motivoControls[publicacion.id!].errors?.['minlength']) {
+                Mínimo 50 caracteres.
+              } @else if (motivoControls[publicacion.id!].errors?.['maxlength']) {
+                Máximo 200 caracteres.
+              } @else if (motivoControls[publicacion.id!].errors?.['noWhitespace']) {
+                No puede contener solo espacios.
+              }
+            </small>
+          }
+        </div>
+
         <div class="publicacion-actions" (click)="$event.stopPropagation()">
-          <button
-            type="button"
-            class="approve-button"
-            (click)="controlar(publicacion, 'aprobar')"
-            title="Aprobar publicación"
-          >
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 13l4 4L19 7" />
-            </svg>
+          <button class="approve-button" (click)="controlar(publicacion, 'aprobar')">
+            Aprobar
+            <span class="action-label">Aprobar</span>
           </button>
           <button
-            type="button"
             class="delete-button"
             (click)="controlar(publicacion, 'eliminar')"
-            title="Eliminar publicación"
+            [disabled]="motivoControls[publicacion.id!].invalid"
           >
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-4 5v6m-4 0v-6m8 6v-6" />
-            </svg>
+            Eliminar
+            <span class="action-label">Eliminar</span>
           </button>
         </div>
       </article>

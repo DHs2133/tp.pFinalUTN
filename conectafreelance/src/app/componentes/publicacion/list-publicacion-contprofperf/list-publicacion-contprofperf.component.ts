@@ -1,13 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { Publicacion } from '../interfacePublicacion/publicacion.interface';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PublicacionService } from '../servicePublicacion/publicacion.service';
 import { LoginService } from '../../../utils/service/login-service.service';
 import { ImageService } from '../../../service/back-end/image.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
+import { UsuarioAdministrador, UsuarioContratador, UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
 import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
+import { NotificacionService } from '../../notificacion/notificacionService/notificacion.service';
+import { UsuarioAdministradorService } from '../../usuario/usuarioAdmin/service/usuario-administrador.service';
+import { UsuarioContratadorService } from '../../usuario/usuarioContratador/service/usuario-contratador.service';
+import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
 
 @Component({
   selector: 'app-list-publicacion-contprofperf',
@@ -17,23 +21,28 @@ import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/serv
 })
 export class ListPublicacionContprofperfComponent {
 
+
   idCreadorPublic: string | null = null;
   destroy$ = new Subject<void>();
   publicacionesUsuario: Publicacion[] = [];
   imagenPublicacion: { [key: string]: SafeUrl } = {};
   objectUrls: string[] = [];
-  imagenPerfil!:  SafeUrl;
+  imagenPerfil!: SafeUrl;
   usuarioProfesional!: UsuarioProfesional;
+  usuarioReportador!: UsuarioContratador;
+  administradores: UsuarioAdministrador[] = [];
 
-
+  // Servicios
   publicacionService = inject(PublicacionService);
-  profesionalService = inject(UsuarioProfesionalService)
+  profesionalService = inject(UsuarioProfesionalService);
+  contratadorService = inject(UsuarioContratadorService);
   loginServ = inject(LoginService);
   imageService = inject(ImageService);
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
-
+  notifService = inject(NotificacionService);
+  adminService = inject(UsuarioAdministradorService);
 
   ngOnInit(): void {
     this.obtenerIdCreador();
@@ -41,137 +50,176 @@ export class ListPublicacionContprofperfComponent {
 
   obtenerIdCreador() {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
-      next : (param) => {
+      next: (param) => {
         this.idCreadorPublic = param.get("id");
-      },
-      error : (err) => {
-        alert("Ha ocurrido un error.");
-        console.log("Error: " + err);
-      },
-
-    });
-
-    this.getListaDePublicaciones();
-    this.getUsuarioProfesional()
-  }
-
-  getListaDePublicaciones() {
-    if (this.idCreadorPublic) {
-      this.publicacionService.getPublicacionesPorIDcreador(this.idCreadorPublic).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (value) => {
-          this.publicacionesUsuario = value || [];
-          console.log('Publicaciones obtenidas:', this.publicacionesUsuario);
-          this.obtenerImagenesDePublicaciones();
-        },
-        error: (err) => {
-          console.error('Error al obtener publicaciones:', err);
+        if (this.idCreadorPublic) {
+          this.cargarDatosIniciales();
         }
-      });
-    }
-  }
-
-  obtenerImagenesDePublicaciones() {
-    this.publicacionesUsuario.forEach((publicacion) => {
-      this.obtenerImagenesPublicacionDelServidor(publicacion);
+      },
+      error: (err) => {
+        alert("Error al obtener el ID del profesional.");
+        console.error(err);
+      }
     });
   }
 
-  obtenerImagenesPublicacionDelServidor(publicacion: Publicacion) {
-    if (publicacion.urlFoto) {
-      const urlFoto = publicacion.urlFoto;
-      this.imageService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+  cargarDatosIniciales() {
+    const idSesion = this.loginServ.getId();
+
+    forkJoin({
+      publicaciones: this.publicacionService.getPublicacionesPorIDcreador(this.idCreadorPublic!),
+      profesional: this.profesionalService.getUsuariosProfesionalPorID(this.idCreadorPublic!),
+      reportador: this.contratadorService.getUsuariosContratadoresPorId(idSesion),
+      administradores: this.adminService.getUsuariosAdministradores()
+    })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: ({ publicaciones, profesional, reportador, administradores }) => {
+        this.publicacionesUsuario = publicaciones || [];
+        this.usuarioProfesional = profesional;
+        this.usuarioReportador = reportador;
+        this.administradores = administradores;
+
+        this.obtenerImagenesDePublicaciones(publicaciones);
+        this.obtenerImagenPerfilDelServidor(profesional);
+      },
+      error: (err) => {
+        console.error('Error cargando datos iniciales:', err);
+        alert('Error al cargar la información.');
+      }
+    });
+  }
+
+  obtenerImagenesDePublicaciones(publicaciones: Publicacion[]) {
+    this.publicacionesUsuario.forEach(pub => {
+      if (pub.urlFoto && pub.id && !this.imagenPublicacion[pub.id]) {
+        this.obtenerImagenPublicacionDelServidor(pub);
+      }
+    });
+  }
+
+  obtenerImagenPublicacionDelServidor(publicacion: Publicacion) {
+    this.imageService.getImagen(publicacion.urlFoto!)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: (blob) => {
           const objectUrl = URL.createObjectURL(blob);
           this.objectUrls.push(objectUrl);
-          this.imagenPublicacion[urlFoto] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+          this.imagenPublicacion[publicacion.id!] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
         },
         error: (err) => {
-          console.error(`Error al cargar la imagen de la publicación ${urlFoto}:`, err);
+          console.error(`Error cargando imagen: ${publicacion.urlFoto}`, err);
         }
       });
-    }
   }
 
+  obtenerImagenPerfilDelServidor(usuProf: UsuarioProfesional) {
+    if (!usuProf.urlFoto) return;
 
-  getUsuarioProfesional(){
-
-    if (this.idCreadorPublic) {
-      this.profesionalService.getUsuariosProfesionalPorID(this.idCreadorPublic).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (value) => {
-          this.usuarioProfesional = value;
-          console.log('Usuario:', this.usuarioProfesional);
-          this.obtenerImagenPerfilDelServidor(this.usuarioProfesional);
-        },
-        error: (err) => {
-          console.error('Error al obtener publicaciones:', err);
-        }
-      });
-    }
-
-  }
-
-
-    obtenerImagenPerfilDelServidor(usuProf: UsuarioProfesional) {
-    if (usuProf.urlFoto) {
-      const urlFoto = usuProf.urlFoto;
-      this.imageService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+    this.imageService.getImagen(usuProf.urlFoto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: (blob) => {
           const objectUrl = URL.createObjectURL(blob);
           this.imagenPerfil = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-
         },
         error: (err) => {
-          console.error(`Error al cargar la imagen de la publicación ${urlFoto}:`, err);
+          console.error(`Error cargando foto de perfil: ${usuProf.urlFoto}`, err);
         }
       });
-    }
   }
-
 
   reportarPublicacion(idPublicacion: string | undefined) {
     if (!idPublicacion) {
-      console.error('ID de publicación no proporcionado');
-      alert('Error. No se ha podido reportar la publicación');
+      alert('Error: Publicación no válida.');
       return;
     }
 
     const publicacion = this.publicacionesUsuario.find(p => p.id === idPublicacion);
     if (!publicacion) {
-      console.error(`No se encontró la publicación con ID: ${idPublicacion}`);
-      alert('Publicación no encontrada');
+      alert('Publicación no encontrada.');
       return;
     }
 
-    const confirmacion = confirm('¿Estás seguro de que deseas reportar esta publicación?');
-    if (!confirmacion) {
-      console.log('Reporte cancelado por el usuario');
+    if (publicacion.reportada) {
+      alert('Esta publicación ya fue reportada.');
       return;
     }
 
-    const updatedPublicacion = { ...publicacion, reportada: true };
-    console.log('Enviando actualización:', updatedPublicacion);
+    if (!confirm('¿Reportar esta publicación?')) return;
 
-    this.publicacionService.putPublicacion(updatedPublicacion, idPublicacion).pipe(takeUntil(this.destroy$))
+    const idSesion = this.loginServ.getId();
+    const updatedPub = { ...publicacion, reportada: true, reportadaPor: idSesion};
+
+    this.publicacionService.putPublicacion(updatedPub, idPublicacion)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
+        next: () => {
           publicacion.reportada = true;
-          alert('Publicación reportada');
+          alert('Publicación reportada correctamente.');
+
+          this.notificarProfesional(publicacion);
+          this.notificarAdministradores(publicacion);
         },
         error: (err) => {
-          console.error('Error al reportar la publicación:', err);
-          alert('No se pudo reportar la publicación:');
+          console.error('Error al reportar:', err);
+          alert('No se pudo reportar la publicación.');
         }
       });
   }
 
+  notificarProfesional(publicacion: Publicacion) {
+    const mensaje = `Tu publicación "${publicacion.cont.substring(0, 50)}..." ha sido reportada por un usuario.`;
+    this.enviarNotificacion(publicacion.idCreador, mensaje);
+  }
+
+  notificarAdministradores(publicacion: Publicacion) {
+    if (!this.usuarioReportador || this.administradores.length === 0) return;
+
+    const nombreReportador = this.usuarioReportador.nombreCompleto || 'Un usuario';
+    const mensaje = `${nombreReportador} reportó una publicación del profesional ${this.usuarioProfesional.nombreCompleto}.`;
+
+    this.administradores
+      .filter(admin => ['p', 'cp'].includes(admin.permisos))
+      .forEach(admin => this.enviarNotificacion(admin.id!, mensaje));
+  }
+
+  enviarNotificacion(idUsuario: string, mensaje: string) {
+    this.notifService.getListaNotificacionesPorIDUsuario(idUsuario)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (listas) => {
+          if (listas.length === 0) return;
+
+          const lista = listas[0];
+          const notif: Notificacion = {
+            descripcion: mensaje,
+            leido: false
+          };
+
+          lista.notificaciones.push(notif);
+          this.actualizarListaNotificacion(lista);
+        },
+        error: (err) => {
+          console.error(`Error notificando a ${idUsuario}:`, err);
+        }
+      });
+  }
+
+  actualizarListaNotificacion(lista: ListaNotificaciones) {
+    if (!lista.id) return;
+
+    this.notifService.putListaNotificaciones(lista, lista.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+
     this.objectUrls.forEach(url => URL.revokeObjectURL(url));
     this.objectUrls = [];
     this.imagenPublicacion = {};
   }
-
-
 }

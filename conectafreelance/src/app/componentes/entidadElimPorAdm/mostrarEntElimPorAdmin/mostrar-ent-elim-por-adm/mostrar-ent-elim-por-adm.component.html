@@ -1,0 +1,108 @@
+<div class="entidad-eliminada-container">
+  <div class="header">
+    <h2>Entidad Eliminada por el Administrador</h2>
+    <button class="btn-volver" (click)="irAPerfil()">Volver al Perfil</button>
+  </div>
+
+  @if (entidad?.motivo) {
+    <div class="motivo-principal">
+      <h3>Motivo de eliminación:</h3>
+      <p class="motivo-texto">{{ entidad?.motivo || "No se pudo mostrar el motivo"}}</p>
+    </div>
+  }
+
+  @if (esPublicacion && publicacion) {
+    <section class="publicacion-eliminada">
+      <article class="publicacion-card eliminada">
+        <div class="publicacion-header">
+          <div class="creador-info">
+            <img
+              [src]="imgPerfilProfesional"
+              alt="Foto de perfil del profesional"
+              class="creador-foto"
+              loading="lazy"
+            />
+            <div class="creador-details">
+              <h3>{{ usuarioProfesional?.nombreCompleto || 'Profesional' }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="publicacion-content">
+          <p>{{ publicacion.cont }}</p>
+
+          @if (imgPublicacion) {
+            <div class="publicacion-imagen">
+              <img
+                [src]="imgPublicacion"
+                alt="Imagen de la publicación"
+                loading="lazy"
+              />
+            </div>
+          }
+        </div>
+
+        <div class="estado-eliminacion">
+          <span class="eliminada-label">
+            Publicación eliminada
+          </span>
+        </div>
+      </article>
+    </section>
+  }
+
+  @else if (!esPublicacion && comentario) {
+    <section class="comentario-eliminado">
+      <div class="comentario-card eliminada">
+
+        <div class="comentario-header">
+          <div class="creador-info">
+            <img
+              [src]="imgPerfilContratador"
+              [alt]="'Foto de ' + (usuarioContratador?.nombreCompleto || 'Usuario')"
+              class="avatar"
+              loading="lazy"
+            />
+            <div class="info-text">
+              <span class="nombre-creador">
+                {{ usuarioContratador?.nombreCompleto || 'Contratador' }}
+              </span>
+              <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
+            </div>
+          </div>
+
+          <span class="arrow">→</span>
+
+          <div class="destinatario-info">
+            <img
+              [src]="imgPerfilProfesional"
+              [alt]="'Foto de ' + (usuarioProfesional?.nombreCompleto || 'Profesional')"
+              class="avatar"
+              loading="lazy"
+            />
+            <div class="info-text">
+              <span class="nombre-creador">
+                {{ usuarioProfesional?.nombreCompleto || 'Profesional' }}
+              </span>
+              <span class="puntaje">Recibió el comentario</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comentario-content">
+          <p>{{ comentario.contenido }}</p>
+        </div>
+
+        <div class="estado-eliminacion">
+          <span class="eliminada-label">Comentario eliminado</span>
+        </div>
+      </div>
+    </section>
+  }
+  @else {
+    <div class="no-entidad">
+      <p>No se encontró la entidad eliminada.</p>
+      <button class="btn-volver" (click)="irAPerfil()">Volver al Perfil</button>
+    </div>
+  }
+</div>

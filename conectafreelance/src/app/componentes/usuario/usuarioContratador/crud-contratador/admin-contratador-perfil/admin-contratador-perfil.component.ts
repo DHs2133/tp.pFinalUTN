@@ -7,10 +7,11 @@ import { ImageService } from '../../../../../service/back-end/image.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../../../../../utils/service/login-service.service';
 import { ListFavoritosPerfilAdminContComponent } from '../../../../favoritos/list-favoritos-perfil-admin-cont/list-favoritos-perfil-admin-cont.component';
+import { ListComentarioAdmcontperfComponent } from '../../../../comentario/list-comentario-admcontperf/list-comentario-admcontperf.component';
 
 @Component({
   selector: 'app-admin-contratador-perfil',
-  imports: [ListFavoritosPerfilAdminContComponent],
+  imports: [ListFavoritosPerfilAdminContComponent, ListComentarioAdmcontperfComponent],
   templateUrl: './admin-contratador-perfil.component.html',
   styleUrl: './admin-contratador-perfil.component.css'
 })

@@ -3,7 +3,7 @@
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   display: flex;
   align-items: flex-start;
   min-height: 100vh;
@@ -25,23 +25,61 @@
   padding: 1.5rem 1rem;
   background-color: #f5f5f5;
   box-sizing: border-box;
+
+  /* Scroll solo cuando sea necesario */
   overflow-y: auto;
+  overflow-x: hidden;
+
   z-index: 10;
   border-right: 1px solid #e0e0e0;
+
+  /* Crucial: permite que el contenedor flex acepte scroll interno */
+  min-height: 0;
 }
 
+/* Ajuste cuando se hace scroll en la página (opcional, si tienes header fijo) */
 .info-perfil.scrolled {
   top: 0;
   height: 100vh;
 }
 
-.info-perfil * {
+/* Estilo de la barra de scroll (Webkit: Chrome, Safari, Edge) */
+.info-perfil::-webkit-scrollbar {
+  width: 8px;
+}
+
+.info-perfil::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.info-perfil::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 4px;
+  border: 2px solid #f5f5f5; /* Espacio visual entre barra y borde */
+}
+
+.info-perfil::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* Firefox: barra delgada */
+.info-perfil {
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f5f5f5;
+}
+
+/* Asegurar que los hijos no se compriman y respeten el ancho */
+.info-perfil > * {
+  flex-shrink: 0;
+  width: 100%;
   max-width: 100%;
   overflow-wrap: break-word;
   word-break: break-word;
   white-space: normal;
 }
 
+/* Imagen de perfil */
 .profile-image img {
   width: 100%;
   max-width: 100px;
@@ -53,11 +91,13 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Información principal */
 .profile-info h1 {
   margin: 0.5rem 0;
   font-size: 1.3rem;
   font-weight: 600;
   color: #333333;
+  line-height: 1.3;
 }
 
 .profile-info .profession {
@@ -67,6 +107,7 @@
   font-style: italic;
 }
 
+/* Sección "Sobre mí" */
 .profile-details h2 {
   margin: 0.8rem 0 0.4rem;
   font-size: 1.1rem;
@@ -77,10 +118,11 @@
 .profile-details .description {
   margin: 0.4rem 0;
   font-size: 0.85rem;
-  line-height: 1.4;
+  line-height: 1.5;
   color: #555555;
 }
 
+/* Ubicación */
 .location {
   display: flex;
   align-items: center;
@@ -102,6 +144,7 @@
   flex-shrink: 0;
 }
 
+/* Calificaciones */
 .profile-ratings {
   width: 100%;
   margin-top: 0.8rem;
@@ -131,6 +174,7 @@
   font-size: 1.1rem;
 }
 
+/* Botón de activar cuenta */
 .button-group {
   display: flex;
   justify-content: center;
@@ -144,6 +188,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.3rem;
   background-color: #28a745;
   color: #ffffff;
   border: none;
@@ -151,7 +196,7 @@
   border-radius: 6px;
   font-size: 0.8rem;
   font-weight: 500;
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
   flex: 1;
@@ -168,6 +213,7 @@
   flex-shrink: 0;
 }
 
+/* Contenido principal (pestañas) */
 .profile-content-switcher {
   flex: 1;
   padding: 1rem;

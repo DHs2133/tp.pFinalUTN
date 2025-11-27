@@ -1,50 +1,84 @@
 <section class="publicaciones-container">
-  <h2>Publicaciones</h2>
+  <h2>Publicaciones de {{ usuarioProfesional.nombreCompleto || 'el profesional' }}</h2>
+
   @if (publicacionesUsuario.length === 0) {
-    <p class="no-publicaciones">No hay publicaciones para mostrar.</p>
+    <p class="no-publicaciones">Este profesional no ha realizado publicaciones.</p>
   } @else {
-    @for (publicacion of publicacionesUsuario; track $index) {
+    @for (publicacion of publicacionesUsuario.slice().reverse(); track publicacion.id) {
       <article class="publicacion-card" [class.reported]="publicacion.reportada">
-        <div class="publicacion-header">
+
+        <div class="publicacion-header" (click)="irAPerfilProfesional(publicacion.idCreador)">
           <div class="creador-info">
             <img
-              [src]="imagenPerfil"
-              alt="Foto de {{ usuarioProfesional.nombreCompleto }}"
-              class="avatar"
+              [src]="imagenPerfil || 'public/avatar.png'"
+              [alt]="'Foto de ' + (usuarioProfesional.nombreCompleto || 'Profesional')"
+              class="creador-foto"
               loading="lazy"
             />
-
-            <div class="creador-info">
-              <span class="nombre-creador">{{ usuarioProfesional.nombreCompleto }}</span>
+            <div class="usuario-details">
+              <h3>{{ usuarioProfesional.nombreCompleto }}</h3>
             </div>
-
           </div>
-
         </div>
 
         <div class="publicacion-content">
           <p>{{ publicacion.cont }}</p>
+
           @if (publicacion.urlFoto && imagenPublicacion[publicacion.urlFoto]) {
             <div class="publicacion-imagen">
               <img
                 [src]="imagenPublicacion[publicacion.urlFoto]"
-                alt="Imagen de la publicación"
+                [alt]="'Imagen de la publicación'"
                 loading="lazy"
               />
             </div>
           }
         </div>
 
-        @if(usuAdm.permisos === 'p' || usuAdm.permisos === 'cp'){
-          <div class="publicacion-actions">
+        @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
+          <div class="motivo-container">
+            <textarea
+              [formControl]="motivoControls[publicacion.id!]"
+              placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
+              class="motivo-input"
+              rows="3"
+            ></textarea>
 
+            @if (motivoControls[publicacion.id!].touched && motivoControls[publicacion.id!].invalid) {
+              <small class="error-text">
+                @if (motivoControls[publicacion.id!].errors?.['required']) {
+                  El motivo es obligatorio.
+                } @else if (motivoControls[publicacion.id!].errors?.['minlength']) {
+                  Mínimo 50 caracteres.
+                } @else if (motivoControls[publicacion.id!].errors?.['maxlength']) {
+                  Máximo 200 caracteres.
+                } @else if (motivoControls[publicacion.id!].errors?.['noWhitespace']) {
+                  No puede contener solo espacios.
+                }
+              </small>
+            }
+          </div>
+
+          <div class="publicacion-actions" (click)="$event.stopPropagation()">
             <button
-            (click)="eliminar(publicacion)"
               class="delete-button"
+              (click)="eliminarConMotivo(publicacion)"
+              [disabled]="motivoControls[publicacion.id!].invalid"
             >
               Eliminar
+              <span class="action-label">Eliminar</span>
             </button>
 
+            @if(publicacion.reportada){
+            <button
+              class="approve-button"
+              (click)="aprobar(publicacion)"
+            >
+              Aprobar
+              <span class="action-label">Eliminar</span>
+            </button>
+
+            }
           </div>
         }
       </article>

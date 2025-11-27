@@ -1,5 +1,4 @@
 
-
 nav {
   position: sticky;
   top: 0;
@@ -65,11 +64,9 @@ nav {
   animation: pulse 2s infinite;
 }
 
-
 .dropdown-notif .nav-link .notification-badge {
   margin-left: 0.3rem;
 }
-
 
 @keyframes pulse {
   0% {
@@ -127,11 +124,10 @@ nav {
 }
 
 .dropdown-notif .dropdown-menu {
-  min-width: 300px;
+  min-width: 340px;
   max-height: 300px;
   overflow-y: auto;
   z-index: 1100;
-
 }
 
 .dropdown-notif .dropdown-menu::-webkit-scrollbar {
@@ -159,18 +155,23 @@ nav {
 .dropdown-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
+  align-items: flex-start;
+  padding: 0.7rem 1rem;
   text-decoration: none;
   color: #333;
   cursor: pointer;
   width: 100%;
+  line-height: 1.5;
 }
-
 
 .dropdown-item span:first-child {
   flex-grow: 1;
   text-align: left;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.5;
+  padding-right: 0.5rem;
 }
 
 .dropdown-item:hover {
@@ -184,7 +185,6 @@ nav {
   justify-content: center;
 }
 
-
 .dropdown-item.leido {
   background-color: #f8f9fa;
   color: #666;
@@ -197,4 +197,36 @@ nav {
   border-radius: 50%;
   margin-left: 0.5rem;
   flex-shrink: 0;
+  margin-top: 0.4rem;
+}
+
+
+
+
+.dropdown-item.clickable {
+  cursor: pointer;
+  color: #007bff;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-item.clickable:hover {
+  background-color: #e7f3ff;
+  color: #0056b3;
+}
+
+.dropdown-item.clickable .unread-dot {
+  background-color: #007bff;
+  box-shadow: 0 0 0 2px #e7f3ff;
+}
+
+.dropdown-item.clickable::after {
+  content: "Go";
+  font-weight: bold;
+  margin-left: 0.5rem;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.dropdown-item.clickable:hover::after {
+  opacity: 1;
 }

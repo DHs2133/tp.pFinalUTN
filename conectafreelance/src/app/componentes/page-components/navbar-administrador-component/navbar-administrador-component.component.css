@@ -169,6 +169,8 @@ nav {
 .dropdown-item span:first-child {
   flex-grow: 1;
   text-align: left;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .dropdown-item:hover {

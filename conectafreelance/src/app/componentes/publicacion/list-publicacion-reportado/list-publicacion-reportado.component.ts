@@ -1,192 +1,391 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { catchError, forkJoin, of, Subject, takeUntil } from 'rxjs';
 import { Publicacion } from '../interfacePublicacion/publicacion.interface';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
+import { UsuarioAdministrador, UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
 import { PublicacionService } from '../servicePublicacion/publicacion.service';
 import { UsuarioProfesionalService } from '../../usuario/usuarioProfesional/service/usuario-profesional.service';
 import { LoginService } from '../../../utils/service/login-service.service';
 import { ImageService } from '../../../service/back-end/image.service';
 import { Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { noWhitespaceValidator } from '../../../utils/ValidadoresPersonalizados';
+import { EntElimPorAdm } from '../../entidadElimPorAdm/interfaceEntElimPorAdmin/int-ent-elim-por-adm';
+import { ListaNotificaciones, Notificacion } from '../../notificacion/interfaceNotificacion/notificacion.interface';
+import { NotificacionService } from '../../notificacion/notificacionService/notificacion.service';
+import { UsuarioAdministradorService } from '../../usuario/usuarioAdmin/service/usuario-administrador.service';
+import { ServEntElimPorAdmService } from '../../entidadElimPorAdm/serviceEntElimPorAdmin/serv-ent-elim-por-adm.service';
 
 @Component({
   selector: 'app-list-publicacion-reportado',
+  imports: [ReactiveFormsModule],
   templateUrl: './list-publicacion-reportado.component.html',
   styleUrl: './list-publicacion-reportado.component.css'
 })
 export class ListPublicacionReportadoComponent implements OnInit, OnDestroy {
+
   destroy$ = new Subject<void>();
-  publicacionesUsuario: Publicacion[] = [];
+  publicaciones: Publicacion[] = [];
   imagenPublicacion: { [key: string]: SafeUrl } = {};
   imagenesPerfil: { [key: string]: SafeUrl } = {};
   usuariosProf: UsuarioProfesional[] = [];
 
-  objectUrls: string[] = [];
-  objectUrlsPerfil: string[] = [];
+  // Mapa para formularios de motivo por publicación
+  motivoControls: { [publicacionId: string]: FormControl } = {};
 
+  // Admin
+  usuAdm!: UsuarioAdministrador;
+  idAdm: string = '';
+
+  // Servicios
   publicacionService = inject(PublicacionService);
   profesionalService = inject(UsuarioProfesionalService);
   loginServ = inject(LoginService);
   imageService = inject(ImageService);
   sanitizer = inject(DomSanitizer);
   router = inject(Router);
+  listNotService = inject(NotificacionService);
+  usuAdmService = inject(UsuarioAdministradorService);
+  entElimPorAdmService = inject(ServEntElimPorAdmService);
+
+  objectUrlsPublicacion: string[] = [];
+  objectUrlsPerfil: string[] = [];
 
   ngOnInit(): void {
+    this.idAdm = this.loginServ.getId();
+    this.obtenerUsuarioAdministrador();
     this.getListaDePublicaciones();
   }
 
-  getUsuarioProfesionalById(id: string): UsuarioProfesional | undefined {
-    return this.usuariosProf.find(prof => prof.id === id);
+  obtenerUsuarioAdministrador() {
+    this.usuAdmService.getUsuariosAdministradoresPorID(this.idAdm)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (admin) => this.usuAdm = admin,
+        error: () => {
+          alert('Error al obtener datos del administrador.');
+          this.router.navigate(['admin/perfil']);
+        }
+      });
   }
 
   getListaDePublicaciones() {
-    this.publicacionService.getPublicacionesReportadas().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value) => {
-        this.publicacionesUsuario = value || [];
-        console.log('Publicaciones obtenidas:', this.publicacionesUsuario);
-        this.publicacionesUsuario.forEach(pub => this.getUsuarioProfesional(pub.idCreador));
-        this.obtenerImagenesDePublicacion();
-      },
-      error: (err) => {
-        console.error('Error al obtener publicaciones:', err);
-      }
-    });
-  }
-
-  obtenerImagenesDePublicacion() {
-    this.publicacionesUsuario.forEach((publicacion) => {
-      this.obtenerImagenesPublicacionDelServidor(publicacion);
-    });
-  }
-
-  obtenerImagenesPublicacionDelServidor(publicacion: Publicacion) {
-    if (publicacion.urlFoto) {
-      const urlFoto = publicacion.urlFoto;
-      this.imageService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (blob) => {
-          const objectUrl = URL.createObjectURL(blob);
-          this.objectUrls.push(objectUrl);
-          this.imagenPublicacion[urlFoto] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.publicacionService.getPublicacionesReportadas()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (value) => {
+          this.publicaciones = value || [];
+          if (this.publicaciones.length > 0) {
+            this.cargarDatosCreadores();
+            this.inicializarFormularios();
+            this.obtenerImagenesDePublicacion();
+          }
         },
         error: (err) => {
-          console.error(`Error al cargar la imagen de la publicación ${urlFoto}:`, err);
+          console.error('Error al obtener publicaciones reportadas:', err);
         }
       });
-    }
   }
 
-  getUsuarioProfesional(idProfesional: string) {
-    this.profesionalService.getUsuariosProfesionalPorID(idProfesional).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value) => {
-        if (!this.usuariosProf.some(prof => prof.id === value.id)) {
-          this.usuariosProf.push(value);
-          this.obtenerImagenPerfilDelServidor(value);
-        }
-      },
-      error: (err) => {
-        console.error('Error al obtener usuario profesional:', err);
+  cargarDatosCreadores() {
+    const idsCreadores = [...new Set(this.publicaciones.map(p => p.idCreador))];
+
+    const requests = idsCreadores.map(id =>
+      this.profesionalService.getUsuariosProfesionalPorID(id).pipe(
+        catchError(() => of(null))
+      )
+    );
+
+    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (results) => {
+        results.forEach((profesional) => {
+          if (profesional) {
+            this.usuariosProf.push(profesional);
+            this.obtenerImagenPerfilDelServidor(profesional);
+          }
+        });
       }
     });
   }
 
-  obtenerImagenPerfilDelServidor(usuProf: UsuarioProfesional) {
-    if (usuProf.urlFoto) {
-      const urlFoto = usuProf.urlFoto;
-      this.imageService.getImagen(urlFoto).pipe(takeUntil(this.destroy$)).subscribe({
+  obtenerImagenPerfilDelServidor(profesional: UsuarioProfesional) {
+    if (!profesional.urlFoto || this.imagenesPerfil[profesional.id!]) return;
+
+    this.imageService.getImagen(profesional.urlFoto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: (blob) => {
           const objectUrl = URL.createObjectURL(blob);
           this.objectUrlsPerfil.push(objectUrl);
-          this.imagenesPerfil[usuProf.id!] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+          this.imagenesPerfil[profesional.id!] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
         },
-        error: (err) => {
-          console.error(`Error al cargar la imagen del perfil ${urlFoto}:`, err);
+        error: () => {
+          this.imagenesPerfil[profesional.id!] = 'public/avatar.png' as any;
         }
       });
-    }
+  }
+
+  obtenerImagenesDePublicacion() {
+    this.publicaciones.forEach((publicacion) => {
+      if (publicacion.urlFoto) {
+        this.obtenerImagenPublicacionDelServidor(publicacion);
+      }
+    });
+  }
+
+  obtenerImagenPublicacionDelServidor(publicacion: Publicacion) {
+    if (!publicacion.urlFoto || this.imagenPublicacion[publicacion.id!]) return;
+
+    this.imageService.getImagen(publicacion.urlFoto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (blob) => {
+          const objectUrl = URL.createObjectURL(blob);
+          this.objectUrlsPublicacion.push(objectUrl);
+          this.imagenPublicacion[publicacion.id!] = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+        },
+        error: () => {
+          this.imagenPublicacion[publicacion.id!] = 'public/default-pub.jpg' as any;
+        }
+      });
+  }
+
+  getUsuarioProfesionalById(id: string): UsuarioProfesional | undefined {
+    return this.usuariosProf.find(u => u.id === id);
+  }
+
+  inicializarFormularios() {
+    this.motivoControls = {};
+    this.publicaciones.forEach(pub => {
+      this.motivoControls[pub.id!] = new FormControl('', [
+        Validators.required,
+        Validators.minLength(50),
+        Validators.maxLength(200),
+        noWhitespaceValidator()
+      ]);
+    });
   }
 
   controlar(pubReportada: Publicacion, decision: "aprobar" | "eliminar") {
-    if (decision === "aprobar"){
-
-      const confirmacion = confirm('¿Estás seguro de que deseas aprobar la publicación?');
-      if (!confirmacion) {
-        console.log('La publicación ha sido aprobada.');
-        return;
-      }
-
+    if (decision === "aprobar") {
+      if (!confirm('¿Aprobar publicación reportada?')) return;
       this.aprobado(pubReportada);
-    } else {
-
-      const confirmacion = confirm('¿Estás seguro de que deseas eliminar la publicación?');
-      if (!confirmacion) {
-        console.log('La eliminación de la publicación ha sido cancelada.');
-        return;
-      }
-      this.eliminar(pubReportada);
+      this.publicaciones = this.publicaciones.filter(p => p.id !== pubReportada.id);
+      return;
     }
 
-    this.publicacionesUsuario = this.publicacionesUsuario.filter(pub => pub.id !== pubReportada.id);
+    const control = this.motivoControls[pubReportada.id!];
+    if (!control || control.invalid) {
+      control?.markAsTouched();
+      return;
+    }
 
+    const motivo = control.value.trim();
+    if (!confirm(`¿Eliminar publicación? Motivo: "${motivo}"`)) return;
+
+    this.eliminarPublicacionCompleta(pubReportada, motivo);
   }
 
   aprobado(pubReportada: Publicacion) {
     pubReportada.controlado = true;
     pubReportada.reportada = false;
-    if (pubReportada.id) {
-      this.publicacionService.putPublicacion(pubReportada, pubReportada.id).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (value) => {
-          alert("Publicación aprobada.");
+    const { reportadaPor, ...pubReportadaSinIDReportador } = pubReportada;
+
+
+    if (pubReportadaSinIDReportador.id) {
+      this.publicacionService.putPublicacion(pubReportadaSinIDReportador, pubReportadaSinIDReportador.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            alert("Publicación aprobada.");
+            this.notificarAprobacionAProfesional(pubReportadaSinIDReportador);
+            this.notificarAprobacionAContratador(pubReportada);
+          },
+          error: () => alert("Error al aprobar.")
+        });
+    }
+  }
+
+  eliminarPublicacionCompleta(publicacion: Publicacion, motivo: string) {
+    if (!publicacion.id) return;
+
+    const idPublicacion = publicacion.id;
+    const idCreador = publicacion.idCreador;
+    const idContratador = publicacion.reportadaPor;
+
+    this.publicacionService.eliminarPublicacion(idPublicacion)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+
+
+          this.crearEntidadEliminada(publicacion, idPublicacion, motivo);
+          this.publicaciones = this.publicaciones.filter(p => p.id !== idPublicacion);
+          delete this.motivoControls[idPublicacion];
+          this.updateUsuarioProfesional(idCreador);
+          this.notificarEliminacionAProfesional(idCreador, motivo, idPublicacion);
+          this.notificarEliminacionAContratador(idContratador as string, motivo, idPublicacion);
+
+          alert('Publicación eliminada correctamente.');
         },
         error: (err) => {
-          alert("No se ha podido aprobar la publicación.");
-          console.log("Error: " + err);
+          console.error('Error al eliminar:', err);
+          alert('No se pudo eliminar la publicación.');
         }
       });
+  }
+
+  crearEntidadEliminada(publicacion: Publicacion, idPublicacion: string, motivo: string) {
+    const { id, ...publicacionSinId } = publicacion;
+
+    const entidad: EntElimPorAdm = {
+      id: idPublicacion,
+      idDuenio: publicacion.idCreador,
+      tipo: 'publicacion',
+      motivo: motivo,
+      entidadElim: publicacionSinId
+    };
+
+    this.entElimPorAdmService.postEntElimPorAdm(entidad)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => console.log('Entidad eliminada guardada'),
+        error: (err) => {
+          console.error('Error al guardar entidad:', err);
+          alert('Error al guardar registro de eliminación.');
+        }
+      });
+  }
+
+  updateUsuarioProfesional(idCreador: string) {
+    let usuarioProfesional = this.usuariosProf.find(up => up.id === idCreador)!;
+
+
+    const strike = (usuarioProfesional.cantPubRep || 0) + 1;
+
+    if (strike >= 3) {
+      usuarioProfesional.activo = false;
+    }
+
+    usuarioProfesional.cantPubRep = strike;
+
+    this.profesionalService.putUsuariosProfesionales(usuarioProfesional, usuarioProfesional.id!)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next : (value) => {
+          alert("Se ha actualizado los strikes del usuario.");
+        },
+        error : (err) => {
+          alert("No se ha podido actualizar los strikes del usuario.");
+
+        }
+      });
+  }
+
+  notificarEliminacionAProfesional(idCreador: string, motivo: string, idPub: string) {
+    if (idCreador) {
+      this.notificarUsuario(
+        idCreador,
+        `El administrador ${this.usuAdm.nombreCompleto} eliminó una publicación realizada por usted. Motivo: "${motivo}".`,
+        idPub
+      );
     }
   }
 
-  eliminar(publicacion: Publicacion) {
-    if (publicacion.id) {
-      this.eliminarPublicacion(publicacion.id);
-    }
-    if (publicacion.urlFoto) {
-      this.eliminarFoto(publicacion.urlFoto);
+  notificarEliminacionAContratador(idContratador: string, motivo: string, idPub: string) {
+    if (idContratador) {
+      this.notificarUsuario(
+        idContratador,
+        `El administrador ${this.usuAdm.nombreCompleto} eliminó una publicación reportada por usted. Motivo: "${motivo}".`,
+        idPub
+      );
     }
   }
 
-  eliminarPublicacion(idPublicacion: string) {
-    this.publicacionService.eliminarPublicacion(idPublicacion).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        alert('Publicación eliminada.');
-      },
-      error: (err) => {
-        alert('No se pudo eliminar la publicación.');
-        console.error(err);
-      }
-    });
+  notificarAprobacionAProfesional(publicacion: Publicacion) {
+
+    if (publicacion.idCreador) {
+      this.notificarUsuario(
+        publicacion.idCreador,
+        `El administrador ${this.usuAdm.nombreCompleto} controló y aprobó la publicación suya "${publicacion.cont.substring(0, 50)}... ", que había sido reportada.`,
+        null
+      );
+    }
   }
 
-  eliminarFoto(nombreFoto: string) {
-    this.imageService.deleteImage(nombreFoto).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        console.log('Foto eliminada correctamente');
-      },
-      error: (err) => {
-        console.error('No se pudo borrar la foto:', err);
-      }
-    });
+  notificarAprobacionAContratador(publicacion: Publicacion) {
+
+    if (publicacion.idCreador && publicacion.reportadaPor) {
+      this.notificarUsuario(
+        publicacion.reportadaPor,
+        `El administrador ${this.usuAdm.nombreCompleto} controló y aprobó la publicación "${publicacion.cont.substring(0, 50)}... ", que había sido reportada por usted.`,
+        null
+      );
+    }
+  }
+
+  notificarUsuario(idUsuario: string, mensaje: string, idEnt: string | null | undefined) {
+    this.listNotService.getListaNotificacionesPorIDUsuario(idUsuario)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (listas) => {
+          if (listas.length === 0) return;
+
+            const lista = listas[0];
+            if(idEnt){
+              const notif: Notificacion = {
+                idEnt: idEnt,
+                descripcion: mensaje,
+                leido: false
+              };
+              lista.notificaciones.push(notif);
+
+            }else{
+              const notif: Notificacion = {
+                descripcion: mensaje,
+                leido: false
+
+              };
+              lista.notificaciones.push(notif);
+
+            }
+
+          this.actualizarListaNotificacion(lista);
+        },
+        error: (err) => console.error('Error notificando usuario:', idUsuario, err)
+      });
+  }
+
+  actualizarListaNotificacion(lista: ListaNotificaciones) {
+    if (!lista.id) return;
+
+    this.listNotService.putListaNotificaciones(lista, lista.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next : (value) => {
+          console.log("Usuario notificado");
+
+        },
+        error: (err) =>{
+          console.error("Err: " + err);
+          alert("Error. No se ha podido notificar a todos los usuarios");
+
+        }
+      });
   }
 
   irAPerfilProfesional(idProfesional: string) {
-    this.router.navigate(['/perfil-profesional', idProfesional]);
+    this.router.navigate(['admin/admprofperfil', idProfesional]);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.objectUrls.forEach(url => URL.revokeObjectURL(url));
+
+    this.objectUrlsPublicacion.forEach(url => URL.revokeObjectURL(url));
     this.objectUrlsPerfil.forEach(url => URL.revokeObjectURL(url));
-    this.objectUrls = [];
+
+    this.objectUrlsPublicacion = [];
     this.objectUrlsPerfil = [];
     this.imagenPublicacion = {};
     this.imagenesPerfil = {};

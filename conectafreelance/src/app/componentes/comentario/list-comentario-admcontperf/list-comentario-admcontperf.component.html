@@ -76,7 +76,17 @@
               Eliminar
               <span class="action-label">Eliminar</span>
             </button>
+
+            @if(comentario.reportada){
+              <button
+                class="approve-button"
+                (click)="aprobar(comentario)"
+              >
+                Aprobar
+              </button>
+            }
           </div>
+
         }
       </article>
     }

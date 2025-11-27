@@ -64,6 +64,15 @@
                   Eliminar
                 </button>
 
+                @if(comentario.reportada){
+                  <button
+                    class="approve-button"
+                    (click)="aprobar(comentario)"
+                  >
+                    Aprobar
+                  </button>
+                }
+
 
               </div>
             </div>

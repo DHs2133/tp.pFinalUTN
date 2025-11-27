@@ -114,19 +114,22 @@ export class ListComentarioAdmcontperfComponent {
   }
 
   cargarImagenCreador() {
-    if (!this.contratador.urlFoto) return;
+    if (!this.contratador?.urlFoto) {
+      this.imgPerfCreador = 'public/avatar.png';
+      return;
+    }
 
-    this.imagenService.getImagen(this.contratador.urlFoto).pipe(
-      takeUntil(this.destroy$),
-      map(blob => {
-        const url = URL.createObjectURL(blob);
-        this.objectUrls.push(url);
-        return this.sanitizer.bypassSecurityTrustUrl(url);
-      }),
-      catchError(() => of('public/avatar.png'))
-    ).subscribe(url => {
-      this.imgPerfCreador = url as SafeUrl;
-    });
+    this.imagenService.getImagen(this.contratador.urlFoto)
+      .pipe(
+        takeUntil(this.destroy$),
+        map(blob => {
+          const url = URL.createObjectURL(blob);
+          this.objectUrls.push(url);
+          return this.sanitizer.bypassSecurityTrustUrl(url);
+        }),
+        catchError(() => of('public/avatar.png' as SafeUrl))
+      )
+      .subscribe(url => this.imgPerfCreador = url as SafeUrl);
   }
 
   obtenerComentariosDelContratador() {
@@ -134,8 +137,8 @@ export class ListComentarioAdmcontperfComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (comentarios) => {
+          this.comentarios = comentarios;
           if (comentarios.length > 0) {
-            this.comentarios = comentarios;
             this.inicializarFormularios();
             this.cargarProfesionalesDestinatarios();
           }
@@ -149,8 +152,8 @@ export class ListComentarioAdmcontperfComponent {
 
   inicializarFormularios() {
     this.motivoControls = {};
-    this.comentarios.forEach(comentario => {
-      this.motivoControls[comentario.id!] = new FormControl('', [
+    this.comentarios.forEach(c => {
+      this.motivoControls[c.id!] = new FormControl('', [
         Validators.required,
         Validators.minLength(50),
         Validators.maxLength(200),
@@ -170,17 +173,17 @@ export class ListComentarioAdmcontperfComponent {
 
     forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
       next: (results) => {
-        const profesionalesValidos: { urlFoto: string; idDestinatario: string }[] = [];
+        const validos: { urlFoto: string; idDestinatario: string }[] = [];
 
-        results.forEach((profesional, index) => {
-          const idDestinatario = idsDestinatarios[index];
-          if (profesional) {
-            this.profesionales.push(profesional);
-            profesionalesValidos.push({ urlFoto: profesional.urlFoto, idDestinatario });
+        results.forEach((prof, i) => {
+          const id = idsDestinatarios[i];
+          if (prof) {
+            this.profesionales.push(prof);
+            if (prof.urlFoto) validos.push({ urlFoto: prof.urlFoto, idDestinatario: id });
           }
         });
 
-        this.cargarImagenesDestinatarios(profesionalesValidos);
+        this.cargarImagenesDestinatarios(validos);
       }
     });
   }
@@ -189,47 +192,74 @@ export class ListComentarioAdmcontperfComponent {
     if (profesionales.length === 0) return;
 
     const requests = profesionales.map(({ urlFoto, idDestinatario }) => {
-      if (!urlFoto || this.imgPerfDestinatarios[idDestinatario]) {
+      if (this.imgPerfDestinatarios[idDestinatario]) {
         return of({ idDestinatario, url: 'skip' });
       }
 
       return this.imagenService.getImagen(urlFoto).pipe(
         map(blob => {
-          const objectUrl = URL.createObjectURL(blob);
-          this.objectUrls.push(objectUrl);
-          return {
-            idDestinatario,
-            url: this.sanitizer.bypassSecurityTrustUrl(objectUrl)
-          };
+          const url = URL.createObjectURL(blob);
+          this.objectUrls.push(url);
+          return { idDestinatario, url: this.sanitizer.bypassSecurityTrustUrl(url) };
         }),
         catchError(() => of({ idDestinatario, url: 'public/avatar.png' }))
       );
     });
 
-    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (results) => {
-        results.forEach(result => {
-          if (result.url !== 'skip') {
-            this.imgPerfDestinatarios[result.idDestinatario] = result.url as SafeUrl;
-          }
-        });
-      }
+    forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe(results => {
+      results.forEach(r => {
+        if (r.url !== 'skip') {
+          this.imgPerfDestinatarios[r.idDestinatario] = r.url as SafeUrl;
+        }
+      });
     });
   }
 
-  getProfesionalById(idDestinatario: string): UsuarioProfesional | undefined {
-    return this.profesionales.find(p => p.id === idDestinatario);
+  getProfesionalById(id: string): UsuarioProfesional | undefined {
+    return this.profesionales.find(p => p.id === id);
   }
 
-  getImagenDestinatario(idDestinatario: string): SafeUrl {
-    return this.imgPerfDestinatarios[idDestinatario] || 'public/avatar.png';
+  getImagenDestinatario(id: string): SafeUrl {
+    return this.imgPerfDestinatarios[id] || 'public/avatar.png';
   }
+
+aprobar(comReportado: Comentario) {
+  const comentarioActualizado: Comentario = {
+    ...comReportado,
+    controlado: true,
+    reportada: false,
+  };
+
+  this.comentarioService.putComentario(comentarioActualizado, comentarioActualizado.id!)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: () => {
+        alert("Comentario aprobado correctamente.");
+
+        const textoCorto = comReportado.contenido.substring(0, 50) + (comReportado.contenido.length > 50 ? '...' : '');
+
+        this.notificarUsuario(
+          comReportado.idCreador,
+          `El administrador ${this.usuAdm.nombreCompleto} revisó y aprobó tu comentario: "${textoCorto}". Ya no está reportado.`,
+          null
+        );
+
+        this.notificarUsuario(
+          comReportado.idDestinatario,
+          `El administrador ${this.usuAdm.nombreCompleto} revisó el comentario que reportaste: "${textoCorto}" y decidió mantenerlo.`,
+          null
+        );
+
+        this.comentarios = this.comentarios.map(c =>
+          c.id === comReportado.id ? comentarioActualizado : c
+        );
+      },
+      error: () => alert("Error al aprobar el comentario.")
+    });
+}
 
   eliminar(idComentario: string | undefined) {
-    if (!idComentario) {
-      alert('Error: ID de comentario no válido.');
-      return;
-    }
+    if (!idComentario) return;
 
     const control = this.motivoControls[idComentario];
     if (!control || control.invalid) {
@@ -248,99 +278,100 @@ export class ListComentarioAdmcontperfComponent {
       .subscribe({
         next: () => {
           this.crearEntidadEliminada(comentario, idComentario, motivo);
+
           this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
           delete this.motivoControls[idComentario];
 
-          // Notificar al contratador (creador) y al profesional (destinatario)
           this.notificarEliminacion(comentario.idCreador, comentario.idDestinatario, motivo, idComentario);
+
+          this.updateUsuarioContratador(comentario.idCreador);
 
           alert('Comentario eliminado correctamente.');
         },
-        error: (err) => {
-          console.error('Error al eliminar:', err);
-          alert('No se pudo eliminar el comentario.');
-        }
+        error: () => alert('Error al eliminar el comentario.')
       });
   }
 
   crearEntidadEliminada(comentario: Comentario, idComentario: string, motivo: string) {
-    const { id, ...comentarioSinId } = comentario;
-
-    const entidadEliminada: EntElimPorAdm = {
+    const { id, ...sinId } = comentario;
+    const entidad: EntElimPorAdm = {
       id: idComentario,
-      idDuenio: comentario.idCreador, // El contratador es el dueño
+      idDuenio: comentario.idCreador,
       tipo: 'comentario',
-      motivo: motivo,
-      entidadElim: comentarioSinId
+      motivo,
+      entidadElim: sinId
     };
 
-    this.entElimPorAdmService.postEntElimPorAdm(entidadEliminada)
+    this.entElimPorAdmService.postEntElimPorAdm(entidad)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => console.log('Entidad eliminada guardada:', entidadEliminada),
+        next: () => console.log('Entidad eliminada guardada'),
         error: (err) => {
-          console.error('Error al guardar entidad eliminada:', err);
-          alert("Error al guardar entidad eliminada: " + err);
+          console.error(err);
+          alert('Error al guardar registro de eliminación');
         }
       });
   }
 
-  notificarEliminacion(idCreador: string, idDestinatario: string, motivo: string, idCom: string) {
-    this.notificarUsuario(
-      idCreador,
-      `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que realizaste. Motivo: "${motivo}".`,
-      idCom
-    );
+  updateUsuarioContratador(idCont: string) {
+    const usuario = this.contratador;
+    if (!usuario) return;
 
-    this.notificarUsuario(
-      idDestinatario,
-      `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que recibiste. Motivo: "${motivo}".`,
-      idCom
-    );
+    const actualizado: UsuarioContratador = {
+      ...usuario,
+      cantComRep: (usuario.cantComRep || 0) + 1,
+      activo: (usuario.cantComRep || 0) + 1 >= 3 ? false : usuario.activo
+    };
+
+    this.contratadorService.putUsuariosContratadores(actualizado, idCont)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.contratador = res;
+        },
+        error: () => alert("Error al actualizar strikes del usuario.")
+      });
   }
 
-  notificarUsuario(idUsuario: string, mensaje: string, idEnt: string) {
+  notificarEliminacion(idCreador: string, idDestinatario: string, motivo: string, idCom: string) {
+    this.notificarUsuario(idCreador, `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que realizaste. Motivo: "${motivo}".`, idCom);
+    this.notificarUsuario(idDestinatario, `El administrador ${this.usuAdm.nombreCompleto} eliminó un comentario que recibiste. Motivo: "${motivo}".`, idCom);
+  }
+
+  notificarUsuario(idUsuario: string, mensaje: string, idEnt: string | null = null) {
     this.listNotService.getListaNotificacionesPorIDUsuario(idUsuario)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (listas) => {
-          if (listas.length === 0) {
-            console.warn('No se encontró lista de notificaciones para:', idUsuario);
-            return;
-          }
+          if (listas.length === 0) return;
 
           const lista = listas[0];
           const notificacion: Notificacion = {
-            idEnt: idEnt,
+            idEnt: idEnt ?? undefined,
             descripcion: mensaje,
             leido: false
           };
 
           lista.notificaciones.push(notificacion);
           this.actualizarListaNotificacion(lista);
-        },
-        error: (err) => console.error('Error al notificar:', err)
+        }
       });
   }
 
   actualizarListaNotificacion(lista: ListaNotificaciones) {
     if (!lista.id) return;
-
     this.listNotService.putListaNotificaciones(lista, lista.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        error: (err) => console.error('Error actualizando notificación:', err)
-      });
+      .subscribe();
   }
 
-  irAPerfilProfesional(idProfesional: string){
-    this.router.navigate(['admin/admprofperfil', idProfesional]);
+  irAPerfilProfesional(id: string) {
+    this.router.navigate(['admin/admprofperfil', id]);
   }
 
   irAPerfilContratador(idContratador: string){
     this.router.navigate(['admin/perfAdmCont', idContratador]);
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -349,5 +380,6 @@ export class ListComentarioAdmcontperfComponent {
     this.objectUrls = [];
     this.imgPerfDestinatarios = {};
   }
+
 
 }

@@ -128,7 +128,6 @@ export class AdminProfesionalPerfilComponent {
     this.usuarioProf.cantComentarios = this.promedioService.getCantidadElementos();
     this.actualizarCuentaProfesional(this.usuarioProf);
 
-
   }
 
   actualizarCuentaProfesional(usuProf: UsuarioProfesional){

@@ -198,6 +198,42 @@ export class ListComentarioAdmprofperfComponent {
     return this.imgPerfCreadores[idCreador] || 'public/avatar.png';
   }
 
+  aprobar(comReportado: Comentario) {
+    const comentarioActualizado = {
+      ...comReportado,
+      controlado: true,
+      reportada: false,
+    };
+
+    this.comentarioService.putComentario(comentarioActualizado, comentarioActualizado.id!)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          alert("Publicación aprobada correctamente.");
+
+          const textoCorto = comReportado.contenido.substring(0, 50) + (comReportado.contenido.length > 50 ? '...' : '');
+
+          this.notificarUsuario(
+            comReportado.idCreador,
+            `El administrador ${this.usuAdm.nombreCompleto} revisó y aprobó tu comentario: "${textoCorto}". Ya no está reportada.`,
+            comReportado.id as string
+          );
+
+          this.notificarUsuario(
+            comReportado.idDestinatario,
+            `El administrador ${this.usuAdm.nombreCompleto} revisó la publicación que reportaste: "${textoCorto}" y decidió mantenerla.`,
+            comReportado.id as string
+          );
+
+
+          this.comentarios = this.comentarios.map(c =>
+            c.id === comReportado.id ? comentarioActualizado : c
+          );
+        },
+        error: () => alert("Error al aprobar la publicación.")
+      });
+  }
+
 
   eliminar(idComentario: string | undefined) {
     if (!idComentario) {
@@ -265,7 +301,37 @@ export class ListComentarioAdmprofperfComponent {
       });
   }
 
+  updateUsuarioContratador(idCont: string | null | undefined) {
 
+    let usuCont;
+    let usuarioActualizado;
+
+    if(idCont){
+      usuCont = this.usuContratadores.find(uc => uc.id === idCont);
+    }
+
+    if(usuCont){
+      usuarioActualizado = {
+        ...usuCont,
+        cantComRep: (usuCont!.cantComRep || 0) + 1,
+        activo: (usuCont!.cantComRep || 0) + 1 >= 3 ? false : usuCont!.activo
+      };
+    }
+
+    if(usuarioActualizado){
+      this.contratadorService.putUsuariosContratadores(usuarioActualizado, usuarioActualizado!.id as string)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (value) =>{
+              this.usuContratadores = this.usuContratadores.map(uc =>
+              uc.id === value.id ? value : uc
+            );
+            alert("Strikes actualizados.")
+          },
+          error: () => alert("Error al actualizar strikes.")
+        });
+    }
+  }
 
 
   notificarEliminacion(
@@ -326,6 +392,90 @@ export class ListComentarioAdmprofperfComponent {
         error: (err) => console.error('Error actualizando notificación:', err)
       });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   ngOnDestroy(): void {

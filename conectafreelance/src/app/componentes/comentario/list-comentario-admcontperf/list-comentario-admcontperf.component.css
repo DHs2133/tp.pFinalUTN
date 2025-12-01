@@ -60,6 +60,26 @@ h2 {
   margin-bottom: 1rem;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .creador-info {
   display: flex;
   align-items: center;
@@ -190,6 +210,8 @@ h2 {
 
 .error-text {
   margin-top: 0.5rem;
+    color: #ef4444;
+
 }
 
 .error-text small {
@@ -248,4 +270,10 @@ h2 {
 
 .action-label {
   display: none;
+}
+
+.reported-label {
+  color: #f1c40f;
+  font-weight: bold;
+  font-size: 0.9em;
 }

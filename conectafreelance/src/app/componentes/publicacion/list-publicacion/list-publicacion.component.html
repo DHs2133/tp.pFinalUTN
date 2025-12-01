@@ -3,7 +3,7 @@
     <p class="no-publicaciones">No hay publicaciones para mostrar.</p>
   } @else {
     @for (publicacion of publicacionesUsuario; track $index) {
-      <article class="publicacion-card">
+      <article class="publicacion-card" [class.reported]="publicacion.reportada">
         <div class="publicacion-header">
           <div class="creador-info">
             <img
@@ -32,17 +32,25 @@
         <div class="publicacion-actions">
           @if (!publicacion.reportada) {
 
-            <a [routerLink]="['modPublicacion', publicacion.id]" class="edit-link">
-              Modificar
-            </a>
-            <button
-            type="button"
-            id="delete-btn-{{publicacion.id}}"
-            class="delete-button"
-            (click)="eliminar(publicacion)"
-            >
-            Eliminar
-            </button>
+            @if(publicacion.controlado){
+              <span class="controlado-label">Publicación controlada</span>
+            }
+
+              <a [routerLink]="['modPublicacion', publicacion.id]" class="edit-link">
+                Modificar
+              </a>
+              <button
+              type="button"
+              id="delete-btn-{{publicacion.id}}"
+              class="delete-button"
+              (click)="eliminar(publicacion)"
+              >
+              Eliminar
+              </button>
+
+          }@else {
+            <span class="reported-label">Publicación reportada</span>
+
           }
         </div>
       </article>

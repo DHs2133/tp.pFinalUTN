@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { LoginService } from '../../../../../utils/service/login-service.service';
 import { UsuarioProfesionalService } from '../../service/usuario-profesional.service';
 import { ImageService } from '../../../../../service/back-end/image.service';
@@ -11,6 +11,8 @@ import { AddComentarioComponent } from "../../../../comentario/add-comentario/ad
 import { PromedioService } from '../../../../../utils/promedio.service';
 import { FavoritoService } from '../../../../favoritos/serviceFavorito/favorito.service';
 import { Favorito } from '../../../../favoritos/interfaceFavoritos/favorito.interface';
+import { ComentarioService } from '../../../../comentario/serviceComentario/comentario.service';
+import { Comentario } from '../../../../comentario/interfaceComentario/interface-comentario';
 
 @Component({
   selector: 'app-contratador-profesional-perfil',
@@ -40,6 +42,7 @@ export class ContratadorProfesionalPerfilComponent {
   activatedRoute = inject(ActivatedRoute);
   promedioService = inject(PromedioService);
   listFavService = inject(FavoritoService);
+  comentarioService = inject(ComentarioService);
 
   ngOnInit() {
     this.obtenerIDProfesional();
@@ -66,6 +69,7 @@ export class ContratadorProfesionalPerfilComponent {
       next: (usu: UsuarioProfesional) => {
         if (usu) {
           this.usuarioProf = usu;
+          this.calcularPromedioYComentarios(usu.id!);
           this.cargarImagen(this.usuarioProf.urlFoto);
         } else {
           alert('Ha ocurrido un error.');
@@ -166,6 +170,55 @@ export class ContratadorProfesionalPerfilComponent {
       alert("No se ha podido agregar al usuario a la lista. Falta el id");
     }
   }
+
+
+
+
+
+
+
+  calcularPromedioYComentarios(idProfesional: string) {
+
+
+    this.comentarioService.getComentarioPorIDdestinatario(idProfesional).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (resultados) => {
+        if(resultados.length > 0){
+          const cant = resultados.length;
+          const suma = resultados.reduce((acc, c) => acc + c.puntaje, 0);
+          const promedio = cant > 0 ? suma / cant : 0;
+
+          this.usuarioProf.cantComentarios = cant;
+          this.usuarioProf.promedio = promedio;
+        }else{
+          this.usuarioProf.cantComentarios = 0;
+          this.usuarioProf.promedio = 0;
+        }
+                  this.actualizarCuentaProfesional();
+
+      },
+      error : (err) => {
+        console.error("Error: " + err);
+        alert("No se ha podido controlar el promedio del usuario profesional");
+    }})
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   ngOnDestroy(): void {
     this.destroy$.next();

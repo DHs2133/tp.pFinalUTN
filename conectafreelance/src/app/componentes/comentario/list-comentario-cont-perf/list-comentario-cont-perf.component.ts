@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Comentario } from '../interfaceComentario/interface-comentario';
-import { catchError, forkJoin, of, Subject, takeUntil } from 'rxjs';
+import { catchError, forkJoin, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { UsuarioContratador, UsuarioProfesional } from '../../usuario/interfaceUsuario/usuario.interface';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LoginService } from '../../../utils/service/login-service.service';
@@ -178,30 +178,51 @@ export class ListComentarioContPerfComponent implements OnInit, OnDestroy {
 
     if (!confirm('¿Eliminar este comentario?')) return;
 
-    this.comentarioService.eliminarComentario(idComentario).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
-        this.emitirNotificacion(comentario.idDestinatario);
-        alert('Comentario eliminado');
-      },
-      error: () => alert('Error al eliminar')
-    });
+    this.comentarioService.eliminarComentario(idComentario)
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => {
+          this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
+          alert('Comentario eliminado');
+
+          return this.enviarNotificacionEliminacion(comentario.idDestinatario);
+        }),
+        catchError(err => {
+          console.error('Error al eliminar comentario:', err);
+          alert('Error al eliminar el comentario');
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
-  emitirNotificacion(idProf: string) {
-    this.listNotService.getListaNotificacionesPorIDUsuario(idProf).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value) => {
-        if (value.length > 0) {
-          this.listaNotificaciones = value[0];
+  enviarNotificacionEliminacion(idDestinatario: string) {
+    return this.listNotService.getListaNotificacionesPorIDUsuario(idDestinatario)
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(listas => {
+          if (listas.length === 0) {
+            console.warn('El profesional no tiene lista de notificaciones');
+            return of(null);
+          }
+
+          const lista = listas[0];
+          if (!lista.notificaciones) lista.notificaciones = [];
+
           const notif: Notificacion = {
-            descripcion: `${this.usuContratador.nombreCompleto} eliminó un comentario`,
+            descripcion: `${this.usuContratador.nombreCompleto} eliminó un comentario sobre ti`,
             leido: false
           };
-          this.listaNotificaciones.notificaciones.push(notif);
-          this.putListaDeNotificaciones(this.listaNotificaciones);
-        }
-      }
-    });
+
+          lista.notificaciones.push(notif);
+
+          return this.listNotService.putListaNotificaciones(lista, lista.id!);
+        }),
+        catchError(err => {
+          console.warn('Error al enviar notificación de eliminación: ', err);
+          return of(null);
+        })
+      );
   }
 
   putListaDeNotificaciones(lista: ListaNotificaciones) {

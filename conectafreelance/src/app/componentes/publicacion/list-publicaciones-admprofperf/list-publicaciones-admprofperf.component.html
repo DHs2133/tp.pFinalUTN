@@ -1,5 +1,4 @@
 <section class="publicaciones-container">
-  <h2>Publicaciones de {{ usuarioProfesional.nombreCompleto || 'el profesional' }}</h2>
 
   @if (publicacionesUsuario.length === 0) {
     <p class="no-publicaciones">Este profesional no ha realizado publicaciones.</p>
@@ -36,49 +35,54 @@
         </div>
 
         @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
-          <div class="motivo-container">
-            <textarea
-              [formControl]="motivoControls[publicacion.id!]"
-              placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
-              class="motivo-input"
-              rows="3"
-            ></textarea>
+          @if(!publicacion.controlado){ <!-- El usuario administrador no puede borrar si esta controlado-->
+            <div class="motivo-container">
+              <textarea
+                [formControl]="motivoControls[publicacion.id!]"
+                placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
+                class="motivo-input"
+                rows="3"
+              ></textarea>
 
-            @if (motivoControls[publicacion.id!].touched && motivoControls[publicacion.id!].invalid) {
-              <small class="error-text">
-                @if (motivoControls[publicacion.id!].errors?.['required']) {
-                  El motivo es obligatorio.
-                } @else if (motivoControls[publicacion.id!].errors?.['minlength']) {
-                  Mínimo 50 caracteres.
-                } @else if (motivoControls[publicacion.id!].errors?.['maxlength']) {
-                  Máximo 200 caracteres.
-                } @else if (motivoControls[publicacion.id!].errors?.['noWhitespace']) {
-                  No puede contener solo espacios.
-                }
-              </small>
-            }
-          </div>
+              @if (motivoControls[publicacion.id!].touched && motivoControls[publicacion.id!].invalid) {
+                <small class="error-text">
+                  @if (motivoControls[publicacion.id!].errors?.['required']) {
+                    El motivo es obligatorio.
+                  } @else if (motivoControls[publicacion.id!].errors?.['minlength']) {
+                    Mínimo 50 caracteres.
+                  } @else if (motivoControls[publicacion.id!].errors?.['maxlength']) {
+                    Máximo 200 caracteres.
+                  } @else if (motivoControls[publicacion.id!].errors?.['noWhitespace']) {
+                    No puede contener solo espacios.
+                  }
+                </small>
+              }
+            </div>
 
-          <div class="publicacion-actions" (click)="$event.stopPropagation()">
-            <button
-              class="delete-button"
-              (click)="eliminarConMotivo(publicacion)"
-              [disabled]="motivoControls[publicacion.id!].invalid"
-            >
-              Eliminar
-              <span class="action-label">Eliminar</span>
-            </button>
+            <div class="publicacion-actions" (click)="$event.stopPropagation()">
+              <button
+                class="delete-button"
+                (click)="eliminarConMotivo(publicacion)"
+                [disabled]="motivoControls[publicacion.id!].invalid"
+              >
+                Eliminar
+                <span class="action-label">Eliminar</span>
+              </button>
 
-            @if(publicacion.reportada){
-            <button
-              class="approve-button"
-              (click)="aprobar(publicacion)"
-            >
-              Aprobar
-            </button>
+              @if(publicacion.reportada){
+              <button
+                class="approve-button"
+                (click)="aprobar(publicacion)"
+              >
+                Aprobar
+              </button>
 
-            }
-          </div>
+              }
+            </div>
+          }@else {
+            <span class="controlado-label">Publicación controlada</span>
+
+          }
         }
       </article>
     }

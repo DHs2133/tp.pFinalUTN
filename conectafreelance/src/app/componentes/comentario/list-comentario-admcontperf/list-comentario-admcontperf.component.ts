@@ -282,10 +282,9 @@ aprobar(comReportado: Comentario) {
           this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
           delete this.motivoControls[idComentario];
 
-          this.notificarEliminacion(comentario.idCreador, comentario.idDestinatario, motivo, idComentario);
-
           this.updateUsuarioContratador(comentario.idCreador);
 
+          this.notificarEliminacion(comentario.idCreador, comentario.idDestinatario, motivo, idComentario);
           alert('Comentario eliminado correctamente.');
         },
         error: () => alert('Error al eliminar el comentario.')

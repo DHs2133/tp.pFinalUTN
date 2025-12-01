@@ -1,41 +1,48 @@
-<section class="form-container">
+<section class="add-comentario-container">
   <h2>Modificar Comentario</h2>
-  <fieldset>
-    <form [formGroup]="formulario" (ngSubmit)="update()">
-      <div class="comentario-input">
-        <label for="contenido">Contenido del Comentario</label>
-        <textarea
-          id="contenido"
-          class="input textarea"
-          formControlName="contenido"
-          placeholder="Escribe tu comentario..."
-          rows="4"
-          (input)="restrictLength($event); autoResize($event)"
-        ></textarea>
-        @if (formulario.controls['contenido'].touched && formulario.controls['contenido'].hasError('required')) {
-          <div class="error">El contenido es obligatorio</div>
-        }
-        @if (formulario.controls['contenido'].touched && formulario.controls['contenido'].hasError('maxlength')) {
-          <div class="error">El contenido no puede exceder los 500 caracteres</div>
-        }
-        @if (formulario.controls['contenido'].touched && formulario.controls['contenido'].hasError('whitespace')) {
-          <div class="error">No se aceptan cadenas vacías</div>
-        }
-        @if (contentLength() >= 450) {
-          <div class="char-counter warning">
-            {{ contentLength() }}/500
-          </div>
-        } @else {
-          <div class="char-counter">
-            {{ contentLength() }}/500
-          </div>
-        }
-      </div>
 
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">📤 Actualizar</button>
-        <button type="button" class="btn btn-secondary" (click)="reestablecer()">❌ Restablecer</button>
-      </div>
-    </form>
-  </fieldset>
+  <form [formGroup]="formulario" (ngSubmit)="update()" class="comentario-form">
+
+    <div class="form-group">
+      <label for="contenido">Comentario</label>
+      <textarea
+        id="contenido"
+        formControlName="contenido"
+        placeholder="Escribe tu comentario aquí..."
+        (input)="autoResize($event)"
+        rows="4"
+        maxlength="500"
+      ></textarea>
+
+      @if (contentLength() >= 450) {
+        <div class="char-counter warning">
+          {{ contentLength() }}/500
+        </div>
+      } @else {
+        <div class="char-counter">
+          {{ contentLength() }}/500
+        </div>
+      }
+
+      @if (formulario.get('contenido')?.touched && formulario.get('contenido')?.hasError('required')) {
+        <span class="error-message">El comentario es obligatorio.</span>
+      }
+      @if (formulario.get('contenido')?.touched && formulario.get('contenido')?.hasError('maxlength')) {
+        <span class="error-message">El comentario no puede exceder los 500 caracteres.</span>
+      }
+      @if (formulario.get('contenido')?.touched && formulario.get('contenido')?.hasError('whitespace')) {
+        <span class="error-message">No se aceptan solo espacios en blanco.</span>
+      }
+    </div>
+
+
+    <div class="form-actions">
+      <button type="submit" class="submit-button" [disabled]="formulario.invalid">
+        Actualizar comentario
+      </button>
+      <button type="button" class="reset-button" (click)="reestablecer()">
+        Restablecer
+      </button>
+    </div>
+  </form>
 </section>

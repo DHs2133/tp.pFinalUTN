@@ -1,5 +1,4 @@
 <div class="comentarios-container">
-  <h2>Comentarios para el Profesional</h2>
   <div class="comentario-list">
     @if (comentarios.length === 0) {
       <p class="no-publicaciones">No hay comentarios para mostrar.</p>
@@ -31,15 +30,21 @@
           </div>
 
           <div class="comentario-actions">
-            @if (!comentario.reportada && comentario.idCreador === idContratador) {
-              <button (click)="eliminar(comentario.id)" class="delete-button">
-                Eliminar
-              </button>
-              <a [routerLink]="['modifyComentario', comentario.id]" class="edit-link">
-                Modificar
-              </a>
-            } @else if (comentario.reportada && comentario.idCreador === idContratador) {
-              <span class="reported-label">Comentario Reportado</span>
+            @if (comentario.idCreador === idContratador){
+              @if (!comentario.reportada) {
+                  @if(comentario.controlado){
+                    <span class="controlado-label">Comentario controlado</span>
+
+                  }
+                <button (click)="eliminar(comentario.id)" class="delete-button">
+                  Eliminar
+                </button>
+                <a [routerLink]="['modifyComentario', comentario.id]" class="edit-link">
+                  Modificar
+                </a>
+              } @else if (comentario.reportada) {
+                <span class="reported-label">Comentario Reportado</span>
+              }
             }
           </div>
         </div>

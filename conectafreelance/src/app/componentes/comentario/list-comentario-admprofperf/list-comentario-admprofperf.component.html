@@ -1,48 +1,47 @@
 <div class="comentarios-container">
-  <h2>Comentarios para el Profesional</h2>
 
-  <div class="comentario-list">
-    @if (comentarios.length === 0) {
-      <p class="no-publicaciones">No hay comentarios para mostrar.</p>
-    } @else {
-      @for (comentario of comentarios; track $index) {
-        <div class="comentario-card">
-          <div class="comentario-header">
+  @if (comentarios.length === 0) {
+    <p class="no-comentarios">No hay comentarios para mostrar.</p>
+  } @else {
+    @for (comentario of comentarios; track comentario.id) {
+      <article class="comentario-card" [class.reported]="comentario.reportada">
+
+        <div class="comentario-header">
+          <div class="creador-info" (click)="irAPerfilContratador(comentario.idCreador)">
             <img
-              [src]="getImagenPerfil(comentario.idCreador)"
+              [src]="getImagenPerfil(comentario.idCreador) || 'public/avatar.png'"
               [alt]="'Foto de ' + (getUsuarioById(comentario.idCreador)?.nombreCompleto || 'Usuario')"
-              class="avatar"
+              class="creador-foto"
               loading="lazy"
             />
-            <div class="creador-info">
-              <span class="nombre-creador">
+            <div class="usuario-details">
+              <h3 class="nombre-creador">
                 {{ getUsuarioById(comentario.idCreador)?.nombreCompleto || 'Anónimo' }}
-              </span>
+              </h3>
               <span class="puntaje">Puntaje: {{ comentario.puntaje }}/5</span>
             </div>
           </div>
+        </div>
 
-          <div class="comentario-content">
-            <p>{{ comentario.contenido }}</p>
-            @if (comentario.reportada) {
-              <small class="text-warning">
-                <em>Este comentario fue reportado.</em>
-              </small>
-            }
-          </div>
+        <div class="comentario-content">
+          <p>{{ comentario.contenido }}</p>
+          @if (comentario.reportada) {
+            <small class="text-warning">
+              <em>Este comentario fue reportado.</em>
+            </small>
+          }
+        </div>
 
-          @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
-            <div class="eliminar-form">
-              <label for="motivo-{{ comentario.id }}">
-                Escriba el motivo de la eliminación
-              </label>
-              <input
-                type="text"
-                id="motivo-{{ comentario.id }}"
+        @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
+          @if (!comentario.controlado) { <!--El usuario administrador no puede borrar si está controlado-->
+            <div class="motivo-container">
+              <textarea
                 [formControl]="motivoControls[comentario.id!]"
-                placeholder="Ej: Contenido ofensivo, spam..."
+                placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
                 class="motivo-input"
-              />
+                rows="3"
+              ></textarea>
+
               @if (motivoControls[comentario.id!].touched && motivoControls[comentario.id!].invalid) {
                 <small class="error-text">
                   @if (motivoControls[comentario.id!].errors?.['required']) {
@@ -51,34 +50,41 @@
                     Mínimo 50 caracteres.
                   } @else if (motivoControls[comentario.id!].errors?.['maxlength']) {
                     Máximo 200 caracteres.
+                  } @else if (motivoControls[comentario.id!].errors?.['whitespace']) {
+                    No puede contener solo espacios.
                   }
                 </small>
               }
+            </div>
 
-              <div class="comentario-actions">
+            <div class="comentario-actions" (click)="$event.stopPropagation()">
+              <button
+                class="delete-button"
+                (click)="eliminar(comentario.id)"
+                [disabled]="motivoControls[comentario.id!].invalid"
+              >
+                Eliminar
+                <span class="action-label">Eliminar</span>
+              </button>
+
+              @if (comentario.reportada) {
                 <button
-                  (click)="eliminar(comentario.id)"
-                  [disabled]="motivoControls[comentario.id!].invalid"
-                  class="delete-button"
+                  class="approve-button"
+                  (click)="aprobar(comentario)"
                 >
-                  Eliminar
+                  Aprobar
                 </button>
+              }
+            </div>
 
-                @if(comentario.reportada){
-                  <button
-                    class="approve-button"
-                    (click)="aprobar(comentario)"
-                  >
-                    Aprobar
-                  </button>
-                }
-
-
-              </div>
+          } @else {
+            <div class="controlado-label">
+              <span class="reported-label">Comentario controlado</span>
             </div>
           }
-        </div>
-      }
+        }
+      </article>
     }
-  </div>
+  }
 </div>
+

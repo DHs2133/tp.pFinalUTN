@@ -1,5 +1,4 @@
 <div class="comentarios-container">
-  <h2>Comentarios Realizados</h2>
   <div class="comentario-list">
     @if (comentarios.length === 0) {
       <p class="no-publicaciones">No hay comentarios para mostrar.</p>
@@ -9,7 +8,6 @@
           <div
             class="comentario-card"
             [class.reported]="comentario.reportada"
-            (click)="irAPerfilProfesional(comentario.idDestinatario)"
           >
             <div class="comentario-header">
               <img [src]="imagenUrl" alt="Tú" class="avatar avatar-contratador" loading="lazy" />
@@ -18,7 +16,7 @@
                 <span class="puntaje">★ {{ comentario.puntaje }}/5</span>
               </div>
 
-              <div class="profesional-info">
+              <div class="profesional-info" (click)="irAPerfilProfesional(comentario.idDestinatario)">
                 <div class="profesional-details">
                   <img
                     [src]="imagenesProf[comentario.idDestinatario] || 'public/avatar.png'"
@@ -39,13 +37,18 @@
 
             <div class="comentario-actions">
               @if (!comentario.reportada) {
+                 @if(comentario.controlado){
+                  <span class="controlado-label">Comentario controlado</span>
+
+                }
                 <button (click)="eliminar(comentario.id)" class="delete-button" title="Eliminar">
                   Eliminar
                 </button>
                 <a [routerLink]="['modComentPerfilCont', comentario.id]" class="edit-link" title="Editar">
                   Modificar
                 </a>
-              } @else if (comentario.reportada && comentario.idCreador === idContratador) {
+
+              } @else if (comentario.reportada) {
                 <span class="reported-label">Reportado</span>
               }
             </div>

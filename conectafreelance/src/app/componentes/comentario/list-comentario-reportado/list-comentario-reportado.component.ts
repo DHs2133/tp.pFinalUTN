@@ -223,7 +223,7 @@ export class ListComentarioReportadoComponent implements OnInit, OnDestroy{
           next: () => {
             alert("Comentario aprobado.");
 
-            this.notificarAprobacion(comReportado.idCreador, comReportado.idDestinatario, comReportado.id as string)
+            this.notificarAprobacion(comReportado.idCreador, comReportado.idDestinatario)
 
 
           },
@@ -326,13 +326,13 @@ export class ListComentarioReportadoComponent implements OnInit, OnDestroy{
     }
   }
 
-  notificarAprobacion(idCreador: string, idDestinatario: string, idCom: string) {
+  notificarAprobacion(idCreador: string, idDestinatario: string) {
 
     if(idCreador){
       this.notificarUsuario(
         idCreador,
         `El administrador ${this.usuAdm.nombreCompleto} controló y aprobó el comentario realizado por usted a ${this.getUsuarioProfesionalById(idDestinatario)?.nombreCompleto}, que habia sido reportado`,
-        idCom
+        null
       );
     }
 
@@ -340,13 +340,13 @@ export class ListComentarioReportadoComponent implements OnInit, OnDestroy{
       this.notificarUsuario(
         idDestinatario,
         `El administrador ${this.usuAdm.nombreCompleto} controló y aprobó el comentario realizado por ${this.getUsuarioContratadorById(idDestinatario)?.nombreCompleto}, el cual usted habia reportado.`,
-        idCom
+        null
       );
     }
   }
 
 
-  notificarUsuario(idUsuario: string, mensaje: string, idEnt: string) {
+  notificarUsuario(idUsuario: string, mensaje: string, idEnt: string|null|undefined) {
     this.listNotService.getListaNotificacionesPorIDUsuario(idUsuario)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -354,13 +354,26 @@ export class ListComentarioReportadoComponent implements OnInit, OnDestroy{
         if (listas.length === 0) return;
 
         const lista = listas[0];
-        const notif: Notificacion = {
-          idEnt: idEnt,
-          descripcion: mensaje,
-          leido: false
-        };
+        if(idEnt){
+          const notif: Notificacion = {
+            idEnt: idEnt,
+            descripcion: mensaje,
+            leido: false
+          };
 
-        lista.notificaciones.push(notif);
+          lista.notificaciones.push(notif);
+
+        }else{
+          const notif: Notificacion = {
+            descripcion: mensaje,
+            leido: false
+          };
+
+          lista.notificaciones.push(notif);
+
+
+        }
+
         this.actualizarListaNotificacion(lista);
       },
       error: (err) => console.error('Error notificando usuario:', idUsuario, err)

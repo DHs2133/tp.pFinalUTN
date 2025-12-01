@@ -35,7 +35,7 @@
         </div>
         <div class="publicacion-actions">
           @if (!publicacion.reportada) {
-            @if(!publicacion.controlado){
+            @if(!publicacion.controlado){ <!--El usuario contratador no puede reportar si ya esta controlado-->
             <button
               (click)="reportarPublicacion(publicacion.id)"
               class="report-button"
@@ -43,7 +43,7 @@
               Reportar
             </button>
             }@else {
-            <span class="reported-label">Publicación controlada</span>
+              <span class="reported-label">Publicación controlada</span>
 
             }
           } @else {

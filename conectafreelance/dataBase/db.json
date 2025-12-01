@@ -1,37 +1,37 @@
 {
   "usuariosProfesionales": [
     {
-      "id": "194a",
-      "nombreCompleto": "Diego del Valle",
-      "email": "DiegoValle@gmail.com",
+      "id": "6a0d",
+      "nombreCompleto": "Sergio Bentu",
+      "email": "SergioBentu@gmail.com",
       "contrasenia": "DdSs#3sad",
       "activo": true,
       "profesion": "Actor",
-      "descripcion": " Dsjaiod jaijs ai dasi sjai dasid sid aija dsiad saijd asias dsaijap diajpd asijd saias jisa daijd asidas ds dasjidasp dsia dsiaj daspdsa",
+      "descripcion": "dasdasdadasdsdasdsaadadasdasdasd",
       "ciudad": "Mar del Plata",
       "provincia": "Buenos Aires",
       "pais": "Argentina",
-      "urlFoto": "00-1763082691608-625654.jpg",
+      "urlFoto": "OIP-1764387634713-43899.jpg",
       "rol": "profesional",
-      "promedio": 1,
-      "cantComentarios": 1,
+      "promedio": 0,
+      "cantComentarios": 0,
       "cantPubRep": 0
     },
     {
-      "id": "fd92",
-      "nombreCompleto": "Camilo Lertner",
-      "email": "CamiloLertner@gmail.com",
+      "id": "c008",
+      "nombreCompleto": "Tomas Menendez",
+      "email": "TomasMenendez@gmail.com",
       "contrasenia": "DdSs#3sad",
       "activo": true,
-      "profesion": "Actor",
-      "descripcion": "dsa jipdsa jdpoas dsaod sajodas o dsao´daodas ´dj sadaso dsaodsa",
+      "profesion": "Albañil",
+      "descripcion": "aaaaaaaaaaaa",
       "ciudad": "Mar del Plata",
       "provincia": "Buenos Aires",
       "pais": "Argentina",
-      "urlFoto": "R_francesa-1763859486079-821570.jpg",
+      "urlFoto": "JerryMouse-1764476893392-48181.webp",
       "rol": "profesional",
-      "promedio": 1,
-      "cantComentarios": 1,
+      "promedio": 0,
+      "cantComentarios": 0,
       "cantPubRep": 0
     }
   ],
@@ -45,7 +45,7 @@
       "urlFoto": "15-Grecia_Fotolia_218021187_Subscription_XL-1763082715989-826883.jpg",
       "rol": "contratador",
       "activo": true,
-      "cantComRep": 1
+      "cantComRep": 2
     },
     {
       "id": "f75b",
@@ -82,28 +82,22 @@
       "permisos": "cp"
     }
   ],
-  "publicaciones": [],
-  "comentarios": [
+  "publicaciones": [
     {
-      "id": "d664",
-      "idCreador": "d703",
-      "idDestinatario": "194a",
-      "nombreCreador": "Maximo Sotelo",
-      "contenido": "dsadasds",
-      "puntaje": 1,
-      "estado": "activa",
-      "controlado": true,
-      "reportada": false
+      "id": "ad9d",
+      "idCreador": "6a0d",
+      "cont": "dsdsdadsadsadassd",
+      "controlado": false,
+      "reportada": false,
+      "reportadaPor": "d703"
     }
   ],
+  "comentarios": [],
   "favoritos": [
     {
       "id": "b088",
       "idDuenio": "d703",
-      "idUsuariosFavoritos": [
-        "194a",
-        "fd92"
-      ]
+      "idUsuariosFavoritos": []
     },
     {
       "id": "dfa8",
@@ -114,35 +108,45 @@
       "id": "5653",
       "idDuenio": "8991",
       "idUsuariosFavoritos": []
+    },
+    {
+      "id": "b3f5",
+      "idDuenio": "dd0c",
+      "idUsuariosFavoritos": []
     }
   ],
-  "chats": [],
+  "chats": [
+    {
+      "id": "ef4e",
+      "idParticipantes": [
+        "d703",
+        "6a0d"
+      ],
+      "mensajes": [
+        {
+          "idCreador": "d703",
+          "contenido": "dsadsadadda",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "26ea",
+      "idParticipantes": [
+        "c008",
+        "d703"
+      ],
+      "mensajes": []
+    }
+  ],
   "listasnotificaciones": [
     {
       "id": "a7f9",
       "idDuenio": "5148",
       "notificaciones": [
         {
-          "descripcion": "Se ha reportado un comentario del usuario: Maximo Sotelo",
-          "leido": false
-        },
-        {
-          "descripcion": "Se ha reportado un comentario del usuario: Maximo Sotelo",
-          "leido": false
-        }
-      ]
-    },
-    {
-      "id": "f926",
-      "idDuenio": "194a",
-      "notificaciones": [
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "descripcion": "Maximo Sotelo reportó una publicación del profesional Sergio Bentu.",
           "leido": true
-        },
-        {
-          "descripcion": "El administrador Bruno Marx revisó el comentario que reportaste: \"dsadasds\" y decidió mantenerlo.",
-          "leido": false
         }
       ]
     },
@@ -151,36 +155,22 @@
       "idDuenio": "d703",
       "notificaciones": [
         {
-          "descripcion": "Su comentario a Diego del Valle ha sido reportado.",
+          "idEnt": "b3b5",
+          "descripcion": "El administrador Bruno Marx eliminó un comentario que realizaste. Motivo: \"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\".",
           "leido": true
         },
         {
-          "descripcion": "Su comentario a Camilo Lertner ha sido reportado.",
+          "descripcion": "Su comentario a Sergio Bentu ha sido reportado.",
           "leido": true
         },
         {
-          "descripcion": "El administrador Bruno Marx revisó y aprobó tu comentario: \"dsadasds\". Ya no está reportado.",
+          "descripcion": "El administrador Bruno Marx controló y aprobó el comentario realizado por usted a Sergio Bentu, que habia sido reportado",
           "leido": true
         },
         {
-          "idEnt": "5d3e",
-          "descripcion": "El administrador Bruno Marx eliminó un comentario que realizaste. Motivo: \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\".",
+          "idEnt": "1def",
+          "descripcion": "El administrador Bruno Marx eliminó un comentario realizado por usted. Motivo: \"d isaod jaid asodj asiods aijoas ias dsaijod jsajioas dasijo\". Apriete para ver más detalles",
           "leido": true
-        }
-      ]
-    },
-    {
-      "id": "95e8",
-      "idDuenio": "fd92",
-      "notificaciones": [
-        {
-          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
-          "leido": true
-        },
-        {
-          "idEnt": "5d3e",
-          "descripcion": "El administrador Bruno Marx eliminó un comentario que recibiste. Motivo: \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\".",
-          "leido": false
         }
       ]
     },
@@ -193,23 +183,59 @@
       "id": "c5a2",
       "idDuenio": "8991",
       "notificaciones": []
+    },
+    {
+      "id": "d048",
+      "idDuenio": "dd0c",
+      "notificaciones": []
+    },
+    {
+      "id": "4dad",
+      "idDuenio": "6a0d",
+      "notificaciones": []
+    },
+    {
+      "id": "ffce",
+      "idDuenio": "c008",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Tomas Menendez",
+          "leido": false
+        }
+      ]
     }
   ],
   "entElimPorAdmin": [
     {
-      "id": "5d3e",
+      "id": "b3b5",
       "idDuenio": "d703",
       "tipo": "comentario",
-      "motivo": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "motivo": "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
       "entidadElim": {
         "idCreador": "d703",
-        "idDestinatario": "fd92",
+        "idDestinatario": "6a0d",
         "nombreCreador": "Maximo Sotelo",
-        "contenido": "dsa",
+        "contenido": "d siaiod asidsa iodas id sadiaspd asidsa ip",
+        "puntaje": 5,
+        "estado": "activa",
+        "controlado": false,
+        "reportada": false
+      }
+    },
+    {
+      "id": "1def",
+      "idDuenio": "d703",
+      "tipo": "comentario",
+      "motivo": "d isaod jaid asodj asiods aijoas ias dsaijod jsajioas dasijo",
+      "entidadElim": {
+        "idCreador": "d703",
+        "idDestinatario": "6a0d",
+        "nombreCreador": "Maximo Sotelo",
+        "contenido": "dsadasdasdsa",
         "puntaje": 1,
         "estado": "activa",
         "controlado": false,
-        "reportada": true
+        "reportada": false
       }
     }
   ]

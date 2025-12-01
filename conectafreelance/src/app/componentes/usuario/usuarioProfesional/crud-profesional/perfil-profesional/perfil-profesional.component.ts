@@ -66,7 +66,7 @@ export class PerfilProfesionalComponent implements OnInit, OnDestroy{
 
           if(!usu.activo){
 
-            this.router.navigate(['/cuenta-desactivada']);
+            this.router.navigate(['/cuenta-desactivada', this.id]);
           }
 
 

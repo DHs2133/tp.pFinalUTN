@@ -264,8 +264,9 @@ export class ListComentarioAdmprofperfComponent {
           this.comentarios = this.comentarios.filter(c => c.id !== idComentario);
           delete this.motivoControls[idComentario];
           this.puntajeAEliminar.emit(comentario.puntaje);
+          this.updateUsuarioContratador(comentario.idCreador);
 
-          this.notificarEliminacion(comentario.idCreador, motivo, idComentario, idDestinatario);
+          this.notificarEliminacion(comentario.idCreador, motivo, idComentario, idDestinatario)
 
           alert('Comentario eliminado correctamente.');
         },
@@ -394,87 +395,10 @@ export class ListComentarioAdmprofperfComponent {
   }
 
 
+  irAPerfilContratador(idContratador: string){
+    this.router.navigate(['admin/perfAdmCont', idContratador]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
 
 
 

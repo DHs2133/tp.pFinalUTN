@@ -63,13 +63,23 @@
       >
         Comentarios
       </button>
+      <button
+        (click)="setActiveTab('publicEliminadas')"
+        [class.active]="activeTab === 'publicEliminadas'"
+        aria-label="Mostrar publicaciones eliminadas"
+        class="tab-button"
+      >
+        Publicaciones eliminadas
+      </button>
     </div>
 
     <div class="tab-content">
       @if (activeTab === 'publicaciones') {
         <app-list-publicaciones-admprofperf></app-list-publicaciones-admprofperf>
-      } @else {
+      } @else if(activeTab === 'comentarios') {
         <app-list-comentario-admprofperf (puntajeAEliminar)="quitarPuntajeAPromedio($event)"></app-list-comentario-admprofperf>
+      }@else{
+        <app-publicaciones-eliminadas> </app-publicaciones-eliminadas>
       }
     </div>
   </section>

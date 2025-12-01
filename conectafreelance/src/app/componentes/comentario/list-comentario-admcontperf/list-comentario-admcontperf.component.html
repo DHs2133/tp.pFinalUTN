@@ -1,5 +1,4 @@
 <section class="comentarios-container">
-  <h2>Comentarios realizados por {{ contratador.nombreCompleto || 'el contratador' }}</h2>
 
   @if (comentarios.length === 0) {
     <p class="no-comentarios">Este contratador no ha realizado comentarios.</p>
@@ -46,47 +45,51 @@
         </div>
 
         @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
-          <div class="motivo-container">
-            <textarea
-              [formControl]="motivoControls[comentario.id!]"
-              placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
-              class="motivo-input"
-              rows="3"
-            ></textarea>
+          @if(!comentario.controlado){ <!-- El administrador no lo puede borrar si está controlado-->
+            <div class="motivo-container">
+              <textarea
+                [formControl]="motivoControls[comentario.id!]"
+                placeholder="Motivo de eliminación (50-200 caracteres, sin espacios en blanco)"
+                class="motivo-input"
+                rows="3"
+              ></textarea>
 
-            @if (motivoControls[comentario.id!].touched && motivoControls[comentario.id!].invalid) {
-              <small class="error-text">
-                @if (motivoControls[comentario.id!].errors?.['required']) {
-                  El motivo es obligatorio.
-                } @else if (motivoControls[comentario.id!].errors?.['minlength']) {
-                  Mínimo 50 caracteres.
-                } @else if (motivoControls[comentario.id!].errors?.['maxlength']) {
-                  Máximo 200 caracteres.
-                }
-              </small>
-            }
-          </div>
+              @if (motivoControls[comentario.id!].touched && motivoControls[comentario.id!].invalid) {
+                <small class="error-text">
+                  @if (motivoControls[comentario.id!].errors?.['required']) {
+                    El motivo es obligatorio.
+                  } @else if (motivoControls[comentario.id!].errors?.['minlength']) {
+                    Mínimo 50 caracteres.
+                  } @else if (motivoControls[comentario.id!].errors?.['maxlength']) {
+                    Máximo 200 caracteres.
+                  }
+                </small>
+              }
+            </div>
 
-          <div class="comentario-actions" (click)="$event.stopPropagation()">
-            <button
-              class="delete-button"
-              (click)="eliminar(comentario.id)"
-              [disabled]="motivoControls[comentario.id!].invalid"
-            >
-              Eliminar
-              <span class="action-label">Eliminar</span>
-            </button>
-
-            @if(comentario.reportada){
+            <div class="comentario-actions" (click)="$event.stopPropagation()">
               <button
-                class="approve-button"
-                (click)="aprobar(comentario)"
+                class="delete-button"
+                (click)="eliminar(comentario.id)"
+                [disabled]="motivoControls[comentario.id!].invalid"
               >
-                Aprobar
+                Eliminar
+                <span class="action-label">Eliminar</span>
               </button>
-            }
-          </div>
 
+              @if(comentario.reportada){
+                <button
+                  class="approve-button"
+                  (click)="aprobar(comentario)"
+                >
+                  Aprobar
+                </button>
+              }
+            </div>
+          }@else {
+            <span class="reported-label">Comentario controlado</span>
+
+          }
         }
       </article>
     }

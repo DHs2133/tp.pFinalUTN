@@ -144,7 +144,6 @@
   flex-shrink: 0;
 }
 
-/* Calificaciones */
 .profile-ratings {
   width: 100%;
   margin-top: 0.8rem;
@@ -174,7 +173,6 @@
   font-size: 1.1rem;
 }
 
-/* Botón de activar cuenta */
 .button-group {
   display: flex;
   justify-content: center;
@@ -213,7 +211,6 @@
   flex-shrink: 0;
 }
 
-/* Contenido principal (pestañas) */
 .profile-content-switcher {
   flex: 1;
   padding: 1rem;

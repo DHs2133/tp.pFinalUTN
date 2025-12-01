@@ -12,6 +12,12 @@ export class PromedioService {
     this.puntajes.push(nvoPuntaje);
   }
 
+  agregarPuntajes(numeros: number[]){
+    if(numeros.length > 0){
+      this.puntajes = [...numeros];
+    }
+  }
+
   eliminarUnElemento(valor: number): void {
     const index = this.puntajes.findIndex(num => num === valor);
     if (index !== -1) {

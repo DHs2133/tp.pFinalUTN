@@ -123,7 +123,7 @@ export const routes: Routes = [{
     component: AccessDeniedHrlPageComponentComponent
   },
   {
-    path: 'cuenta-desactivada',
+    path: 'cuenta-desactivada/:id',
     component: CuentaDesactivadaPageComponent
   },
   {

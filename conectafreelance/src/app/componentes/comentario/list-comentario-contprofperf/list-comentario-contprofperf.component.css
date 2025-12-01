@@ -134,5 +134,13 @@ h2 {
   font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
+.controlado-label {
+  margin-right: 22.5rem;
+  margin-top: 5px;
+  color: #f1c40f;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
 
 

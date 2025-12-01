@@ -1,0 +1,123 @@
+.publicaciones-container {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto';
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.no-publicaciones {
+  font-size: 1rem;
+  color: #666666;
+  text-align: center;
+  padding: 1rem;
+}
+
+.publicacion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.publicacion-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.publicacion-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #eee;
+}
+
+.creador-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nombre-creador {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1.1em;
+}
+
+.publicacion-content {
+  margin-bottom: 10px;
+}
+
+.publicacion-content p {
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
+  font-size: 1em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.publicacion-imagen {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.publicacion-imagen img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #f0f0f0;
+}
+
+.publicacion-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.motivo-eliminacion {
+  margin-top: 1rem;
+  padding: 12px;
+  background-color: #fff5f5;
+  border-left: 4px solid #e74c3c;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95em;
+}
+
+.motivo-eliminacion strong {
+  color: #c0392b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.motivo-texto {
+  margin: 0;
+  color: #2c3e50;
+  line-height: 1.4;
+  word-break: break-word;
+}

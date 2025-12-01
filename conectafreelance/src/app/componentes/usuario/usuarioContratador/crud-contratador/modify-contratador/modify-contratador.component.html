@@ -29,18 +29,6 @@
         <div class="error">No se aceptan cadenas vacias</div>
       }
 
-      <label for="email">Email</label>
-      <input
-        type="text"
-        id="email"
-        class="input"
-        formControlName="email">
-      @if (formulario.controls["email"].touched && formulario.controls["email"].getError("required")) {
-        <div class="error">CAMPO OBLIGATORIO</div>
-      }
-      @if (formulario.controls["email"].touched && formulario.controls["email"].getError("email")) {
-        <div class="error">NO POSEE FORMATO DE EMAIL</div>
-      }
 
       <label for="empresaRepresentada">En caso de representar a una empresa, escriba cuál</label>
       <input

@@ -22,6 +22,11 @@ export class ServEntElimPorAdmService {
     return this.http.get<EntElimPorAdm>(`${this.urlentElimPorAdm}/${id}`);
   }
 
+  getEntElimPorAdmPorIDDuenio(idDuenio: string): Observable<EntElimPorAdm[]> {
+
+    return this.http.get<EntElimPorAdm[]>(`${this.urlentElimPorAdm}/?idDuenio=${idDuenio}`);
+  }
+
   putPublicacion(entElimPorAdm: EntElimPorAdm, id: string | null): Observable<EntElimPorAdm>{
 
     return this.http.put<EntElimPorAdm>(`${this.urlentElimPorAdm}/${id}`, entElimPorAdm);

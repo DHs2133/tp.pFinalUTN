@@ -9,10 +9,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PromedioService } from '../../../../../utils/promedio.service';
 import { ListPublicacionesAdmprofperfComponent } from '../../../../publicacion/list-publicaciones-admprofperf/list-publicaciones-admprofperf.component';
 import { ListComentarioAdmprofperfComponent } from '../../../../comentario/list-comentario-admprofperf/list-comentario-admprofperf.component';
+import { PublicacionesEliminadasComponent } from '../../../../entidadElimPorAdm/publicaciones-eliminadas/publicaciones-eliminadas.component';
+import { ComentarioService } from '../../../../comentario/serviceComentario/comentario.service';
 
 @Component({
   selector: 'app-admin-profesional-perfil',
-  imports: [ListPublicacionesAdmprofperfComponent, ListComentarioAdmprofperfComponent],
+  imports: [ListPublicacionesAdmprofperfComponent, ListComentarioAdmprofperfComponent, PublicacionesEliminadasComponent],
   templateUrl: './admin-profesional-perfil.component.html',
   styleUrl: './admin-profesional-perfil.component.css'
 })
@@ -21,7 +23,7 @@ export class AdminProfesionalPerfilComponent {
   idProfesional: string | null = null;
   idContratador: string | null = null;
   imagenUrl!: SafeUrl;
-  activeTab: 'publicaciones' | 'comentarios' = 'publicaciones';
+  activeTab: 'publicaciones' | 'comentarios' | 'publicEliminadas'= 'publicaciones';
   usuarioProf: UsuarioProfesional = {
 
     id: " ",
@@ -52,6 +54,7 @@ export class AdminProfesionalPerfilComponent {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   promedioService = inject(PromedioService);
+  comentarioService = inject(ComentarioService);
 
 
   ngOnInit() {
@@ -79,7 +82,7 @@ export class AdminProfesionalPerfilComponent {
       next: (usu: UsuarioProfesional) => {
         if (usu) {
           this.usuarioProf = usu;
-
+          this.calcularPromedioYComentarios(usu.id!);
           this.cargarImagen(this.usuarioProf.urlFoto);
         } else {
           alert('Ha ocurrido un error.');
@@ -106,9 +109,39 @@ export class AdminProfesionalPerfilComponent {
     });
   }
 
-  setActiveTab(tab: 'publicaciones' | 'comentarios'): void {
+  setActiveTab(tab: 'publicaciones' | 'comentarios' | 'publicEliminadas'): void {
     this.activeTab = tab;
   }
+
+
+
+  calcularPromedioYComentarios(idProfesional: string) {
+
+
+    this.comentarioService.getComentarioPorIDdestinatario(idProfesional).pipe(takeUntil(this.destroy$)).subscribe({
+      next : (resultados) => {
+        if(resultados.length > 0){
+          const cant = resultados.length;
+          const suma = resultados.reduce((acc, c) => acc + c.puntaje, 0);
+          const promedio = cant > 0 ? suma / cant : 0;
+
+          this.usuarioProf.cantComentarios = cant;
+          this.usuarioProf.promedio = promedio;
+
+        }else{
+          this.usuarioProf.cantComentarios = 0;
+          this.usuarioProf.promedio = 0;
+        }
+
+        this.actualizarCuentaProfesional(this.usuarioProf);
+
+      },
+      error : (err) => {
+        console.error("Error: " + err);
+        alert("No se ha podido controlar el promedio del usuario profesional");
+    }})
+  }
+
 
 
   actualizarPromedio(puntajesNvo: number[]){
@@ -131,8 +164,8 @@ export class AdminProfesionalPerfilComponent {
   }
 
   actualizarCuentaProfesional(usuProf: UsuarioProfesional){
-    this.profService.putUsuariosProfesionales(this.usuarioProf, this.idProfesional).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (usu: UsuarioProfesional) => {
+    this.profService.putUsuariosProfesionales(usuProf, usuProf.id as string).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (usu) => {
         console.log('Se ha actualizado la información.');
 
 
@@ -149,6 +182,7 @@ export class AdminProfesionalPerfilComponent {
     const confirmado = window.confirm('¿Estás seguro de que querés activar esta cuenta?');
     if (confirmado) {
       this.usuarioProf.activo = true;
+      this.usuarioProf.cantPubRep = 0;
       this.actualizarCuentaProfesional(this.usuarioProf);
     }
   }

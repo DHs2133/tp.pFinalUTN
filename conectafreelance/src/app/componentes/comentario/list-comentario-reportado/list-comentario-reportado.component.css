@@ -177,6 +177,8 @@ h2 {
 
 .error-text {
   margin-top: 0.5rem;
+  color: #ef4444;
+
 }
 
 .error-text small {

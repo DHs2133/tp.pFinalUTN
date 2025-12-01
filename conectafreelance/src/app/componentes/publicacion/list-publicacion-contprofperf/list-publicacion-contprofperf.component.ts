@@ -80,7 +80,7 @@ export class ListPublicacionContprofperfComponent {
         this.usuarioReportador = reportador;
         this.administradores = administradores;
 
-        this.obtenerImagenesDePublicaciones(publicaciones);
+        this.obtenerImagenesDePublicaciones();
         this.obtenerImagenPerfilDelServidor(profesional);
       },
       error: (err) => {
@@ -90,7 +90,7 @@ export class ListPublicacionContprofperfComponent {
     });
   }
 
-  obtenerImagenesDePublicaciones(publicaciones: Publicacion[]) {
+  obtenerImagenesDePublicaciones() {
     this.publicacionesUsuario.forEach(pub => {
       if (pub.urlFoto && pub.id && !this.imagenPublicacion[pub.id]) {
         this.obtenerImagenPublicacionDelServidor(pub);

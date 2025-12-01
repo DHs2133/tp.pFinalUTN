@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { catchError, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { Comentario } from '../interfaceComentario/interface-comentario';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -52,47 +52,43 @@ export class ModifyComentarioContPerfilComponent {
       next: (param) => {
         this.idComentario = param.get('id');
         if (this.idComentario) {
-
-          this.getComentarioById(this.idComentario);
-          this.obtenerIdUsuarioSesion();
+          this.cargarDatosCompletos(this.idComentario);
         }
       },
-      error: (err) => {
-        console.error('Error al obtener el id del comentario:', err);
+      error: () => {
         this.router.navigate(['contratador/perfil']);
-      },
+      }
     });
   }
 
-  obtenerIdUsuarioSesion(){
-    const id = this.comentarioAModificar.idCreador;
-
-    if(id){
-      this.obtenerUsuarioSesion(id);
-    }else{
-      alert("No se ha podido obtener el id del usuario de sesión");
-      this.router.navigate(['contratador/perfil']);
-    }
-  }
-
-  obtenerUsuarioSesion(idUsuario: string){
-    this.usuarioContServ.getUsuariosContratadoresPorId(idUsuario).pipe(takeUntil(this.destroy$)).subscribe({
-      next : (value) => {
-        if(value){
-          this.usuarioContSesion = value;
-        }else{
-          alert("No se ha podido obtener la información del usuario de sesión");
+  cargarDatosCompletos(idComentario: string): void {
+    this.comentarioService.getComentarioPorIDcomentario(idComentario)
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((comentario) => {
+          this.comentarioAModificar = comentario;
+          this.formularioDefecto();
+          return this.usuarioContServ.getUsuariosContratadoresPorId(comentario.idCreador);
+        }),
+        catchError((err) => {
+          console.error('Error al cargar comentario o usuario:', err);
+          alert('No se pudo cargar la información necesaria');
           this.router.navigate(['contratador/perfil']);
-
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (usuario) => {
+          if (usuario) {
+            this.usuarioContSesion = usuario;
+            console.log('Usuario cargado correctamente:', this.usuarioContSesion.nombreCompleto);
+          } else {
+            alert('No se encontró el usuario creador del comentario');
+            this.router.navigate(['contratador/perfil']);
+          }
         }
-      },
-      error : (err) => {
-        alert("No se ha podido obtener los datos del usuario contratador. Será redirigido a su perfil");
-      },
-    })
-
+      });
   }
-
 
   getComentarioById(idComentario: string) {
     this.comentarioService.getComentarioPorIDcomentario(idComentario).pipe(takeUntil(this.destroy$)).subscribe({
@@ -137,84 +133,74 @@ export class ModifyComentarioContPerfilComponent {
       return;
     }
 
-    const datos = this.formulario.getRawValue();
-
-    this.updateComentario(datos);
-  }
-
-  updateComentario(comModificada: Comentario) {
-    if (this.idComentario) {
-      this.comentarioService.putComentario(comModificada, this.idComentario).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (value) => {
-          alert('Comentario modificado con éxito');
-          this.obtenerListaDeNotificacionesDeDestinatario(value.idDestinatario);
-        },
-        error: (err) => {
-          alert('El comentario no ha podido ser modificado');
-          console.error('Error al modificar el comentario:', err);
-        },
-      });
+    if (!this.idComentario) {
+      alert('ID del comentario no encontrado');
+      this.router.navigate(['contratador/perfil']);
+      return;
     }
-  }
 
+    const datosActualizados = this.formulario.getRawValue();
 
-  obtenerListaDeNotificacionesDeDestinatario(idProf: string){
-    this.listaNotifServ.getListaNotificacionesPorIDUsuario(idProf).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value) => {
-        if(value.length > 0){
-          const listaNotif = value[0]
-          this.emitirNotificación(listaNotif);
-
-        }else{
-          alert("No se ha podido obtener la lista de favoritos del destinatario del comentario. Será redirigido a su perfil");
-          this.router.navigate(['contratador/perfil']);
-        }
-      },
-      error: (err) => {
-        alert("No se ha podido obtener la lista de favoritos del destinatario del comentario. Será redirigido a su perfil");
-        this.router.navigate(['contratador/perfil']);
-      },
-    })
-  }
-
-  emitirNotificación(listaNot: ListaNotificaciones){
-
-
-    const nvaNotificacion: Notificacion = {
-
-      descripcion: `El usuario: ${this.usuarioContSesion.nombreCompleto} ha modificado su comentario`,
-      leido: false
+    const contenidoOriginal = this.comentarioAModificar.contenido;
+    let haCambiado;
+    if(contenidoOriginal === datosActualizados.contenido){
+      haCambiado = false
+    }else{
+      haCambiado = true
 
     }
-      alert("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
 
-    listaNot.notificaciones.push(nvaNotificacion);
+    if(haCambiado){
+      this.comentarioService.putComentario(datosActualizados, this.idComentario)
+        .pipe(
+          tap(() => alert('Comentario modificado con éxito')),
+          switchMap((comentarioActualizado) =>
 
-    this.actualizarListaNotificacion(listaNot);
+            this.listaNotifServ.getListaNotificacionesPorIDUsuario(comentarioActualizado.idDestinatario).pipe(
+              switchMap((listas) => {
+                if (listas.length === 0) {
+                  console.warn('El destinatario no tiene lista de notificaciones');
+                  return of(null);
+                }
 
+                const listaNotif = listas[0];
+                if (!listaNotif.notificaciones) {
+                  listaNotif.notificaciones = [];
+                }
 
-  }
+                const nuevaNotif: Notificacion = {
+                  descripcion: `El usuario ${this.usuarioContSesion.nombreCompleto} ha modificado un comentario sobre ti`,
+                  leido: false
+                };
 
+                listaNotif.notificaciones.push(nuevaNotif);
 
-  actualizarListaNotificacion(listaNot: ListaNotificaciones){
-    this.listaNotifServ.putListaNotificaciones(listaNot, listaNot.id as string).pipe(takeUntil(this.destroy$)).subscribe({
-      next : (value) => {
-        alert("Se ha enviado exitosamente la notificación al usuario destinatario ");
+                return this.listaNotifServ.putListaNotificaciones(listaNotif, listaNotif.id!).pipe(takeUntil(this.destroy$));
+              }),
+              catchError((err) => {
+                console.warn('Error al enviar notificación (se ignora):', err);
+                return of(null);
+              })
+            )
+          ),
+          takeUntil(this.destroy$)
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigate(['contratador/perfil']);
+          },
+          error: (err) => {
+            console.error('Error crítico al actualizar comentario:', err);
+            alert('Error al modificar el comentario');
+            this.router.navigate(['contratador/perfil']);
+          }
+        });
+      }else{
         this.router.navigate(['contratador/perfil']);
 
-      },
-      error : (err) => {
-        alert("No se ha enviado exitosamente la notificación al usuario destinatario ");
-
-      },
-
-    })
+      }
   }
-
-
-
-
 
 
   contentLength(): number {

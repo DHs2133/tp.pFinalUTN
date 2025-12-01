@@ -144,14 +144,21 @@ h2 {
 }
 
 .reported-label {
-  background-color: #facc15;
-  color: #92400e;
+  margin-top: 5px;
+  color: #f1c40f;
   font-weight: bold;
-  font-size: clamp(0.75rem, 2.3vw, 0.85rem);
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  align-self: flex-end;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
+
+.controlado-label {
+  margin-right: 19.1rem;
+  margin-top: 5px;
+  color: #f1c40f;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+
 
 .no-publicaciones {
   text-align: center;

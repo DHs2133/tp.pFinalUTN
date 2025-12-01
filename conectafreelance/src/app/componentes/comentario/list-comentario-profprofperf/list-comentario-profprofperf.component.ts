@@ -19,6 +19,11 @@ import { PromedioService } from '../../../utils/promedio.service';
 export class ListComentarioProfprofperfComponent {
   // lista de comentarios utilizada para el usuario profesional que visualiza un perfil profesional.
 
+ //Lo que tengo que hacer es utilizar este componente para hacer el de comentarios eliminados. Y debo utilizar
+ //lo que hice en el componente de publicaciones eliminadas para mostrar como va a ser la visualizacion
+ //del motivo
+
+
   comentarios: Comentario[] = [];
   idDestinatario: string | null = null;
   destroy$ = new Subject<void>();

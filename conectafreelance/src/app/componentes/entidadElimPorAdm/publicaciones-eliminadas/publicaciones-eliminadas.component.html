@@ -1,0 +1,51 @@
+<section class="publicaciones-container">
+
+  @if (publicacionesEliminadas.length === 0) {
+    <p class="no-publicaciones">
+      Este profesional no tiene publicaciones eliminadas.
+    </p>
+  } @else {
+
+    @for (ent of publicacionesEliminadas; track ent.id) {
+      @let pub = getPublicacion(ent);
+
+        <article class="publicacion-card">
+        <div class="publicacion-header">
+          <div class="creador-info">
+            <img
+              [src]="imagenPerfil"
+              alt="Foto de {{ profesional?.nombreCompleto }}"
+              class="avatar"
+              loading="lazy"
+            />
+
+            <div class="creador-info">
+              <span class="nombre-creador">{{ profesional?.nombreCompleto }}</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="publicacion-content">
+          <p>{{ pub.cont }}</p>
+          @if (pub.urlFoto && imagenPublicacion[ent.id!]) {
+            <div class="publicacion-imagen">
+              <img
+                [src]="imagenPublicacion[ent.id!]"
+                alt="Imagen de la publicación"
+                loading="lazy"
+              />
+            </div>
+          }
+        </div>
+      <div class="motivo-eliminacion">
+        <strong>Motivo de eliminación:</strong>
+        <p class="motivo-texto">{{ ent.motivo }}</p>
+      </div>
+      </article>
+
+    }
+  }
+
+</section>

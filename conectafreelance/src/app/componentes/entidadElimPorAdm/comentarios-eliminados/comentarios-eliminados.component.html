@@ -1,0 +1,61 @@
+<section class="comentarios-container">
+
+  @if (comentariosEliminados.length === 0) {
+    <p class="no-comentarios">
+      Este contratador no tiene comentarios eliminados.
+    </p>
+  } @else {
+
+    @for (ent of comentariosEliminados; track ent.id) {
+      @let comentario = getComentario(ent);
+      @let profesional = getProfesional(comentario.idDestinatario);
+
+      <article class="comentario-card">
+
+        <header class="comentario-header">
+          <div class="creador-info">
+            <img
+              [src]="imagenPerfilContratador"
+              alt="Foto de {{ contratador?.nombreCompleto }}"
+              class="avatar"
+              loading="lazy"
+            />
+            <div class="creador-detalles">
+              <div class="nombre-creador">
+                {{ contratador?.nombreCompleto || 'Cuenta eliminada' }}
+              </div>
+                <span class="puntaje">★ {{ comentario.puntaje }}/5</span>
+            </div>
+          </div>
+
+
+          <div class="destinatario-info">
+            <div class="destinatario-detalles">
+              <div class="nombre-destinatario">
+                {{ profesional?.nombreCompleto || 'Cuenta eliminada' }}
+              </div>
+              <small class="texto-recibio">recibió el comentario</small>
+            </div>
+            <img
+              [src]="getFotoProfesional(profesional?.urlFoto)"
+              [alt]="profesional?.nombreCompleto || 'Cuenta eliminada'"
+              class="avatar avatar-destinatario"
+              loading="lazy"
+            />
+          </div>
+        </header>
+
+        <div class="comentario-content">
+          <p>{{ comentario.contenido }}</p>
+        </div>
+        <div class="motivo-eliminacion">
+          <strong>Motivo de eliminación:</strong>
+          <p class="motivo-texto">{{ ent.motivo || 'No especificado' }}</p>
+        </div>
+
+      </article>
+
+    }
+  }
+
+</section>

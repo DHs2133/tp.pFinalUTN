@@ -136,3 +136,24 @@
 .delete-button:hover {
   background-color: #d9363e;
 }
+
+
+.publicacion-card.reported {
+  background-color: #fffde7;
+  border-color: #f1c40f;
+}
+
+
+.reported-label {
+  color: #f1c40f;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.controlado-label {
+  margin-right: 24rem;
+  margin-top: 5px;
+  color: #f1c40f;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}

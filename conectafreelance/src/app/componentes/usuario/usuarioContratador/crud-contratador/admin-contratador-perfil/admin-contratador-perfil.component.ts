@@ -8,10 +8,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../../../../../utils/service/login-service.service';
 import { ListFavoritosPerfilAdminContComponent } from '../../../../favoritos/list-favoritos-perfil-admin-cont/list-favoritos-perfil-admin-cont.component';
 import { ListComentarioAdmcontperfComponent } from '../../../../comentario/list-comentario-admcontperf/list-comentario-admcontperf.component';
+import { ComentariosEliminadosComponent } from "../../../../entidadElimPorAdm/comentarios-eliminados/comentarios-eliminados.component";
 
 @Component({
   selector: 'app-admin-contratador-perfil',
-  imports: [ListFavoritosPerfilAdminContComponent, ListComentarioAdmcontperfComponent],
+  imports: [ListFavoritosPerfilAdminContComponent, ListComentarioAdmcontperfComponent, ComentariosEliminadosComponent],
   templateUrl: './admin-contratador-perfil.component.html',
   styleUrl: './admin-contratador-perfil.component.css'
 })
@@ -20,7 +21,7 @@ export class AdminContratadorPerfilComponent {
   idContratador: string|null = null;
   idAdminSesion: string = '';
   imagenUrl!: SafeUrl;
-  activeTab: 'comentarios' | 'listaFav' = 'listaFav';
+  activeTab: 'comentarios' | 'listaFav' | 'comentEliminados' = 'listaFav';
   usuarioCont: UsuarioContratador = {
 
     id: " ",
@@ -42,6 +43,7 @@ export class AdminContratadorPerfilComponent {
   router = inject(Router);
   loginService = inject(LoginService);
   activatedRoute = inject(ActivatedRoute);
+  usuContService = inject(UsuarioContratadorService);
 
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class AdminContratadorPerfilComponent {
     });
   }
 
-  setActiveTab(tab: 'comentarios' | 'listaFav'): void {
+  setActiveTab(tab: 'comentarios' | 'listaFav' | 'comentEliminados'): void {
     this.activeTab = tab;
   }
 
@@ -103,6 +105,31 @@ export class AdminContratadorPerfilComponent {
       }
     });
   }
+
+
+  activarCuentaContratadora(){
+    const confirmado = window.confirm('¿Estás seguro de que querés activar esta cuenta?');
+    if (confirmado) {
+      this.usuarioCont.activo = true;
+      this.usuarioCont.cantComRep = 0;
+      this.actualizarCuentaContratadora(this.usuarioCont);
+    }
+  }
+
+  actualizarCuentaContratadora(usuCont: UsuarioContratador){
+    this.usuContService.putUsuariosContratadores(usuCont, usuCont.id as string).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (usu) => {
+        console.log('Se ha actualizado la información.');
+
+
+      },
+      error: (err) => {
+        alert('No se ha podido actualizar la información.');
+        console.log('Error: ' + err);
+      }
+    });
+  }
+
 
 
   ngOnDestroy(): void {

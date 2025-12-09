@@ -1,34 +1,119 @@
 {
   "usuariosProfesionales": [
     {
-      "id": "6a0d",
-      "nombreCompleto": "Sergio Bentu",
-      "email": "SergioBentu@gmail.com",
+      "id": "788c",
+      "nombreCompleto": "Antonio Demis",
+      "email": "AntonioDemis@gmail.com",
       "contrasenia": "DdSs#3sad",
       "activo": true,
-      "profesion": "Actor",
-      "descripcion": "dasdasdadasdsdasdsaadadasdasdasd",
+      "profesion": "Historiador",
+      "descripcion": "Historiador apasionado por la historia marxista, analiza procesos sociales y económicos con enfoque crítico, buscando comprender luchas de clase y transformaciones profundas.",
       "ciudad": "Mar del Plata",
       "provincia": "Buenos Aires",
       "pais": "Argentina",
-      "urlFoto": "OIP-1764387634713-43899.jpg",
+      "urlFoto": "karl-marx-34-1764852475391-539682.webp",
       "rol": "profesional",
-      "promedio": 0,
-      "cantComentarios": 0,
+      "promedio": 4.833333333333333,
+      "cantComentarios": 6,
       "cantPubRep": 0
     },
     {
-      "id": "c008",
-      "nombreCompleto": "Tomas Menendez",
-      "email": "TomasMenendez@gmail.com",
+      "id": "275b",
+      "nombreCompleto": "Enrique Brown",
+      "email": "EnriqueBrown@gmail.com",
       "contrasenia": "DdSs#3sad",
       "activo": true,
-      "profesion": "Albañil",
-      "descripcion": "aaaaaaaaaaaa",
+      "profesion": "Economista",
+      "descripcion": "Economista orientado a la Escuela de Chicago. Enfocado en libre mercado, políticas monetarias sólidas y análisis basado en datos para promover eficiencia, estabilidad e innovación económica.",
+      "ciudad": "25 de Mayo",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "R-1764852667823-619094.jpg",
+      "rol": "profesional",
+      "promedio": 3.8,
+      "cantComentarios": 5,
+      "cantPubRep": 0
+    },
+    {
+      "id": "60a9",
+      "nombreCompleto": "Tomas Romero",
+      "email": "TomasRomero@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "activo": true,
+      "profesion": "Historiador",
+      "descripcion": "Dedicado al estudio crítico de procesos sociales y culturales. Apasionado por investigar fuentes, comprender transformaciones humanas y explicar el pasado con claridad y rigor. Mi especialidad es la época napoleónica",
       "ciudad": "Mar del Plata",
       "provincia": "Buenos Aires",
       "pais": "Argentina",
-      "urlFoto": "JerryMouse-1764476893392-48181.webp",
+      "urlFoto": "napoleon-1764852869688-901515.webp",
+      "rol": "profesional",
+      "promedio": 1.75,
+      "cantComentarios": 4,
+      "cantPubRep": 0
+    },
+    {
+      "id": "1004",
+      "nombreCompleto": "Camila Zubizarreta",
+      "email": "CamilaZubizarreta@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "activo": true,
+      "profesion": "Cosplayer",
+      "descripcion": "Cosplayer profesional especializada en diseño, confección y caracterización. Combina creatividad y técnica para recrear personajes con precisión, calidad artesanal y presencia escénica.",
+      "ciudad": "Bahia Blanca",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "OIP-1764853043665-5128.jpg",
+      "rol": "profesional",
+      "promedio": 3.6666666666666665,
+      "cantComentarios": 3,
+      "cantPubRep": 0
+    },
+    {
+      "id": "358c",
+      "nombreCompleto": "Marcelo Rosso",
+      "email": "MarceloRosso@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "activo": true,
+      "profesion": "Maquillador",
+      "descripcion": "Maquillador profesional especializado en realzar rasgos y crear estilos versátiles. Técnicas precisas, creatividad y enfoque en brindar resultados impecables para cada ocasión.",
+      "ciudad": "Mar del Plata",
+      "provincia": "Buenos Aires",
+      "pais": "Argentina",
+      "urlFoto": "maquillaje-1764853189848-486577.webp",
+      "rol": "profesional",
+      "promedio": 4.5,
+      "cantComentarios": 2,
+      "cantPubRep": 0
+    },
+    {
+      "id": "450f",
+      "nombreCompleto": "Ayelen Argerich",
+      "email": "AyelenArgerich@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "activo": true,
+      "profesion": "Peluquera",
+      "descripcion": "Peluquera profesional especializada en corte, color y estilizado. Combina técnica y creatividad para lograr acabados personalizados, modernos y de alta calidad para cada cliente.",
+      "ciudad": "Rio Gallegos",
+      "provincia": "Santa Cruz",
+      "pais": "Argentina",
+      "urlFoto": "Peluqueria-1764853387250-240250.webp",
+      "rol": "profesional",
+      "promedio": 1,
+      "cantComentarios": 1,
+      "cantPubRep": 0
+    },
+    {
+      "id": "138e",
+      "nombreCompleto": "Santiago Reyes",
+      "email": "SantiagoReyes@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "activo": true,
+      "profesion": "Historiador",
+      "descripcion": "Historiador especializado en Argentina, dedicado a investigar procesos políticos, sociales y culturales del país. Apasionado por comprender su evolución y compartir una mirada rigurosa y accesible del pasado.",
+      "ciudad": "Ushuaia",
+      "provincia": "Tierra del Fuego",
+      "pais": "Argentina",
+      "urlFoto": "bandera2-1764854510976-206567.jpg",
       "rol": "profesional",
       "promedio": 0,
       "cantComentarios": 0,
@@ -37,34 +122,122 @@
   ],
   "usuariosContratadores": [
     {
-      "id": "d703",
+      "id": "a00c",
       "nombreCompleto": "Maximo Sotelo",
       "email": "MaxiMaxi@gmail.com",
       "contrasenia": "DdSs#3sad",
       "empresaRepresentada": "Globant",
-      "urlFoto": "15-Grecia_Fotolia_218021187_Subscription_XL-1763082715989-826883.jpg",
-      "rol": "contratador",
-      "activo": true,
-      "cantComRep": 2
-    },
-    {
-      "id": "f75b",
-      "nombreCompleto": "Mabel Maribel",
-      "email": "MabelMaribel@gmail.com",
-      "contrasenia": "DdSs#3sad",
-      "empresaRepresentada": "",
-      "urlFoto": "spike-1764198758725-436063.webp",
+      "urlFoto": "00-1764851768160-357535.jpg",
       "rol": "contratador",
       "activo": true,
       "cantComRep": 0
     },
     {
-      "id": "8991",
-      "nombreCompleto": "Sergio Luna",
-      "email": "SergioLuna@gmail.com",
+      "id": "6706",
+      "nombreCompleto": "Diego Torres",
+      "email": "DiegoTorres@gmail.com",
       "contrasenia": "DdSs#3sad",
       "empresaRepresentada": "",
-      "urlFoto": "600155-1764208535295-659486.jpg",
+      "urlFoto": "15-Grecia_Fotolia_218021187_Subscription_XL-1764851836353-626532.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "94b0",
+      "nombreCompleto": "Roberto Gomez",
+      "email": "RobertoGomez@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "Accenture",
+      "urlFoto": "600155-1764851912779-31049.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "7be1",
+      "nombreCompleto": "Pedro Pascal",
+      "email": "PedroPascal@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "",
+      "urlFoto": "600155-1764851940036-238020.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "f626",
+      "nombreCompleto": "Camila Schmidt",
+      "email": "CamilaSchmidt@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "BlackRock",
+      "urlFoto": "1570029081_071016_1570029510_rrss_normal-1764852003493-434129.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "710e",
+      "nombreCompleto": "Jimena Plug",
+      "email": "JimenaPlug@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "",
+      "urlFoto": "a78c12e2f0f4a2a3cb6914e799bdc15c-1764852030890-231463.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "5c83",
+      "nombreCompleto": "Jose Blas",
+      "email": "JoseBlas@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "IKEA",
+      "urlFoto": "chef-1764852086848-655443.png",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "da7d",
+      "nombreCompleto": "Lucia Moeira",
+      "email": "LuciaMoeira@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "Microsoft",
+      "urlFoto": "forest-7469400_1280-1764852118520-958520.jpg",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "d846",
+      "nombreCompleto": "Catalina Kowalska",
+      "email": "CatalinaKowalska@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "Microsoft",
+      "urlFoto": "IGM-1764852224688-87392.webp",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "2754",
+      "nombreCompleto": "Sergio Victorel",
+      "email": "SergioVictorel@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "Montblanc",
+      "urlFoto": "JerryMouse-1764852305154-603079.webp",
+      "rol": "contratador",
+      "activo": true,
+      "cantComRep": 0
+    },
+    {
+      "id": "e633",
+      "nombreCompleto": "Daniel Palacios",
+      "email": "DanielPalacios@gmail.com",
+      "contrasenia": "DdSs#3sad",
+      "empresaRepresentada": "",
+      "urlFoto": "leon-1764852351218-686254.webp",
       "rol": "contratador",
       "activo": true,
       "cantComRep": 0
@@ -79,20 +252,513 @@
       "activo": true,
       "urlFoto": "leon-1759870095347-6105.webp",
       "rol": "admin",
-      "permisos": "cp"
+      "permisos": "c"
     }
   ],
   "publicaciones": [
     {
-      "id": "ad9d",
-      "idCreador": "6a0d",
-      "cont": "dsdsdadsadsadassd",
+      "id": "93ae",
+      "idCreador": "788c",
+      "cont": "La historia marxista busca comprender cómo las relaciones económicas moldean a las sociedades. No pretende imponer una visión única, sino abrir un espacio para debatir cómo el trabajo, el poder y la desigualdad influyen en cada época.",
       "controlado": false,
-      "reportada": false,
-      "reportadaPor": "d703"
+      "reportada": false
+    },
+    {
+      "id": "c96d",
+      "idCreador": "788c",
+      "cont": "Analizar procesos históricos desde el marxismo permite observar tensiones sociales y cambios estructurales. Es una invitación a dialogar sobre cómo surgieron las transformaciones que dieron forma al mundo moderno.",
+      "urlFoto": "karl-marx-34-1764853687878-446631.webp",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "ba35",
+      "idCreador": "788c",
+      "cont": "El enfoque marxista destaca el rol de las clases sociales en la historia. No se trata de reducir todo a economía, sino de explorar cómo distintos grupos vivieron, resistieron y construyeron nuevas realidades.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "c8fd",
+      "idCreador": "788c",
+      "cont": "La historia marxista invita a pensar cómo las condiciones materiales influyen en ideas y movimientos. Mirarla no exige adhesión ideológica, solo curiosidad por entender conexiones profundas del pasado.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "5f6f",
+      "idCreador": "788c",
+      "cont": "Estudiar la historia desde un marco marxista abre discusiones sobre desigualdad, trabajo y cambio social. Es un punto de partida para un intercambio respetuoso sobre cómo se han transformado las sociedades.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d2d3",
+      "idCreador": "788c",
+      "cont": "El marxismo histórico propone que cada sistema económico genera tensiones que impulsan cambios. Reconocer estas dinámicas puede enriquecer conversaciones sobre por qué ciertos procesos ocurrieron",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "a3e8",
+      "idCreador": "788c",
+      "cont": "Explorar revoluciones, reformas y crisis desde una perspectiva marxista permite identificar patrones de conflicto y cooperación. Es una oportunidad para dialogar sobre alternativas y futuros posibles.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "ab37",
+      "idCreador": "788c",
+      "cont": "La historia marxista analiza cómo la producción y la distribución de recursos influyen en la vida cotidiana. Más que confrontar, busca ofrecer herramientas para un debate informado sobre el pasado.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "125c",
+      "idCreador": "788c",
+      "cont": "El estudio marxista de la historia no intenta simplificarla, sino observar sus capas: economía, cultura, política y lucha social. Compartir estas miradas puede generar conversaciones enriquecedoras.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "1df8",
+      "idCreador": "788c",
+      "cont": "Entender la historia mediante el marxismo es explorar cómo cambian las sociedades cuando cambian sus relaciones de trabajo. Es una invitación a reflexionar juntos sobre los motores del cambio humano.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "edda",
+      "idCreador": "275b",
+      "cont": "La Escuela de Chicago propone que los mercados, bien regulados y competitivos, pueden generar eficiencia y crecimiento. Analizar sus ideas invita a dialogar sobre cómo equilibrar libertad económica y bienestar social.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "f323",
+      "idCreador": "275b",
+      "cont": "El economista formado en la tradición de Chicago valora los incentivos y el rol del individuo. Explorar estas perspectivas abre debates sobre cómo las decisiones personales influyen en los resultados económicos.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "dfbc",
+      "idCreador": "275b",
+      "cont": "El pensamiento de Chicago destaca la importancia de políticas monetarias claras y estables. Conversar sobre estos principios ayuda a entender cómo se construyen economías más previsibles.",
+      "urlFoto": "chiagoboys-1764854102253-441298.jpg",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "f6df",
+      "idCreador": "275b",
+      "cont": "Para la Escuela de Chicago, el mercado es un mecanismo de coordinación. Analizar sus argumentos permite discutir cuándo funciona bien y cuándo requiere ajustes para mejorar el bienestar.",
+      "urlFoto": "Milton.Friedman-1764854172380-145296.jpg",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d504",
+      "idCreador": "275b",
+      "cont": "El economista de orientación Chicago considera que los datos empíricos deben guiar las políticas. Invita a un diálogo centrado en evidencia y resultados verificables.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "b9ef",
+      "idCreador": "275b",
+      "cont": "Las ideas de Chicago enfatizan la libertad económica como motor de innovación. Conversar sobre sus propuestas permite debatir cómo equilibrar creatividad, competencia y equidad.",
+      "urlFoto": "libertadeconomica-1764854295763-801061.webp",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "4a0e",
+      "idCreador": "275b",
+      "cont": "El análisis económico al estilo Chicago estudia cómo las instituciones moldean decisiones. Es un punto de partida para dialogar sobre qué reglas generan mejores incentivos.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "7c4f",
+      "idCreador": "275b",
+      "cont": "La tradición de Chicago valora la intervención estatal limitada pero efectiva. Examinar estas posiciones invita a discutir qué funciones del Estado son esenciales para un mercado saludable.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "c71e",
+      "idCreador": "275b",
+      "cont": "El economista cercano a Chicago analiza precios como señales que organizan la economía. Reflexionar sobre esto abre espacios de diálogo sobre cómo mejorar la eficiencia sin perder justicia social.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "3d4e",
+      "idCreador": "275b",
+      "cont": "La Escuela de Chicago propone que la competencia impulsa calidad y menores costos. Dialogar sobre estos principios ayuda a pensar políticas que fomenten mercados más dinámicos y accesibles.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "f1df",
+      "idCreador": "138e",
+      "cont": "La Revolución de Mayo abrió un camino complejo hacia la independencia. Más que un acto único, fue un proceso lleno de debates sobre cómo debía organizarse el nuevo país.",
+      "urlFoto": "Revolucion-de-Mayo-1764854617596-389896.jpeg",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "2109",
+      "idCreador": "138e",
+      "cont": "La expansión del ferrocarril integró regiones y favoreció el comercio. Fue una herramienta clave para conectar el interior con los puertos y dinamizar la economía.",
+      "urlFoto": "ferrocarril-1764854692645-169789.jpg",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "1679",
+      "idCreador": "138e",
+      "cont": "El modelo agroexportador colocó a Argentina entre las economías más dinámicas del mundo. Sus luces y sombras permiten discutir cómo se distribuyen crecimiento y beneficios.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "ef68",
+      "idCreador": "138e",
+      "cont": "El surgimiento del movimiento obrero abrió nuevas formas de organización y reclamo social. Sus luchas ayudaron a establecer derechos que hoy se consideran fundamentales.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "3c3c",
+      "idCreador": "138e",
+      "cont": "El peronismo cambió la política argentina al incorporar a nuevos actores y redefinir el vínculo entre Estado y sociedad. Su impacto sigue siendo un punto central de debate.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "caab",
+      "idCreador": "138e",
+      "cont": "La última dictadura dejó heridas que aún se elaboran. La memoria, la verdad y la justicia forman parte esencial del proceso democrático actual.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "edd5",
+      "idCreador": "138e",
+      "cont": "La historia argentina es un recorrido de encuentros, conflictos y proyectos en disputa. Desde las primeras comunidades hasta la conformación del Estado moderno, cada etapa revela cómo distintos grupos imaginaron el país. Estudiarla invita a reflexionar sobre nuestro presente y a dialogar sobre los caminos posibles hacia el futuro.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "93ea",
+      "idCreador": "138e",
+      "cont": "La Guerra de Malvinas fue un conflicto breve pero profundo que marcó a toda la Argentina. Más allá de su dimensión militar, dejó huellas humanas, políticas y sociales que aún resuenan. Recordarla invita a honrar a quienes participaron, comprender el contexto que la originó y mantener vivo el diálogo sobre memoria, soberanía y futuro.",
+      "urlFoto": "malvinas-1764855006126-767919.webp",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "2daa",
+      "idCreador": "60a9",
+      "cont": "La era napoleónica transformó Europa mediante el Código Civil de 1804. Este código abolió privilegios feudales, estableció igualdad jurídica para los varones y reguló propiedad, contratos y familia. Su influencia fue tan profunda que muchos países europeos y latinoamericanos tomaron partes de su estructura legal.",
+      "urlFoto": "CodCivNapo-1764855966206-741382.webp",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "15d4",
+      "idCreador": "60a9",
+      "cont": "La campaña de Italia (1796–1797) fue clave para el ascenso de Napoleón. Allí aplicó movimientos rápidos, ataques concentrados y maniobras envolventes que derrotaron ejércitos más grandes. Su éxito consolidó la posición de Francia en el norte de Italia y lo proyectó como líder militar de alcance continental.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "16c0",
+      "idCreador": "60a9",
+      "cont": "La batalla de Austerlitz (1805), conocida como ‘la Batalla de los Tres Emperadores’, demostró el talento estratégico de Napoleón. Utilizó una retirada falsa para atraer al enemigo y luego atacó el centro debilitado. La victoria disolvió la Tercera Coalición y cambió el equilibrio político europeo.",
+      "urlFoto": "Austerlitz-1764856074947-955733.webp",
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "67df",
+      "idCreador": "60a9",
+      "cont": "El Bloqueo Continental, decretado en 1806, buscaba aislar económicamente al Reino Unido prohibiendo comercializar con él. Aunque dañó la economía británica, perjudicó aún más a países dependientes del comercio marítimo europeo, generando tensiones que debilitaron la influencia francesa.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "565b",
+      "idCreador": "60a9",
+      "cont": "La invasión francesa a España en 1808 no solo provocó la Guerra de Independencia española; también abrió una crisis colonial en América. La ausencia de un monarca legítimo en España llevó a la formación de juntas en América, contribuyendo al inicio de los procesos de independencia latinoamericanos.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "df6d",
+      "idCreador": "60a9",
+      "cont": "Durante la campaña de Rusia en 1812, el ejército napoleónico —cerca de 600.000 hombres— sufrió por la táctica rusa de tierra arrasada, el clima extremo y la falta de suministros. Para cuando cruzó de regreso el río Berezina, solo una fracción del ejército original seguía en pie.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d18f",
+      "idCreador": "60a9",
+      "cont": "El sistema administrativo napoleónico reorganizó Francia en departamentos gobernados por prefectos. Esta estructura profesionalizada y centralizada redujo poderes locales y permitió una gestión más eficiente del Estado, modelo que muchos países europeos imitaron posteriormente.",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d307",
+      "idCreador": "60a9",
+      "cont": "La caballería pesada francesa, especialmente los coraceros, jugó un papel importante en numerosas batallas. Su impacto se vio claramente en Friedland (1807), donde una carga decisiva rompió líneas rusas, demostrando la efectividad del uso combinado de caballería y artillería.",
+      "controlado": false,
+      "reportada": false
     }
   ],
-  "comentarios": [],
+  "comentarios": [
+    {
+      "id": "96f0",
+      "idCreador": "a00c",
+      "idDestinatario": "788c",
+      "nombreCreador": "Maximo Sotelo",
+      "contenido": "Muy buen contenido. Si bien no pienso igual, admiro la calidad de las publicaciones y que estas abran al debate",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "a249",
+      "idCreador": "a00c",
+      "idDestinatario": "275b",
+      "contenido": "Contenido muy interesante, pero considero enroscadas sus explicaciones a la hora de contratarlo. En general muy bien, pero considero que hay que mejorar la forma de explicar.",
+      "estado": "activa",
+      "reportada": false,
+      "controlado": false,
+      "puntaje": 4
+    },
+    {
+      "id": "7c1c",
+      "idCreador": "a00c",
+      "idDestinatario": "60a9",
+      "nombreCreador": "Maximo Sotelo",
+      "contenido": "Te pongo un 5 por lástima. Horrible tanto tus explicaciones como tu persona. Te deseo lo peor.",
+      "puntaje": 1,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "e3e9",
+      "idCreador": "a00c",
+      "idDestinatario": "1004",
+      "nombreCreador": "Maximo Sotelo",
+      "contenido": "Cosplayer y otaku tenías que ser. Ya está todo dicho. Te recomiendo bañarte.",
+      "puntaje": 1,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "86f1",
+      "idCreador": "a00c",
+      "idDestinatario": "358c",
+      "nombreCreador": "Maximo Sotelo",
+      "contenido": "Lo contraté para el cumpleaños de 15 de mi hija. Muy serio, puntual, amigable y excelente resultado. Ya mismo te agrego a favoritos\n",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "f5f1",
+      "idCreador": "6706",
+      "idDestinatario": "788c",
+      "nombreCreador": "Diego Torres",
+      "contenido": "Muy bueno.",
+      "puntaje": 4,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "0fd2",
+      "idCreador": "6706",
+      "idDestinatario": "275b",
+      "nombreCreador": "Diego Torres",
+      "contenido": "Muy malo explicando.",
+      "puntaje": 1,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "011c",
+      "idCreador": "6706",
+      "idDestinatario": "60a9",
+      "nombreCreador": "Diego Torres",
+      "contenido": "Se nota que te gusta y conocés, pero no le ponés mucho empeño al explicar. Tenés que ser más didáctico.",
+      "puntaje": 2,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "c4c2",
+      "idCreador": "6706",
+      "idDestinatario": "1004",
+      "nombreCreador": "Diego Torres",
+      "contenido": "Un trabajo muy profesional. En cada parte del traje que hizo se notó el amor que tiene por este arte",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "2430",
+      "idCreador": "6706",
+      "idDestinatario": "358c",
+      "nombreCreador": "Diego Torres",
+      "contenido": "Un trabajo muy prolijo hizo con mi nieta. Quitando un leve problema que hubo con el delineador, excelente.",
+      "puntaje": 4,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d1da",
+      "idCreador": "6706",
+      "idDestinatario": "450f",
+      "nombreCreador": "Diego Torres",
+      "contenido": "Considero que el trabajo realizado no fue bueno en comparación con el precio. Aparte no me gusto el servicio. Malos tratos y cara desagradable con cada pedido que se hacía. En general, una mala experiencia.",
+      "puntaje": 1,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "a357",
+      "idCreador": "94b0",
+      "idDestinatario": "788c",
+      "nombreCreador": "Roberto Gomez",
+      "contenido": "Muy bueno explicando.",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "9739",
+      "idCreador": "94b0",
+      "idDestinatario": "275b",
+      "nombreCreador": "Roberto Gomez",
+      "contenido": "A diferencia del resto, considero que fue muy bueno explicando. Capaz que porque hay que tener más conocimientos técnicos.",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "4f65",
+      "idCreador": "94b0",
+      "idDestinatario": "60a9",
+      "nombreCreador": "Roberto Gomez",
+      "contenido": "Ya de por sí me resulta aburria la era napoleónica. Pero tu forma de explicar no me ayudó a interesarme",
+      "puntaje": 1,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "e412",
+      "idCreador": "94b0",
+      "idDestinatario": "1004",
+      "nombreCreador": "Roberto Gomez",
+      "contenido": "Nunca vi diseños y trajes de tan alta calidad y nivel de detalles. Me encantó.",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "a334",
+      "idCreador": "7be1",
+      "idDestinatario": "788c",
+      "nombreCreador": "Pedro Pascal",
+      "contenido": "No puedo estar más de acuerdo con lo que comenta el resto. A pesar de las diferencias, tanto las publicaciones que en este perfil se publican, como las explicaciones en persona, hacen entender excelentemente los conceptos que se tocan. Y un profesional muy respetuoso y abierto al debate.",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "1453",
+      "idCreador": "7be1",
+      "idDestinatario": "275b",
+      "nombreCreador": "Pedro Pascal",
+      "contenido": "Veo que hay opiniones muy dividades con respecto a las explicaciones. Para mi estuvieron bastante bien.",
+      "puntaje": 4,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "d24c",
+      "idCreador": "7be1",
+      "idDestinatario": "60a9",
+      "nombreCreador": "Pedro Pascal",
+      "contenido": "Me gusta hablar de Napoleón, su historia y legado. El problema es tu forma de explicar. Me gustaría darte una nota más alta porque se nota mucho tu conocimiento, pero no lográs ser atrapante para el oyente. Muchos saludos y éxitos en el futuro.",
+      "puntaje": 3,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "15dd",
+      "idCreador": "f626",
+      "idDestinatario": "788c",
+      "nombreCreador": "Camila Schmidt",
+      "contenido": "Cuando vi en secundaria este tema me aburría. Lograste que me interese por un tema que odiaba. Siempre es bueno saber algo nuevo",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "9434",
+      "idCreador": "f626",
+      "idDestinatario": "275b",
+      "nombreCreador": "Camila Schmidt",
+      "contenido": "Excelentes clases y explicaciones.",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    },
+    {
+      "id": "f0b5",
+      "idCreador": "710e",
+      "idDestinatario": "788c",
+      "nombreCreador": "Jimena Plug",
+      "contenido": "Lo mismo que el resto. Nada más que agregar.",
+      "puntaje": 5,
+      "estado": "activa",
+      "controlado": false,
+      "reportada": false
+    }
+  ],
   "favoritos": [
     {
       "id": "b088",
@@ -113,130 +779,378 @@
       "id": "b3f5",
       "idDuenio": "dd0c",
       "idUsuariosFavoritos": []
+    },
+    {
+      "id": "ce3c",
+      "idDuenio": "a00c",
+      "idUsuariosFavoritos": [
+        "358c"
+      ]
+    },
+    {
+      "id": "867e",
+      "idDuenio": "6706",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "27ca",
+      "idDuenio": "94b0",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "258b",
+      "idDuenio": "7be1",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "e845",
+      "idDuenio": "f626",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "9b22",
+      "idDuenio": "710e",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "62a8",
+      "idDuenio": "5c83",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "0ad4",
+      "idDuenio": "da7d",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "f440",
+      "idDuenio": "d846",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "a7aa",
+      "idDuenio": "2754",
+      "idUsuariosFavoritos": []
+    },
+    {
+      "id": "a0b6",
+      "idDuenio": "e633",
+      "idUsuariosFavoritos": []
     }
   ],
   "chats": [
     {
-      "id": "ef4e",
+      "id": "c2bf",
       "idParticipantes": [
-        "d703",
-        "6a0d"
+        "358c",
+        "a00c"
       ],
       "mensajes": [
         {
-          "idCreador": "d703",
-          "contenido": "dsadsadadda",
+          "idCreador": "a00c",
+          "contenido": "Hola, buenos días ¿Cómo estás?",
           "leido": true
         }
       ]
-    },
-    {
-      "id": "26ea",
-      "idParticipantes": [
-        "c008",
-        "d703"
-      ],
-      "mensajes": []
     }
   ],
   "listasnotificaciones": [
     {
-      "id": "a7f9",
-      "idDuenio": "5148",
+      "id": "5a3d",
+      "idDuenio": "a00c",
       "notificaciones": [
         {
-          "descripcion": "Maximo Sotelo reportó una publicación del profesional Sergio Bentu.",
+          "descripcion": "Cuenta creada. Bienvenido, Maximo Sotelo",
           "leido": true
         }
       ]
     },
     {
-      "id": "ea60",
-      "idDuenio": "d703",
+      "id": "1f16",
+      "idDuenio": "6706",
       "notificaciones": [
         {
-          "idEnt": "b3b5",
-          "descripcion": "El administrador Bruno Marx eliminó un comentario que realizaste. Motivo: \"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss\".",
-          "leido": true
-        },
-        {
-          "descripcion": "Su comentario a Sergio Bentu ha sido reportado.",
-          "leido": true
-        },
-        {
-          "descripcion": "El administrador Bruno Marx controló y aprobó el comentario realizado por usted a Sergio Bentu, que habia sido reportado",
-          "leido": true
-        },
-        {
-          "idEnt": "1def",
-          "descripcion": "El administrador Bruno Marx eliminó un comentario realizado por usted. Motivo: \"d isaod jaid asodj asiods aijoas ias dsaijod jsajioas dasijo\". Apriete para ver más detalles",
+          "descripcion": "Cuenta creada. Bienvenido, Diego Torres",
           "leido": true
         }
       ]
     },
     {
-      "id": "394b",
-      "idDuenio": "f75b",
-      "notificaciones": []
-    },
-    {
-      "id": "c5a2",
-      "idDuenio": "8991",
-      "notificaciones": []
-    },
-    {
-      "id": "d048",
-      "idDuenio": "dd0c",
-      "notificaciones": []
-    },
-    {
-      "id": "4dad",
-      "idDuenio": "6a0d",
-      "notificaciones": []
-    },
-    {
-      "id": "ffce",
-      "idDuenio": "c008",
+      "id": "0dcf",
+      "idDuenio": "94b0",
       "notificaciones": [
         {
-          "descripcion": "Cuenta creada. Bienvenido, Tomas Menendez",
+          "descripcion": "Cuenta creada. Bienvenido, Roberto Gomez",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "e518",
+      "idDuenio": "7be1",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Pedro Pascal",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "e791",
+      "idDuenio": "f626",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Camila Schmidt",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "8fc0",
+      "idDuenio": "710e",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Jimena Plug",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "e22e",
+      "idDuenio": "5c83",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Jose Blas",
           "leido": false
+        }
+      ]
+    },
+    {
+      "id": "0830",
+      "idDuenio": "da7d",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Lucia Moeira",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "ebf5",
+      "idDuenio": "d846",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Catalina Kowalska",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "00ca",
+      "idDuenio": "2754",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Sergio Victorel",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "9e14",
+      "idDuenio": "e633",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Daniel Palacios",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "fa9d",
+      "idDuenio": "788c",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Antonio Demis",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Diego Torres ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Pedro Pascal ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Camila Schmidt ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Jimena Plug ha realizado un comentario",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "d5e3",
+      "idDuenio": "275b",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Enrique Brown",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Diego Torres ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Pedro Pascal ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Camila Schmidt ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha modificado un comentario sobre ti",
+          "leido": true
+        }
+      ]
+    },
+    {
+      "id": "cdf8",
+      "idDuenio": "60a9",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Tomas Romero",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Diego Torres ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez ha realizado un comentario",
+          "leido": false
+        },
+        {
+          "descripcion": "El usuario Pedro Pascal ha realizado un comentario",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "3bb5",
+      "idDuenio": "1004",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Camila Zubizarreta",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Diego Torres ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez ha realizado un comentario",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "17f8",
+      "idDuenio": "358c",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Marcelo Rosso",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha modificado un comentario sobre ti",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo eliminó su comentario.",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Maximo Sotelo ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Diego Torres ha realizado un comentario",
+          "leido": true
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez ha realizado un comentario",
+          "leido": false
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez eliminó su comentario.",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "5ad2",
+      "idDuenio": "450f",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Ayelen Argerich",
+          "leido": false
+        },
+        {
+          "descripcion": "El usuario Diego Torres ha realizado un comentario",
+          "leido": false
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez ha realizado un comentario",
+          "leido": false
+        },
+        {
+          "descripcion": "El usuario Roberto Gomez eliminó su comentario.",
+          "leido": false
+        }
+      ]
+    },
+    {
+      "id": "8b40",
+      "idDuenio": "138e",
+      "notificaciones": [
+        {
+          "descripcion": "Cuenta creada. Bienvenido, Santiago Reyes",
+          "leido": true
         }
       ]
     }
   ],
-  "entElimPorAdmin": [
-    {
-      "id": "b3b5",
-      "idDuenio": "d703",
-      "tipo": "comentario",
-      "motivo": "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      "entidadElim": {
-        "idCreador": "d703",
-        "idDestinatario": "6a0d",
-        "nombreCreador": "Maximo Sotelo",
-        "contenido": "d siaiod asidsa iodas id sadiaspd asidsa ip",
-        "puntaje": 5,
-        "estado": "activa",
-        "controlado": false,
-        "reportada": false
-      }
-    },
-    {
-      "id": "1def",
-      "idDuenio": "d703",
-      "tipo": "comentario",
-      "motivo": "d isaod jaid asodj asiods aijoas ias dsaijod jsajioas dasijo",
-      "entidadElim": {
-        "idCreador": "d703",
-        "idDestinatario": "6a0d",
-        "nombreCreador": "Maximo Sotelo",
-        "contenido": "dsadasdasdsa",
-        "puntaje": 1,
-        "estado": "activa",
-        "controlado": false,
-        "reportada": false
-      }
-    }
-  ]
+  "entElimPorAdmin": []
 }

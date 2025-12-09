@@ -225,7 +225,7 @@ export class ListProfesionalComponent implements OnInit, OnDestroy {
     this.listaFiltrada.sort((a, b) => {
       if (orden === 'comentariosMayor') {
         return (b.cantComentarios || 0) - (a.cantComentarios || 0);
-      } else if (orden === 'comentariosMenMenor') {
+      } else if (orden === 'comentariosMenor') {
         return (a.cantComentarios || 0) - (b.cantComentarios || 0);
       } else if (orden === 'promedioMayor') {
         return (b.promedio || 0) - (a.promedio || 0);

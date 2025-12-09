@@ -34,7 +34,7 @@
           }
         </div>
 
-        @if (usuAdm.permisos === 'c' || usuAdm.permisos === 'cp') {
+        @if (usuAdm.permisos === 'p' || usuAdm.permisos === 'cp') {
           @if(!publicacion.controlado){ <!-- El usuario administrador no puede borrar si esta controlado-->
             <div class="motivo-container">
               <textarea

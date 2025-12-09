@@ -72,7 +72,8 @@ export class AddContratadorComponent implements OnDestroy{
 
     if(this.formularioUsuarioContratador.invalid){
 
-      alert("formulario invalido.")
+      alert("formulario invalido. Todos los campos con asterisco '*' deben ser rellenados")
+
       return
 
     }

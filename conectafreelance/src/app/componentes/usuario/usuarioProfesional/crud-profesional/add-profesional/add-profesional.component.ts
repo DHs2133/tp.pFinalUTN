@@ -89,7 +89,7 @@ export class AddProfesionalComponent implements OnDestroy{
 
     if(this.formularioUsuarioProfesional.invalid){
 
-      alert("formulario invalido.")
+      alert("formulario invalido. Todos los campos con asterisco '*' deben ser rellenados")
       return
 
     }

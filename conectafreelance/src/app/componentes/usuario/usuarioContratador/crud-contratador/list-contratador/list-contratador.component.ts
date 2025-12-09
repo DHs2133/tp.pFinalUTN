@@ -35,7 +35,6 @@ export class ListContratadorComponent {
   destroy$ = new Subject<void>();
 
 
-  // t.odos, independientes, empresa
   filtroForm: FormGroup = this.fb.group({
     tipoFiltro: ['todos'],
     nombreCompleto: [''],
@@ -116,10 +115,13 @@ export class ListContratadorComponent {
       }
 
       const coincideNombre = !nombreFiltro ||
-        (c.nombreCompleto?.toLowerCase().includes(nombreFiltro) ?? false);
+        (c.nombreCompleto?.toLowerCase().startsWith(nombreFiltro) ?? false);
+
 
       const coincideEmpresa = tipoFiltro === 'independientes' || !empresaFiltro ||
-        (c.empresaRepresentada?.toLowerCase().includes(empresaFiltro) ?? false);
+        (c.empresaRepresentada?.toLowerCase().startsWith(empresaFiltro) ?? false);
+
+
 
       return cumpleTipo && coincideNombre && coincideEmpresa;
     });
